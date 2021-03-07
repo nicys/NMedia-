@@ -83,4 +83,77 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="715dp" />
 
+    <ImageView
+        android:id="@+id/ic_liked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/liked"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/middle_text"
+        app:srcCompat="@drawable/ic_liked_24" />
+
+    <TextView
+        android:id="@+id/liked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/ic_liked"
+        app:layout_constraintTop_toBottomOf="@+id/middle_text"
+        tools:text="@sample/posts.json/data/likes" />
+
+    <ImageView
+        android:id="@+id/ic_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/send"
+        app:layout_constraintStart_toEndOf="@+id/liked"
+        app:layout_constraintTop_toBottomOf="@+id/middle_text"
+        app:srcCompat="@drawable/ic_send_24" />
+
+    <TextView
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/ic_send"
+        app:layout_constraintTop_toBottomOf="@+id/middle_text"
+        tools:text="@sample/posts.json/data/send" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/middle_text"
+        tools:text="@sample/posts.json/data/viewed" />
+
+    <ImageView
+        android:id="@+id/ic_viwed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/viewed"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/middle_text"
+        app:srcCompat="@drawable/ic_viwed_24" />
+
+    <TextView
+        android:id="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:singleLine="true"
+        android:text="@string/line"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/middle_text" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,4 +2,8 @@
     <string name="app_name">NMedia!</string>
     <string name="avatar_name">avatar</string>
     <string name="more_vert_name">more_vert</string>
+    <string name="liked">likes</string>
+    <string name="send">send</string>
+    <string name="viewed">viewed</string>
+    <string name="line">__________________________________________________________</string>
 </resources>
