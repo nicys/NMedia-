@@ -6,6 +6,8 @@ import ru.netology.databinding.ActivityMainBinding
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
+    var counterShares = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,8 +25,27 @@ class MainActivity : AppCompatActivity() {
                         " на путь роста и начать цепочку перемен → http://netolo.gy//fyb",
                 likeByMe = false
         )
+        with(binding) {
+            author.text = post.author
+            published.text = post.published
+            content.text = post.content
+            if (post.likeByMe) {
+                like?.setImageResource(R.drawable.ic_no_liked_24)
+            }
+            like?.setOnClickListener {
+                post.likeByMe = !post.likeByMe
+                like.setImageResource(
+                    if (post.likeByMe) R.drawable.ic_liked_24 else R.drawable.ic_no_liked_24
+                )
+                likes.setText(
+                    if (post.likeByMe) "1" else "0"
+                )
+            }
+            share?.setOnClickListener {
+                shares.setText(totalizerSmartFeed(counterShares++))
 
-
+            }
+        }
     }
 
     fun totalizerOverThousand(feed: Int): Double {
