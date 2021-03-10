@@ -42,24 +42,24 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             share?.setOnClickListener {
-                shares.setText(totalizerSmartFeed(counterShares++))
+                shares.setText(totalizerSmartFeed(++counterShares))
 
             }
         }
     }
 
-    fun totalizerOverThousand(feed: Int): Double {
+    fun counterOverThousand(feed: Int): Int {
         return when(feed) {
-            in 1_000..999_999 -> (feed.toDouble()/1_000)
-            else -> (feed.toDouble()/1_000_000)
+            in 1_000..999_999 -> feed/100
+            else -> feed/100_000
         }
     }
 
     fun totalizerSmartFeed(feed: Int): String {
         return when(feed) {
             in 0..999 -> "$feed"
-            in 1_000..999_999 -> "${ round(totalizerOverThousand(feed) * 10) / 10 }K"
-            else -> "${ round(totalizerOverThousand(feed) * 10) / 10 }M"
+            in 1_000..999_999 -> "${ (counterOverThousand(feed).toDouble() / 10) }K"
+            else -> "${ (counterOverThousand(feed).toDouble() / 10) }M"
         }
     }
 }
