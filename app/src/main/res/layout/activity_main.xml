@@ -108,7 +108,7 @@
         android:contentDescription="@string/send"
         app:layout_constraintStart_toEndOf="@+id/likes"
         app:layout_constraintTop_toBottomOf="@+id/content"
-        app:srcCompat="@drawable/ic_send_24" />
+        app:srcCompat="@drawable/ic_share_24" />
 
     <TextView
         android:id="@+id/shares"
