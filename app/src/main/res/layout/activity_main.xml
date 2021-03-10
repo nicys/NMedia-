@@ -87,7 +87,7 @@
         android:contentDescription="@string/liked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content"
-        app:srcCompat="@drawable/ic_liked_24" />
+        app:srcCompat="@drawable/ic_no_liked_24" />
 
     <TextView
         android:id="@+id/likes"

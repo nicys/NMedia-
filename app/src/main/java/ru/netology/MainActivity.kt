@@ -22,5 +22,6 @@ class MainActivity : AppCompatActivity() {
                         " на путь роста и начать цепочку перемен → http://netolo.gy//fyb",
                 likeByMe = false
         )
+
     }
 }
