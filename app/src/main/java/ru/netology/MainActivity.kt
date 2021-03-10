@@ -3,6 +3,7 @@ package ru.netology
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.netology.databinding.ActivityMainBinding
+import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,5 +24,21 @@ class MainActivity : AppCompatActivity() {
                 likeByMe = false
         )
 
+
+    }
+
+    fun totalizerOverThousand(feed: Int): Double {
+        return when(feed) {
+            in 1_000..999_999 -> (feed.toDouble()/1_000)
+            else -> (feed.toDouble()/1_000_000)
+        }
+    }
+
+    fun totalizerSmartFeed(feed: Int): String {
+        return when(feed) {
+            in 0..999 -> "$feed"
+            in 1_000..999_999 -> "${ round(totalizerOverThousand(feed) * 10) / 10 }K"
+            else -> "${ round(totalizerOverThousand(feed) * 10) / 10 }M"
+        }
     }
 }
