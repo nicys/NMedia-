@@ -23,9 +23,7 @@ class MainActivity : AppCompatActivity() {
                 like.setImageResource(
                     if (post.likeByMe) R.drawable.ic_liked_24 else R.drawable.ic_no_liked_24
                 )
-                likes.setText(
-                    if (post.likeByMe) "1" else "0"
-                )
+                likes.text = if (post.likeByMe) "1" else "0"
             }
         })
         binding.like.setOnClickListener {

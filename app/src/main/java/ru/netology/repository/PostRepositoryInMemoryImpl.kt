@@ -19,7 +19,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         likeByMe = false,
         shares = "0"
     )
-    private var data = MutableLiveData<Post>()
+    private var data = MutableLiveData(post)
 
     override fun get(): LiveData<Post> = data
 
