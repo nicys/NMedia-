@@ -1,8 +1,10 @@
-package ru.netology
+package ru.netology.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.netology.R
 import ru.netology.databinding.ActivityMainBinding
+import ru.netology.dto.Post
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
