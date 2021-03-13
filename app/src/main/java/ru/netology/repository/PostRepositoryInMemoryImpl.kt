@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import ru.netology.dto.Post
 
 class PostRepositoryInMemoryImpl : PostRepository {
-    var sharesCounter = 0
-    var post = Post(
+    private var sharesCounter = 0
+    private var post = Post(
         id = 1,
         author = "Нетология. Университет интернет-профессий будущего",
         published = "21 мая в 18:36",
@@ -19,7 +19,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         likeByMe = false,
         shares = "0"
     )
-    var data = MutableLiveData<Post>()
+    private var data = MutableLiveData<Post>()
 
     override fun get(): LiveData<Post> = data
 
