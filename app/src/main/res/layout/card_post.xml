@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:autoLink="web"
-        android:lineSpacingMultiplier="2"
+        android:lineSpacingExtra="20dp"
         android:linksClickable="true"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
