@@ -94,20 +94,33 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 
-        binding.contentPost.setOnClickListener {
-//            binding.contentPost.requestFocus()
-            binding.cancel.visibility = View.VISIBLE
+//        binding.contentPost.setOnClickListener {
+////            binding.contentPost.requestFocus()
+//            binding.cancel.visibility = View.VISIBLE
+//
+//            with(binding.cancel) {
+//                setOnClickListener {
+//                    with(binding.contentPost) {
+//                        setText("")
+//                        clearFocus()
+//                        AndroidUtils.hideKeyboard(this)
+//                        binding.cancel.visibility = View.INVISIBLE
+//                    }
+//                }
+//            }
+//        }
+        binding.contentPost.setOnFocusChangeListener { _, hasFocus ->
+            binding.cancel.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+        }
 
-            with(binding.cancel) {
-                setOnClickListener {
-                    with(binding.contentPost) {
-                        setText("")
-                        clearFocus()
-                        AndroidUtils.hideKeyboard(this)
-                        binding.cancel.visibility = View.INVISIBLE
-                    }
-                }
+        binding.cancel.setOnClickListener {
+            with(binding.contentPost) {
+                setText("")
+                clearFocus()
+                AndroidUtils.hideKeyboard(this)
+
             }
         }
+        binding.cancel.visibility = View.INVISIBLE
     }
 }
