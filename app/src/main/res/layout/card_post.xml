@@ -28,7 +28,7 @@
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/published"
-        app:layout_constraintEnd_toStartOf="@+id/more_vert"
+        app:layout_constraintEnd_toStartOf="@+id/menu"
         app:layout_constraintStart_toEndOf="@+id/avatar"
         app:layout_constraintTop_toTopOf="@+id/avatar"
         tools:text="@sample/posts.json/data/author" />
@@ -45,7 +45,7 @@
         tools:text="@sample/posts.json/data/published" />
 
     <ImageView
-        android:id="@+id/more_vert"
+        android:id="@+id/menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/more_vert_name"
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar,published,more_vert" />
+        app:constraint_referenced_ids="avatar,published,menu" />
 
     <TextView
         android:id="@+id/content"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:autoLink="web"
-        android:lineSpacingExtra="20dp"
+        android:lineSpacingExtra="5dp"
         android:linksClickable="true"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"

@@ -5,5 +5,12 @@
     <string name="liked">likes</string>
     <string name="send">send</string>
     <string name="viewed">viewed</string>
-    <string name="line">__________________________________________________________</string>
+    <string name="popup_menu_edit">Изменить</string>
+    <string name="popup_menu_remove">Удалить</string>
+    <string name="post_text">Создать контент нового поста</string>
+    <string name="save_button">save</string>
+    <string name="save">ok</string>
+    <string name="error_empty_content">Контент не может быть пустым</string>
+    <string name="cancel">cancel</string>
+
 </resources>
