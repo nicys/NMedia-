@@ -81,15 +81,27 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="content" />
 
-    <ImageView
+<!--    <ImageView-->
+<!--        android:id="@+id/like"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:contentDescription="@string/liked"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/content"-->
+<!--        app:srcCompat="@drawable/ic_no_liked_24" />-->
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:checkable="true"
         android:contentDescription="@string/liked"
-        app:layout_constraintStart_toStartOf="parent"
+        app:icon="@drawable/ic_like_selector_24dp"
+        app:layout_constraintStart_toStartOf="@id/barrier_2"
         app:layout_constraintTop_toBottomOf="@+id/content"
-        app:srcCompat="@drawable/ic_no_liked_24" />
+        style="@style/Widget.AppTheme.LikeButton" />
+
 
     <TextView
         android:id="@+id/likes"
