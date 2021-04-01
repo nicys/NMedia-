@@ -19,13 +19,13 @@
 
     <TextView
         android:id="@+id/author"
-        android:layout_width="297dp"
-        android:layout_height="18dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/purple_700"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/published"
         app:layout_constraintEnd_toStartOf="@+id/menu"
@@ -44,15 +44,16 @@
         app:layout_constraintTop_toBottomOf="@+id/author"
         tools:text="@sample/posts.json/data/published" />
 
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/more_vert_name"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/more_vert_name"
+        app:icon="@drawable/ic_menu_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+        style="@style/Widget.AppTheme.MenuButton" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_1"
