@@ -10,5 +10,6 @@
 
     <style name="Widget.AppTheme.LikeButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="iconTint">@color/ic_like_color_selector_24dp</item>
+        <item name="backgroundTint">@color/like_tint_selector</item>
     </style>
 </resources>
