@@ -19,6 +19,8 @@
 
     <style name="Widget.AppTheme.MenuButton" parent="Widget.MaterialComponents.TimePicker.ImageButton">
         <item name="iconTint">@color/ic_menu_color_selector_24dp</item>
+<!--        <item name="backgroundTint">@color/menu_tint_selector</item>-->
+        <item name="rippleColor">@color/menu_tint_selector</item>
     </style>
 
 </resources>
