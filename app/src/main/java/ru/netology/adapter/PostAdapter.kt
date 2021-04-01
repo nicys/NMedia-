@@ -41,7 +41,7 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
-            shares.text = post.shares
+            share.text = post.shares
             like.isChecked = post.likeByMe
             like.text = if (post.likeByMe) "1" else "0"
             like.setOnClickListener {
