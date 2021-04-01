@@ -93,6 +93,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
+        style="@style/Widget.AppTheme.LikeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checkable="true"
@@ -100,7 +101,9 @@
         app:icon="@drawable/ic_like_selector_24dp"
         app:layout_constraintStart_toStartOf="@id/barrier_2"
         app:layout_constraintTop_toBottomOf="@+id/content"
-        style="@style/Widget.AppTheme.LikeButton" />
+        tools:text="@sample/posts.json/data/likes"
+        tools:textColor="@color/purple_700"
+        android:textColor="@color/ic_like_color_selector_24dp" />
 
 
     <TextView
