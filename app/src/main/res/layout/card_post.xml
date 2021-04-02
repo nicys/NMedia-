@@ -19,13 +19,13 @@
 
     <TextView
         android:id="@+id/author"
-        android:layout_width="297dp"
-        android:layout_height="18dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/purple_700"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/published"
         app:layout_constraintEnd_toStartOf="@+id/menu"
@@ -44,15 +44,16 @@
         app:layout_constraintTop_toBottomOf="@+id/author"
         tools:text="@sample/posts.json/data/published" />
 
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/more_vert_name"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/more_vert_name"
+        app:icon="@drawable/ic_menu_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+        style="@style/Widget.AppTheme.MenuButton" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_1"
@@ -81,46 +82,43 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="content" />
 
-    <ImageView
+<!--    <ImageView-->
+<!--        android:id="@+id/like"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:contentDescription="@string/liked"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/content"-->
+<!--        app:srcCompat="@drawable/ic_no_liked_24" />-->
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:checkable="true"
         android:contentDescription="@string/liked"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/ic_like_color_selector_24dp"
+        app:icon="@drawable/ic_like_selector_24dp"
+        app:layout_constraintStart_toStartOf="@id/barrier_2"
         app:layout_constraintTop_toBottomOf="@+id/content"
-        app:srcCompat="@drawable/ic_no_liked_24" />
+        tools:text="@sample/posts.json/data/likes"
+        tools:textColor="@color/purple_700"
+        style="@style/Widget.AppTheme.LikeButton" />
 
-    <TextView
-        android:id="@+id/likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/like"
-        app:layout_constraintTop_toBottomOf="@+id/content"
-        tools:text="@sample/posts.json/data/likes" />
-
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:contentDescription="@string/send"
-        app:layout_constraintStart_toEndOf="@+id/likes"
+        android:textColor="@color/deepGreen"
+        app:icon="@drawable/ic_share_selector"
+        app:layout_constraintStart_toEndOf="@+id/like"
         app:layout_constraintTop_toBottomOf="@+id/content"
-        app:srcCompat="@drawable/ic_share_24" />
-
-    <TextView
-        android:id="@+id/shares"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/share"
-        app:layout_constraintTop_toBottomOf="@+id/content"
-        tools:text="@sample/posts.json/data/send" />
+        tools:text="@sample/posts.json/data/send"
+        tools:textColor="@color/purple_700"
+        style="@style/Widget.AppTheme.ShareButton" />
 
     <TextView
         android:id="@+id/views"
