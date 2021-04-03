@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                     putExtra(Intent.EXTRA_TEXT, post.published)
                     type = "text/*"
                 }
-                val shareIntent = Intent.createChooser(intent.getStringExtra(R.string.chooser_share_post))
+                val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(shareIntent)
                 viewModel.shareById(post.id)
             }
