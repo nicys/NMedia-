@@ -12,5 +12,6 @@
     <string name="save">ok</string>
     <string name="error_empty_content">Контент не может быть пустым</string>
     <string name="cancel">cancel</string>
+    <string name="chooser_share_post">Поделиться</string>
 
 </resources>
