@@ -15,6 +15,7 @@
         app:layout_constraintBottom_toBottomOf="@id/barrier_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_netology_48"
         tools:srcCompat="@sample/posts_avatars" />
 
     <TextView
