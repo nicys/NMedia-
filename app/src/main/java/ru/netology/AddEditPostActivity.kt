@@ -13,7 +13,7 @@ class AddEditPostActivity : AppCompatActivity() {
         val binding = ActivityAddEditPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.edit.setSelectAllOnFocus(true)
+//        binding.edit.setSelectAllOnFocus(true)
         binding.edit.requestFocus()
 
         intent?.let {

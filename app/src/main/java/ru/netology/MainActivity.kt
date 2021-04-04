@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
             override fun onEdit(post: Post) {
                 binding.cancel.visibility = View.VISIBLE
                 viewModel.edit(post)
-
             }
 
             override fun onLike(post: Post) {
@@ -52,16 +51,16 @@ class MainActivity : AppCompatActivity() {
         viewModel.data.observe(this, { posts ->
             adapter.submitList(posts)
         })
-
-        viewModel.edited.observe(this, { post ->
-            if (post.id == 0L) {
-                return@observe
-            }
-            with(binding.contentPost) {
-                requestFocus()
-                setText(post.content)
-            }
-        })
+//              Дублирующий код
+//        viewModel.edited.observe(this, { post ->
+//            if (post.id == 0L) {
+//                return@observe
+//            }
+//            with(binding.contentPost) {
+//                requestFocus()
+//                setText(post.content)
+//            }
+//        })
 
         binding.save.setOnClickListener {
             with(binding.contentPost) {
