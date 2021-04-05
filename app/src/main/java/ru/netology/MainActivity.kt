@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
-                binding.cancel.visibility = View.VISIBLE
+//                binding.cancel.visibility = View.VISIBLE
                 viewModel.edit(post)
 
             }
