@@ -14,5 +14,6 @@
     <string name="cancel">cancel</string>
     <string name="chooser_share_post">Поделиться</string>
     <string name="add_post">Add post</string>
+    <string name="video">video</string>
 
 </resources>
