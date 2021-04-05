@@ -14,7 +14,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "21 мая в 18:36",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=25Kt-9fwnVw"
             ),
             Post(
                     id = nextId++,
@@ -23,7 +24,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "18 сентября в 10:12",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=scA2Fn7DeUw"
             ),
             Post(
                     id = nextId++,
@@ -32,7 +34,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "19 сентября в 10:24",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=_x1JIciP93s"
             ),
             Post(
                     id = nextId++,
@@ -41,7 +44,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "19 сентября в 14:12",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=6h2lNTEr07w"
             ),
             Post(
                     id = nextId++,
@@ -50,7 +54,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "20 сентября в 10:14",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=UdLX91MyiMI"
             ),
             Post(
                     id = nextId++,
@@ -59,7 +64,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "21 сентября в 10:12",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=7TmXNz0E1CU"
             ),
             Post(
                     id = nextId++,
@@ -68,7 +74,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "22 сентября в 10:12",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=77guk633rzc"
             ),
             Post(
                     id = nextId++,
@@ -77,7 +84,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "22 сентября в 10:14",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=s-EbpBXeJaQ"
             ),
             Post(
                     id = nextId++,
@@ -86,7 +94,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     published = "23 сентября в 10:12",
                     likeByMe = false,
                     shares = "0",
-                    sharesCnt = 0
+                    sharesCnt = 0,
+                    video = "https://www.youtube.com/watch?v=2W4N9Jf4fj0"
             ),
     ).reversed()
     private val data = MutableLiveData(posts)
