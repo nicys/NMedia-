@@ -15,5 +15,6 @@
     <string name="chooser_share_post">Поделиться</string>
     <string name="add_post">Add post</string>
     <string name="video">video</string>
+    <string name="chooser_video_post">Video post</string>
 
 </resources>
