@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import ru.netology.databinding.ActivityAddEditPostBinding
 import ru.netology.util.AndroidUtils.hideKeyboard
 
@@ -35,6 +36,10 @@ class AddEditPostActivity : AppCompatActivity() {
         binding.ok.setOnClickListener {
             val intent = Intent()
             if (binding.edit.text.isNullOrBlank()) {
+                val toast = Toast.makeText(applicationContext, getString(R.string.error_empty_content), Toast.LENGTH_LONG)
+//                toast.setGravity(Gravity.TOP, 0, 300)
+                toast.show()
+                setResult(Activity.RESULT_CANCELED, intent)
                 setResult(Activity.RESULT_CANCELED, intent)
             } else {
                 val content = binding.edit.text.toString()
