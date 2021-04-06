@@ -31,7 +31,6 @@ class AddEditPostActivity : AppCompatActivity() {
                 hideKeyboard(this)
             }
         }
-
         //      обработка button ok(save)
         binding.ok.setOnClickListener {
             val intent = Intent()
