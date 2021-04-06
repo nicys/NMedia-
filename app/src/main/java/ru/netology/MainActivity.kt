@@ -1,6 +1,7 @@
 package ru.netology
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -51,8 +52,9 @@ class MainActivity : AppCompatActivity() {
             override fun onVideo(post: Post) {
                 val intent = Intent().apply {
                     action = Intent.ACTION_VIEW
-                    putExtra(Intent.EXTRA_HTML_TEXT, post.video)
-                    type = "video/*"
+                    Intent(Intent.ACTION_VIEW, Uri.parse("url"))
+                    setData(Uri.parse(post.video))
+
                 }
                 val videoIntent = Intent.createChooser(intent, getString(R.string.chooser_video_post))
                 startActivity(videoIntent)
