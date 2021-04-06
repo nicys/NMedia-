@@ -14,7 +14,6 @@ import ru.netology.util.AndroidUtils
 import ru.netology.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
-    235434
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
