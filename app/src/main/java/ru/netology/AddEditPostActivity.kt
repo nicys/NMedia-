@@ -27,7 +27,7 @@ class AddEditPostActivity : AppCompatActivity() {
             val text = it.getStringExtra(Intent.EXTRA_TEXT)
             with(binding.edit) {
                 setText(text)
-//                requestFocus()
+                requestFocus()
                 hideKeyboard(this)
             }
         }
