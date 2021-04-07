@@ -40,7 +40,6 @@ class AddEditPostActivity : AppCompatActivity() {
 //                toast.setGravity(Gravity.TOP, 0, 300)
                 toast.show()
                 setResult(Activity.RESULT_CANCELED, intent)
-                setResult(Activity.RESULT_CANCELED, intent)
             } else {
                 val content = binding.edit.text.toString()
                 intent.putExtra(Intent.EXTRA_TEXT, content)
