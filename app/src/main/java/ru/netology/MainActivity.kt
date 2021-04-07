@@ -1,6 +1,7 @@
 package ru.netology
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -45,16 +46,43 @@ class MainActivity : AppCompatActivity() {
                 startActivity(shareIntent)
                 viewModel.shareById(post.id)
             }
+
+            override fun onVideo(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    Intent(Intent.ACTION_VIEW, Uri.parse("url"))
+                    setData(Uri.parse(post.video))
+
+                }
+                val videoIntent = Intent.createChooser(intent, getString(R.string.chooser_video_post))
+                startActivity(videoIntent)
+            }
         })
+
         binding.list.adapter = adapter
         viewModel.data.observe(this, { posts ->
             adapter.submitList(posts)
         })
 
-        viewModel.edited.observe(this, { post ->
+        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.changeContent(result)
+            viewModel.save()
+        }
+        binding.fab.setOnClickListener {
+            newPostLauncher.launch()
+        }
+
+        val newEditLauncher = registerForActivityResult(EditPostResultContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.changeContent(result)
+            viewModel.save()
+        }
+        viewModel.edited.observe(this) { post ->
             if (post.id == 0L) {
                 return@observe
             }
-        })
+            newEditLauncher.launch(post.content)
+        }
     }
 }
