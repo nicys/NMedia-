@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
-                binding.cancel.visibility = View.VISIBLE
                 viewModel.edit(post)
 
             }
@@ -56,45 +55,6 @@ class MainActivity : AppCompatActivity() {
             if (post.id == 0L) {
                 return@observe
             }
-            with(binding.contentPost) {
-                requestFocus()
-                setText(post.content)
-            }
         })
-
-        binding.save.setOnClickListener {
-            with(binding.contentPost) {
-                if (text.isNullOrBlank()) {
-                    Toast.makeText(
-                            this@MainActivity,
-                            context.getString(R.string.error_empty_content),
-                            Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-
-                viewModel.changeContent(text.toString())
-                viewModel.save()
-
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                binding.cancel.visibility = View.INVISIBLE
-            }
-        }
-
-        binding.contentPost.setOnFocusChangeListener { _, hasFocus ->
-            binding.cancel.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
-        }
-
-        binding.cancel.setOnClickListener {
-            with(binding.contentPost) {
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-
-            }
-        }
-        binding.cancel.visibility = View.INVISIBLE
     }
 }
