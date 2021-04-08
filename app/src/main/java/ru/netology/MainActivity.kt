@@ -49,14 +49,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onVideo(post: Post) {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_VIEW
-                    Intent(Intent.ACTION_VIEW, Uri.parse("url"))
-                    setData(Uri.parse(post.video))
-
+                post.video?.let {
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_VIEW
+                        Intent(Intent.ACTION_VIEW, Uri.parse("url"))
+                        setData(Uri.parse(post.video))
+                    }
+                    val videoIntent = Intent.createChooser(intent, getString(R.string.chooser_video_post))
+                    startActivity(videoIntent)
                 }
-                val videoIntent = Intent.createChooser(intent, getString(R.string.chooser_video_post))
-                startActivity(videoIntent)
             }
         })
 
