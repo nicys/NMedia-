@@ -16,11 +16,16 @@ class PostRepositorySharedPrefsImpl(
     private val key = "posts"
     private var nextId = 1L
     private var posts = emptyList<Post>()
+        set(value) {
+            field = value
+            sync()
+        }
     private val data = MutableLiveData(posts)
 
     init {
         prefs.getString(key, null)?.let {
             posts = gson.fromJson(it, type)
+            nextId = posts.maxOf { post -> post.id } + 1
             data.value = posts
         }
     }
@@ -54,7 +59,8 @@ class PostRepositorySharedPrefsImpl(
                             id = nextId++,
                             author = "Me",
                             likeByMe = false,
-                            published = "now"
+                            published = "now",
+                            video = null
                     )
             ) + posts
             data.value = posts
