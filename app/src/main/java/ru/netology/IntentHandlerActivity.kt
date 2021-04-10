@@ -1,11 +1,34 @@
 package ru.netology
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import ru.netology.databinding.ActivityIntentHandlerBinding
 
 class IntentHandlerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intent_handler)
+        val binding = ActivityIntentHandlerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        intent?.let {
+            if (it.action != Intent.ACTION_SEND) {
+                return@let
+            }
+
+            val text = it.getStringExtra(Intent.EXTRA_TEXT)
+            if (text.isNullOrBlank()) {
+                val toast = Toast.makeText(applicationContext, getString(R.string.error_empty_content), Toast.LENGTH_LONG)
+                toast.show()
+                setResult(Activity.RESULT_CANCELED, intent)
+                return@let
+            } else {
+                val content = binding.textOfPost.text.toString()
+                intent.putExtra(Intent.EXTRA_TEXT, content)
+                setResult(Activity.RESULT_OK, intent)
+            }
+        }
     }
 }
