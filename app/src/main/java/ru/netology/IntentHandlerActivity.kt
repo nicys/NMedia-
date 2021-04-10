@@ -25,9 +25,16 @@ class IntentHandlerActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_CANCELED, intent)
                 return@let
             } else {
-                val content = binding.textOfPost.text.toString()
-                intent.putExtra(Intent.EXTRA_TEXT, content)
-                setResult(Activity.RESULT_OK, intent)
+                val text = it.getStringExtra(Intent.EXTRA_TEXT)
+                with(binding.textOfPost) {
+                    setText(text)
+                    setResult(Activity.RESULT_OK, intent)
+
+
+//                val content = binding.textOfPost.text.toString()
+//                intent.putExtra(Intent.EXTRA_TEXT, content)
+//                setResult(Activity.RESULT_OK, intent)
+                }
             }
         }
     }
