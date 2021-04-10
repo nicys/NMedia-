@@ -3,21 +3,25 @@ package ru.netology
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.result.launch
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
-import ru.netology.databinding.ActivityMainBinding
+import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
 import ru.netology.viewmodel.PostViewModel
 
-class MainActivity : AppCompatActivity() {
+class FeedFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = FragmentFeedBinding.inflate(inflater, container, false)
 
         val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter(object : OnInteractionListener {
@@ -59,29 +63,30 @@ class MainActivity : AppCompatActivity() {
         })
 
         binding.list.adapter = adapter
-        viewModel.data.observe(this, { posts ->
+        viewModel.data.observe(viewLifecycleOwner, { posts ->
             adapter.submitList(posts)
         })
 
-        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.changeContent(result)
-            viewModel.save()
-        }
+//        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
+//            result ?: return@registerForActivityResult
+//            viewModel.changeContent(result)
+//            viewModel.save()
+//        }
         binding.fab.setOnClickListener {
-            newPostLauncher.launch()
+//            newPostLauncher.launch()
         }
 
-        val newEditLauncher = registerForActivityResult(EditPostResultContract()) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.changeContent(result)
-            viewModel.save()
-        }
-        viewModel.edited.observe(this) { post ->
+//        val newEditLauncher = registerForActivityResult(EditPostResultContract()) { result ->
+//            result ?: return@registerForActivityResult
+//            viewModel.changeContent(result)
+//            viewModel.save()
+//        }
+        viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {
                 return@observe
             }
-            newEditLauncher.launch(post.content)
+//            newEditLauncher.launch(post.content)
         }
+        return binding.root
     }
 }
