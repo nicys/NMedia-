@@ -76,22 +76,26 @@
         app:layout_constraintTop_toBottomOf="@+id/avatar"
         tools:text="@sample/posts.json/data/content" />
 
+    <ImageView
+        android:id="@+id/video"
+        android:layout_width="100dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/video_button"
+        app:layout_constraintBottom_toTopOf="@+id/barrier_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/video_pic" />
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="content" />
-
-<!--    <ImageView-->
-<!--        android:id="@+id/like"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:contentDescription="@string/liked"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/content"-->
-<!--        app:srcCompat="@drawable/ic_no_liked_24" />-->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
@@ -102,7 +106,7 @@
         android:textColor="@color/ic_like_color_selector_24dp"
         app:icon="@drawable/ic_like_selector_24dp"
         app:layout_constraintStart_toStartOf="@id/barrier_2"
-        app:layout_constraintTop_toBottomOf="@+id/content"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_2"
         tools:text="@sample/posts.json/data/likes"
         tools:textColor="@color/purple_700"
         style="@style/Widget.AppTheme.LikeButton" />
@@ -116,7 +120,7 @@
         android:textColor="@color/deepGreen"
         app:icon="@drawable/ic_share_selector"
         app:layout_constraintStart_toEndOf="@+id/like"
-        app:layout_constraintTop_toBottomOf="@+id/content"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_2"
         tools:text="@sample/posts.json/data/send"
         tools:textColor="@color/purple_700"
         style="@style/Widget.AppTheme.ShareButton" />
@@ -127,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_2"
         tools:text="@sample/posts.json/data/viewed" />
 
     <ImageView
@@ -138,7 +142,7 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/viewed"
         app:layout_constraintEnd_toStartOf="@+id/views"
-        app:layout_constraintTop_toBottomOf="@+id/content"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_2"
         app:srcCompat="@drawable/ic_viwed_24" />
 
     <View

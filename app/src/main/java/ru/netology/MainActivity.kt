@@ -1,9 +1,11 @@
 package ru.netology
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.adapter.OnInteractionListener
@@ -23,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
-                binding.cancel.visibility = View.VISIBLE
                 viewModel.edit(post)
 
             }
@@ -46,55 +47,43 @@ class MainActivity : AppCompatActivity() {
                 startActivity(shareIntent)
                 viewModel.shareById(post.id)
             }
+
+            override fun onVideo(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    Intent(Intent.ACTION_VIEW, Uri.parse("url"))
+                    setData(Uri.parse(post.video))
+
+                }
+                val videoIntent = Intent.createChooser(intent, getString(R.string.chooser_video_post))
+                startActivity(videoIntent)
+            }
         })
+
         binding.list.adapter = adapter
         viewModel.data.observe(this, { posts ->
             adapter.submitList(posts)
         })
 
-        viewModel.edited.observe(this, { post ->
+        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.changeContent(result)
+            viewModel.save()
+        }
+        binding.fab.setOnClickListener {
+            newPostLauncher.launch()
+        }
+
+        val newEditLauncher = registerForActivityResult(EditPostResultContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.changeContent(result)
+            viewModel.save()
+        }
+        viewModel.edited.observe(this) { post ->
             if (post.id == 0L) {
                 return@observe
             }
-            with(binding.contentPost) {
-                requestFocus()
-                setText(post.content)
-            }
-        })
-
-        binding.save.setOnClickListener {
-            with(binding.contentPost) {
-                if (text.isNullOrBlank()) {
-                    Toast.makeText(
-                            this@MainActivity,
-                            context.getString(R.string.error_empty_content),
-                            Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-
-                viewModel.changeContent(text.toString())
-                viewModel.save()
-
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                binding.cancel.visibility = View.INVISIBLE
-            }
+            newEditLauncher.launch(post.content)
         }
-
-        binding.contentPost.setOnFocusChangeListener { _, hasFocus ->
-            binding.cancel.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
-        }
-
-        binding.cancel.setOnClickListener {
-            with(binding.contentPost) {
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-
-            }
-        }
-        binding.cancel.visibility = View.INVISIBLE
     }
 }
