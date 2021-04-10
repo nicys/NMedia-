@@ -22,12 +22,10 @@ class IntentHandlerActivity : AppCompatActivity() {
             if (text.isNullOrBlank()) {
                 val toast = Toast.makeText(applicationContext, getString(R.string.error_empty_content), Toast.LENGTH_LONG)
                 toast.show()
-                setResult(Activity.RESULT_CANCELED, intent)
                 return@let
             } else {
                 with(binding.textOfPost) {
                     setText(text)
-                    setResult(Activity.RESULT_OK, intent)
                 }
             }
         }
