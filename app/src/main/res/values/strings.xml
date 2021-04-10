@@ -15,5 +15,6 @@
     <string name="chooser_share_post">Share post</string>
     <string name="text_Of_Post">text of Post</string>
     <string name="add_post_fab">fab</string>
+    <string name="video_button">video</string>
 
 </resources>
