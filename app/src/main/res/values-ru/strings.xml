@@ -14,5 +14,6 @@
     <string name="cancel">cancel</string>
     <string name="chooser_share_post">Поделиться</string>
     <string name="text_Of_Post">текст поста</string>
+    <string name="add_post_fab">fab</string>
 
 </resources>
