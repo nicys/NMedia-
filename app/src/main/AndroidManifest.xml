@@ -25,6 +25,9 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddEditPostActivity">
+
+        </activity>
     </application>
 
 </manifest>
