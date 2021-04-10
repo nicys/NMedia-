@@ -2,25 +2,26 @@ package ru.netology
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import ru.netology.databinding.ActivityAddEditPostBinding
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import ru.netology.databinding.FragmentAddEditPostBinding
 import ru.netology.util.AndroidUtils.hideKeyboard
 
 // класс обработки входящего интента и возврата результата
 
-class AddEditPostActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityAddEditPostBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+class AddEditPostFragment : Fragment() {
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val binding = FragmentAddEditPostBinding.inflate(inflater, container, false)
 
         //      обработка меню edit
-//        binding.edit.setSelectAllOnFocus(true)
         binding.edit.requestFocus()
-
+        val intent = Intent()
         intent?.let {
             if (it.action != Intent.ACTION_SEND) {
                 return@let
@@ -36,16 +37,17 @@ class AddEditPostActivity : AppCompatActivity() {
         binding.ok.setOnClickListener {
             val intent = Intent()
             if (binding.edit.text.isNullOrBlank()) {
-                val toast = Toast.makeText(applicationContext, getString(R.string.error_empty_content), Toast.LENGTH_LONG)
+                val toast = Toast.makeText(context, getString(R.string.error_empty_content), Toast.LENGTH_LONG)
 //                toast.setGravity(Gravity.TOP, 0, 300)
                 toast.show()
-                setResult(Activity.RESULT_CANCELED, intent)
+                activity?.setResult(Activity.RESULT_CANCELED, intent)
             } else {
                 val content = binding.edit.text.toString()
                 intent.putExtra(Intent.EXTRA_TEXT, content)
-                setResult(Activity.RESULT_OK, intent)
+                activity?.setResult(Activity.RESULT_OK, intent)
             }
-            finish()
+            findNavController().navigateUp()
         }
+        return binding.root
     }
 }
