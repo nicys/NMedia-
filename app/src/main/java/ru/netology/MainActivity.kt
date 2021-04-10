@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
             override fun onEdit(post: Post) {
                 binding.cancel.visibility = View.VISIBLE
                 viewModel.edit(post)
-
             }
 
             override fun onLike(post: Post) {
