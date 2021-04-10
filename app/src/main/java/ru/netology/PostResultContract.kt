@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContract
 class NewPostResultContract : ActivityResultContract<Unit, String?>() {
 
     override fun createIntent(context: Context, input: Unit?): Intent =
-        Intent(context, AddEditPostActivity::class.java)
+        Intent(context, AddEditPostFragment::class.java)
 
     override fun parseResult(resultCode: Int, intent: Intent?): String? =
         if (resultCode == Activity.RESULT_OK) {
@@ -22,7 +22,7 @@ class NewPostResultContract : ActivityResultContract<Unit, String?>() {
 
 class EditPostResultContract : ActivityResultContract<String, String?>() {
     override fun createIntent(context: Context, input: String): Intent =
-        Intent(context, AddEditPostActivity::class.java)
+        Intent(context, AddEditPostFragment::class.java)
             .setAction(Intent.ACTION_SEND)
             .putExtra(Intent.EXTRA_TEXT, input)
 
