@@ -29,11 +29,6 @@ class IntentHandlerActivity : AppCompatActivity() {
                 with(binding.textOfPost) {
                     setText(text)
                     setResult(Activity.RESULT_OK, intent)
-
-
-//                val content = binding.textOfPost.text.toString()
-//                intent.putExtra(Intent.EXTRA_TEXT, content)
-//                setResult(Activity.RESULT_OK, intent)
                 }
             }
         }
