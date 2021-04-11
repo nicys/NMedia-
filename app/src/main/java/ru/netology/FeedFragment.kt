@@ -17,6 +17,8 @@ import ru.netology.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
 
+    val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,11 +26,9 @@ class FeedFragment : Fragment() {
     ): View {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
 
-        val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
-
             }
 
             override fun onLike(post: Post) {
@@ -83,13 +83,13 @@ class FeedFragment : Fragment() {
 //            viewModel.changeContent(result)
 //            viewModel.save()
 //        }
-        viewModel.edited.observe(viewLifecycleOwner) { post ->
-            if (post.id == 0L) {
-                return@observe
-            }
-            findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
-//            newEditLauncher.launch(post.content)
-        }
+//        viewModel.edited.observe(viewLifecycleOwner) { post ->
+//            if (post.id == 0L) {
+//                return@observe
+//            }
+//            findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
+////            newEditLauncher.launch(post.content)
+//        }
         return binding.root
     }
 }
