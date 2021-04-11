@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
@@ -73,6 +74,7 @@ class FeedFragment : Fragment() {
 //            viewModel.save()
 //        }
         binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
 //            newPostLauncher.launch()
         }
 
@@ -85,6 +87,7 @@ class FeedFragment : Fragment() {
             if (post.id == 0L) {
                 return@observe
             }
+            findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
 //            newEditLauncher.launch(post.content)
         }
         return binding.root
