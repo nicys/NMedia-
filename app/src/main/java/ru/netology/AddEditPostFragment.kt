@@ -11,16 +11,26 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.netology.databinding.FragmentAddEditPostBinding
 import ru.netology.util.AndroidUtils.hideKeyboard
+import ru.netology.util.StringArg
 
 // класс обработки входящего интента и возврата результата
 
 class AddEditPostFragment : Fragment() {
+
+    companion object {
+        var Bundle.textArg: String? by StringArg
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = FragmentAddEditPostBinding.inflate(inflater, container, false)
 
         //      обработка меню edit
         binding.edit.requestFocus()
+
+        arguments?.textArg?.let {
+            binding.edit.setText(it)
+        }
+
         val intent = Intent()
         intent?.let {
             if (it.action != Intent.ACTION_SEND) {
