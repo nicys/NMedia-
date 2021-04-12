@@ -83,13 +83,13 @@ class FeedFragment : Fragment() {
 //            viewModel.changeContent(result)
 //            viewModel.save()
 //        }
-//        viewModel.edited.observe(viewLifecycleOwner) { post ->
-//            if (post.id == 0L) {
-//                return@observe
-//            }
-//            findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
+        viewModel.edited.observe(viewLifecycleOwner) { post ->
+            if (post.id == 0L) {
+                return@observe
+            }
+            findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
 ////            newEditLauncher.launch(post.content)
-//        }
+        }
         return binding.root
     }
 }

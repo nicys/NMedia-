@@ -1,5 +1,6 @@
 package ru.netology
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.databinding.FragmentAddEditPostBinding
 import ru.netology.util.AndroidUtils
+import ru.netology.util.AndroidUtils.hideKeyboard
 import ru.netology.util.StringArg
 import ru.netology.viewmodel.PostViewModel
 
@@ -34,18 +36,18 @@ class AddEditPostFragment : Fragment() {
             binding.edit.setText(it)
         }
 
-//        val intent = Intent()
-//        intent?.let {
-//            if (it.action != Intent.ACTION_SEND) {
-//                return@let
-//            }
-//            val text = it.getStringExtra(Intent.EXTRA_TEXT)
-//            with(binding.edit) {
-//                setText(text)
-//                requestFocus()
-//                hideKeyboard(this)
-//            }
-//        }
+        val intent = Intent()
+        intent?.let {
+            if (it.action != Intent.ACTION_SEND) {
+                return@let
+            }
+            val text = it.getStringExtra(Intent.EXTRA_TEXT)
+            with(binding.edit) {
+                setText(text)
+                requestFocus()
+                hideKeyboard(this)
+            }
+        }
         //      обработка button ok(save)
         binding.ok.setOnClickListener {
             viewModel.changeContent(binding.edit.text.toString())
