@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShowPostFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/avatar_name"
+            app:layout_constraintBottom_toBottomOf="@id/barrier_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_netology_48"
+            tools:srcCompat="@sample/posts_avatars" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/purple_700"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/published"
+            app:layout_constraintEnd_toStartOf="@+id/menu"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="@+id/avatar"
+            tools:text="@sample/posts.json/data/author" />
+
+        <TextView
+            android:id="@+id/published"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/avatar"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toBottomOf="@+id/author"
+            tools:text="@sample/posts.json/data/published" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/menu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/more_vert_name"
+            app:icon="@drawable/ic_menu_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Widget.AppTheme.MenuButton" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="avatar,published,menu" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autoLink="web"
+            android:lineSpacingExtra="5dp"
+            android:linksClickable="true"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/avatar"
+            tools:text="@sample/posts.json/data/content" />
+
+        <ImageView
+            android:id="@+id/video"
+            android:layout_width="100dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/video_button"
+            app:layout_constraintBottom_toTopOf="@+id/barrier_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/content"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/video_pic" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:contentDescription="@string/liked"
+            android:textColor="@color/ic_like_color_selector_24dp"
+            app:icon="@drawable/ic_like_selector_24dp"
+            app:layout_constraintStart_toStartOf="@id/barrier_2"
+            app:layout_constraintTop_toBottomOf="@+id/barrier_2"
+            tools:text="@sample/posts.json/data/likes"
+            tools:textColor="@color/purple_700"
+            style="@style/Widget.AppTheme.LikeButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/send"
+            android:textColor="@color/deepGreen"
+            app:icon="@drawable/ic_share_selector"
+            app:layout_constraintStart_toEndOf="@+id/like"
+            app:layout_constraintTop_toBottomOf="@+id/barrier_2"
+            tools:text="@sample/posts.json/data/send"
+            tools:textColor="@color/purple_700"
+            style="@style/Widget.AppTheme.ShareButton" />
+
+        <TextView
+            android:id="@+id/views"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier_2"
+            tools:text="@sample/posts.json/data/viewed" />
+
+        <ImageView
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/viewed"
+            app:layout_constraintEnd_toStartOf="@+id/views"
+            app:layout_constraintTop_toBottomOf="@+id/barrier_2"
+            app:srcCompat="@drawable/ic_viwed_24" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/like" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
