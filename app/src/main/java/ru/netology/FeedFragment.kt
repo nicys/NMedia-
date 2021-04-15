@@ -68,28 +68,24 @@ class FeedFragment : Fragment() {
             adapter.submitList(posts)
         })
 
-//        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
-//            result ?: return@registerForActivityResult
-//            viewModel.changeContent(result)
-//            viewModel.save()
-//        }
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
-//            newPostLauncher.launch()
         }
 
-//        val newEditLauncher = registerForActivityResult(EditPostResultContract()) { result ->
-//            result ?: return@registerForActivityResult
-//            viewModel.changeContent(result)
-//            viewModel.save()
-//        }
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {
                 return@observe
             }
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
-////            newEditLauncher.launch(post.content)
         }
+
+        binding.list.setOnClickListener {
+            viewModel.data.observe(viewLifecycleOwner, { post ->
+                adapter.submitList(post)
+            })
+            findNavController().navigate(R.id.action_feedFragment_to_showPostFragment)
+        }
+
         return binding.root
     }
 }

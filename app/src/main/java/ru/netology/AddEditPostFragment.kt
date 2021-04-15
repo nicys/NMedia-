@@ -52,7 +52,7 @@ class AddEditPostFragment : Fragment() {
         binding.ok.setOnClickListener {
             viewModel.changeContent(binding.edit.text.toString())
             viewModel.save()
-            AndroidUtils.hideKeyboard(requireView())
+            hideKeyboard(requireView())
             findNavController().navigateUp()
         }
         return binding.root
