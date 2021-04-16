@@ -64,13 +64,6 @@ class FeedFragment : Fragment() {
 
             override fun onClickPost(post: Post) {
                 findNavController().navigate(R.id.action_feedFragment_to_showPostFragment)
-//                post.content?.let {
-//                    val intent = Intent().apply {
-//                        action = Intent.ACTION_SEND
-//                        putExtra(Intent.EXTRA_TEXT, post.content)
-//                        type = "text/plain"
-//                    }
-//                }
             }
         })
 
@@ -89,12 +82,6 @@ class FeedFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }
-
-//        binding.list.setOnClickListener {
-//            findNavController().navigate(R.id.action_feedFragment_to_showPostFragment)
-//
-//
-//        }
 
         return binding.root
     }

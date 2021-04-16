@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/post_list_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ShowPostFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/post_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
+
 
         <ImageView
             android:id="@+id/avatar"
@@ -50,14 +54,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/menu"
+            style="@style/Widget.AppTheme.MenuButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:contentDescription="@string/more_vert_name"
             app:icon="@drawable/ic_menu_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/Widget.AppTheme.MenuButton" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier_1"
@@ -102,6 +106,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/like"
+            style="@style/Widget.AppTheme.LikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -111,11 +116,11 @@
             app:layout_constraintStart_toStartOf="@id/barrier_2"
             app:layout_constraintTop_toBottomOf="@+id/barrier_2"
             tools:text="@sample/posts.json/data/likes"
-            tools:textColor="@color/purple_700"
-            style="@style/Widget.AppTheme.LikeButton" />
+            tools:textColor="@color/purple_700" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/share"
+            style="@style/Widget.AppTheme.ShareButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -125,8 +130,7 @@
             app:layout_constraintStart_toEndOf="@+id/like"
             app:layout_constraintTop_toBottomOf="@+id/barrier_2"
             tools:text="@sample/posts.json/data/send"
-            tools:textColor="@color/purple_700"
-            style="@style/Widget.AppTheme.ShareButton" />
+            tools:textColor="@color/purple_700" />
 
         <TextView
             android:id="@+id/views"
@@ -159,4 +163,6 @@
             app:layout_constraintTop_toBottomOf="@+id/like" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.core.widget.NestedScrollView>
