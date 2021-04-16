@@ -79,6 +79,8 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }
 
+
+
         binding.list.setOnClickListener {
             viewModel.data.observe(viewLifecycleOwner, { post ->
                 adapter.submitList(post)

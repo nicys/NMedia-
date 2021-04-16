@@ -34,7 +34,6 @@ class ShowPostFragment : Fragment() {
 
         arguments?.textArg?.let {
             binding.content.setText(it)
-//            binding.published.setText(it)
         }
 
         val intent = Intent()

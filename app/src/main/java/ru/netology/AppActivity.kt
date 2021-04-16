@@ -53,11 +53,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
         }
     }
 
-    //    override fun onResume() {
-//        super.onResume()
-//        showPost()
-//    }
-
     private fun onShowPost() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_nav_host, ShowPostFragment()).commit()
