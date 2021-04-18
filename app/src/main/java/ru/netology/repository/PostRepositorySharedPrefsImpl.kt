@@ -41,7 +41,10 @@ class PostRepositorySharedPrefsImpl(
 
     override fun shareById(id: Long) {
         posts = posts.map {
-            if (it.id != id) it else it.copy(sharesCnt = it.sharesCnt + 1, shares = totalizerSmartFeed(it.sharesCnt + 1))
+            if (it.id != id) it else it.copy(
+                sharesCnt = it.sharesCnt + 1,
+                shares = totalizerSmartFeed(it.sharesCnt + 1)
+            )
         }
         data.value = posts
     }
@@ -72,6 +75,7 @@ class PostRepositorySharedPrefsImpl(
         }
         data.value = posts
     }
+
     private fun sync() {
         with(prefs.edit()) {
             putString(key, gson.toJson(posts))
@@ -81,16 +85,16 @@ class PostRepositorySharedPrefsImpl(
 }
 
 fun counterOverThousand(feed: Int): Int {
-    return when(feed) {
-        in 1_000..999_999 -> feed/100
-        else -> feed/100_000
+    return when (feed) {
+        in 1_000..999_999 -> feed / 100
+        else -> feed / 100_000
     }
 }
 
 fun totalizerSmartFeed(feed: Int): String {
-    return when(feed) {
+    return when (feed) {
         in 0..999 -> "$feed"
-        in 1_000..999_999 -> "${ (counterOverThousand(feed).toDouble() / 10) }K"
-        else -> "${ (counterOverThousand(feed).toDouble() / 10) }M"
+        in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+        else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
     }
 }
