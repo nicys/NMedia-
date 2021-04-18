@@ -1,6 +1,5 @@
 package ru.netology
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,7 @@ import ru.netology.viewmodel.PostViewModel
 class AddEditPostFragment : Fragment() {
 
     companion object {
-        var Bundle.textArg: String? by StringArg
+        var Bundle.textData: String? by StringArg
     }
 
     private val viewModel: PostViewModel by viewModels(
@@ -29,24 +28,27 @@ class AddEditPostFragment : Fragment() {
         val binding = FragmentAddEditPostBinding.inflate(inflater, container, false)
 
         //      обработка меню edit
-        binding.edit.requestFocus()
+//        binding.edit.requestFocus()
 
-        arguments?.textArg?.let {
+        arguments?.textData?.let {
             binding.edit.setText(it)
         }
+//
+//        arguments?.textData
+//            ?.let(binding.edit::setText)
 
-        val intent = Intent()
-        intent?.let {
-            if (it.action != Intent.ACTION_SEND) {
-                return@let
-            }
-            val text = it.getStringExtra(Intent.EXTRA_TEXT)
-            with(binding.edit) {
-                setText(text)
-                requestFocus()
-                hideKeyboard(this)
-            }
-        }
+//        val intent = Intent()
+//        intent.let {
+//            if (it.action != Intent.ACTION_SEND) {
+//                return@let
+//            }
+//            val text = it.getStringExtra(Intent.EXTRA_TEXT)
+//            with(binding.edit) {
+//                setText(text)
+//                requestFocus()
+//                hideKeyboard(this)
+//            }
+//        }
         //      обработка button ok(save)
         binding.ok.setOnClickListener {
             viewModel.changeContent(binding.edit.text.toString())
