@@ -12,10 +12,12 @@
         tools:layout="@layout/fragment_feed" >
         <action
             android:id="@+id/action_feedFragment_to_addEditPostFragment"
-            app:destination="@id/addEditPostFragment" />
+            app:destination="@id/addEditPostFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
         <action
             android:id="@+id/action_feedFragment_to_showPostFragment"
-            app:destination="@id/showPostFragment" />
+            app:destination="@id/showPostFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/addEditPostFragment"
@@ -26,5 +28,12 @@
         android:id="@+id/showPostFragment"
         android:name="ru.netology.ShowPostFragment"
         android:label="fragment_show_post"
-        tools:layout="@layout/fragment_show_post" />
+        tools:layout="@layout/fragment_show_post" >
+        <action
+            android:id="@+id/action_showPostFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_showPostFragment_to_addEditPostFragment"
+            app:destination="@id/addEditPostFragment" />
+    </fragment>
 </navigation>
