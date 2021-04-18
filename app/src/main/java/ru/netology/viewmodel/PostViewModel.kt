@@ -1,27 +1,24 @@
 package ru.netology.viewmodel
 
 import android.app.Application
-import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.netology.dto.Post
 import ru.netology.repository.PostRepository
-import ru.netology.repository.PostRepositoryInMemoryImpl
 import ru.netology.repository.PostRepositorySharedPrefsImpl
 
 private val empty = Post(
-        id = 0,
-        author = "",
-        published = "",
-        content = "",
-        likeByMe = false,
-        shares = "0",
-        sharesCnt = 0,
-        video = null
+    id = 0,
+    author = "",
+    published = "",
+    content = "",
+    likeByMe = false,
+    shares = "0",
+    sharesCnt = 0,
+    video = null
 )
 
-class PostViewModel (application: Application) : AndroidViewModel(application) {
+class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository = PostRepositorySharedPrefsImpl(application)
     val data = repository.getAll()
 

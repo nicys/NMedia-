@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import ru.netology.AddEditPostFragment.Companion.textData
-import ru.netology.ShowPostFragment.Companion.postData
-import ru.netology.dto.Post
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
 
@@ -30,21 +28,5 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                 }
             )
         }
-
-//        intent?.let {
-//            if (it.action != Intent.ACTION_SEND) {
-//                return@let
-//            }
-//
-//            val post = it.getParcelableExtra<Post> (Intent.EXTRA_TEXT)
-//            findNavController(R.id.fragment_nav_host).navigate(
-//                R.id.action_feedFragment_to_showPostFragment,
-//                Bundle().apply {
-//                    postData = post
-//                }
-//            )
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.fragment_nav_host, ShowPostFragment()).commit()
-//        }
     }
 }

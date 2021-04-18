@@ -27,29 +27,10 @@ class AddEditPostFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = FragmentAddEditPostBinding.inflate(inflater, container, false)
 
-        //      обработка меню edit
-//        binding.edit.requestFocus()
-
         arguments?.textData?.let {
             binding.edit.setText(it)
         }
-//
-//        arguments?.textData
-//            ?.let(binding.edit::setText)
 
-//        val intent = Intent()
-//        intent.let {
-//            if (it.action != Intent.ACTION_SEND) {
-//                return@let
-//            }
-//            val text = it.getStringExtra(Intent.EXTRA_TEXT)
-//            with(binding.edit) {
-//                setText(text)
-//                requestFocus()
-//                hideKeyboard(this)
-//            }
-//        }
-        //      обработка button ok(save)
         binding.ok.setOnClickListener {
             viewModel.changeContent(binding.edit.text.toString())
             viewModel.save()
