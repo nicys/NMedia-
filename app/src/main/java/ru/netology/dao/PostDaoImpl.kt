@@ -32,8 +32,8 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
         const val COLUMN_LIKE_BY_ME = "likeByMe"
         const val COLUMN_LIKE = "like"
         const val COLUMN_SHARES = "shares"
-        val COLUMN_SHARES_CNT = "sharesCnt"
-        val COLUMN_VIDEO = "video"
+        const val COLUMN_SHARES_CNT = "sharesCnt"
+        const val COLUMN_VIDEO = "video"
         val ALL_COLUMNS = arrayOf(
             COLUMN_ID,
             COLUMN_AUTHOR,
@@ -95,21 +95,6 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
         }
     }
 
-        val id = db.replace(PostColumns.TABLE, null, values) {
-            db.query(
-                PostColumns.TABLE,
-                PostColumns.ALL_COLUMNS,
-                "${PostColumns.COLUMN_ID} = ?",
-                arrayOf(id.toString()),
-                null,
-                null,
-                null,
-            ).use {
-            it.moveToNext()
-                return map(it)
-            }
-        }
-
     override fun likeById(id: Long) {
         db.execSQL(
             """
@@ -122,6 +107,16 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
     }
 
     override fun shareById(id: Long) {
+        db.execSQL(
+            """
+           UPDATE posts SET
+               like = like + CASE WHEN likeByMe THEN -1 ELSE 1 END,
+               likeByMe = CASE WHEN likeByMe THEN 0 ELSE 1 END
+           WHERE id = ?;
+        """.trimIndent(), arrayOf(id)
+        )
+
+
         posts = posts.map {
             if (it.id != id) it else it.copy(sharesCnt = it.sharesCnt + 1, shares = totalizerSmartFeed(it.sharesCnt + 1))
         }
