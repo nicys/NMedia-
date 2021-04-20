@@ -65,12 +65,12 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
         return posts
     }
 
-
     override fun save(post: Post): Post {
         val values = ContentValues().apply {
             if (post.id != 0L) {
                 put(PostColumns.COLUMN_ID, post.id)
             }
+            // TODO: remove hardcoded values
             put(PostColumns.COLUMN_AUTHOR, "Me")
             put(PostColumns.COLUMN_CONTENT, post.content)
             put(PostColumns.COLUMN_PUBLISHED, "now")
