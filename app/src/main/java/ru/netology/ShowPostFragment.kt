@@ -85,11 +85,8 @@ class ShowPostFragment : Fragment() {
 //        }
 //        like.setOnClickListener {
 //            viewModel.likeById(showPost.id)
-//            //like.text = if (showPost.likeByMe) "1" else "0"
 //        }
 //        share.setOnClickListener {
-//            //share.text = viewModel.totalizerSmartFeed(showPost.sharesCnt)
-//            //viewModel.shareById(showPost.id)
 //            val intent = Intent().apply {
 //                action = Intent.ACTION_SEND
 //                putExtra(Intent.EXTRA_TEXT, showPost.published)
