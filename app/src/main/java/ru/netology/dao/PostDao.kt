@@ -1,8 +1,6 @@
 package ru.netology.dao
 
-import androidx.lifecycle.LiveData
 import ru.netology.dto.Post
-import java.io.Closeable
 
 interface PostDao {
     fun getAll(): List<Post>
