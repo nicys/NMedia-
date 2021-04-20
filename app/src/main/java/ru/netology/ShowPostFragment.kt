@@ -84,7 +84,7 @@ class ShowPostFragment : Fragment() {
                         val intent = Intent().apply {
                             action = Intent.ACTION_VIEW
                             Intent(Intent.ACTION_VIEW, Uri.parse("url"))
-                            setData(Uri.parse(showPost.video))
+                            data = Uri.parse(showPost.video)
                         }
                         val videoIntent =
                             Intent.createChooser(intent, getString(R.string.chooser_video_post))
