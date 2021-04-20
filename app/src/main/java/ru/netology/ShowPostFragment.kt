@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import ru.netology.AddEditPostFragment.Companion.textData
 import ru.netology.databinding.FragmentShowPostBinding
 import ru.netology.dto.Post
-import ru.netology.repository.totalizerSmartFeed
 import ru.netology.util.PostArg
 import ru.netology.viewmodel.PostViewModel
 
@@ -40,7 +39,7 @@ class ShowPostFragment : Fragment() {
                 author.text = showPost.author
                 published.text = showPost.published
                 content.text = showPost.content
-                share.text = totalizerSmartFeed(showPost.sharesCnt)
+                share.text = viewModel.totalizerSmartFeed(showPost.sharesCnt)
                 like.isChecked = showPost.likeByMe
                 like.text = if (showPost.likeByMe) "1" else "0"
                 menu.setOnClickListener {
