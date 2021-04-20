@@ -36,11 +36,11 @@ class ShowPostFragment : Fragment() {
 
         arguments?.postData?.let {
             val showPost = it
-            with(binding) {
+            binding.apply {
                 author.text = showPost.author
                 published.text = showPost.published
                 content.text = showPost.content
-                share.text = totalizerSmartFeed(showPost.sharesCnt)
+                share.text = viewModel.totalizerSmartFeed(showPost.sharesCnt)
                 like.isChecked = showPost.likeByMe
                 like.text = if (showPost.likeByMe) "1" else "0"
                 menu.setOnClickListener {
