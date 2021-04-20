@@ -3,8 +3,8 @@ package ru.netology.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import ru.netology.nmedia.dao.PostDao
-import ru.netology.nmedia.dao.PostDaoImpl
+import ru.netology.dao.PostDao
+import ru.netology.dao.PostDaoImpl
 
 class AppDb private constructor(db: SQLiteDatabase) {
     val postDao: PostDao = PostDaoImpl(db)
