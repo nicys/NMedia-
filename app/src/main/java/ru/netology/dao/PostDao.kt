@@ -1,4 +1,4 @@
-package ru.netology.nmedia.dao
+package ru.netology.dao
 
 import androidx.lifecycle.LiveData
 import ru.netology.dto.Post
