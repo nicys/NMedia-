@@ -23,7 +23,7 @@ class PostRepositorySQLiteImpl(
         if (post.id == 0L) {
             posts = listOf(
                 post.copy(
-                    id = nextId++,
+                    id = post.id + 1,
                     author = "Me",
                     likeByMe = false,
                     published = "now",
@@ -33,6 +33,7 @@ class PostRepositorySQLiteImpl(
             data.value = posts
             return
         }
+    }
 
     override fun likeById(id: Long) {
         dao.likeById(id)
@@ -61,5 +62,22 @@ class PostRepositorySQLiteImpl(
         posts = posts.filter { it.id != id }
         data.value = posts
     }
+
+    private fun counterOverThousand(feed: Int): Int {
+        return when (feed) {
+            in 1_000..999_999 -> feed / 100
+            else -> feed / 100_000
+        }
+    }
+
+    private fun totalizerSmartFeed(feed: Int): String {
+        return when (feed) {
+            in 0..999 -> "$feed"
+            in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+            else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
+        }
+    }
 }
+
+
 
