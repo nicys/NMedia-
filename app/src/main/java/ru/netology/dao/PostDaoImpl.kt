@@ -1,10 +1,10 @@
-package ru.netology.nmedia.dao
+package ru.netology.dao
 
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import androidx.core.database.getStringOrNull
 import ru.netology.dto.Post
-import ru.netology.repository.totalizerSmartFeed
 
 class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
     companion object {
@@ -110,17 +110,10 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
         db.execSQL(
             """
            UPDATE posts SET
-               like = like + CASE WHEN likeByMe THEN -1 ELSE 1 END,
-               likeByMe = CASE WHEN likeByMe THEN 0 ELSE 1 END
+               sharesCnt = sharesCnt + CASE WHEN shareById > -1 THEN 1 END
            WHERE id = ?;
         """.trimIndent(), arrayOf(id)
         )
-
-
-        posts = posts.map {
-            if (it.id != id) it else it.copy(sharesCnt = it.sharesCnt + 1, shares = totalizerSmartFeed(it.sharesCnt + 1))
-        }
-        data.value = posts
     }
 
     override fun removeById(id: Long) {
@@ -140,6 +133,9 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
                 published = getString(getColumnIndexOrThrow(PostColumns.COLUMN_PUBLISHED)),
                 likeByMe = getInt(getColumnIndexOrThrow(PostColumns.COLUMN_LIKE_BY_ME)) != 0,
                 like = getInt(getColumnIndexOrThrow(PostColumns.COLUMN_LIKE)),
+                shares = getString(getColumnIndexOrThrow(PostColumns.COLUMN_SHARES)),
+                sharesCnt = getInt(getColumnIndexOrThrow(PostColumns.COLUMN_SHARES_CNT)),
+                video = getStringOrNull(getColumnIndexOrThrow(PostColumns.COLUMN_VIDEO)),
             )
         }
     }
