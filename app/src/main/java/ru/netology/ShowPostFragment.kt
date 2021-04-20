@@ -68,7 +68,6 @@ class ShowPostFragment : Fragment() {
                     viewModel.likeById(showPost.id)
                 }
                 share.setOnClickListener {
-                    viewModel.shareById(showPost.id)
                     val intent = Intent().apply {
                         action = Intent.ACTION_SEND
                         putExtra(Intent.EXTRA_TEXT, showPost.published)
