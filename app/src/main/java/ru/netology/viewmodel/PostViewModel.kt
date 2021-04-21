@@ -26,12 +26,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     val edited = MutableLiveData(empty)
 
-    fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
-        posts.findLast {
-            it.id == id
-        }
-    }
-
     fun save() {
         edited.value?.let {
             repository.save(it)
@@ -67,6 +61,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             in 0..999 -> "$feed"
             in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
             else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
+        }
+    }
+
+    fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
+        posts.find {
+            id == id
         }
     }
 }
