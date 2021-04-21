@@ -2,7 +2,9 @@ package ru.netology.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import ru.netology.dto.Post
 import ru.netology.repository.PostRepository
 import ru.netology.repository.PostRepositorySharedPrefsImpl
@@ -23,6 +25,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val data = repository.getAll()
 
     val edited = MutableLiveData(empty)
+
+    fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
+        posts.findLast {
+            it.id == id
+        }
+    }
 
     fun save() {
         edited.value?.let {
@@ -47,7 +55,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun shareById(id: Long) = repository.shareById(id)
     fun removeById(id: Long) = repository.removeById(id)
 
-    fun counterOverThousand(feed: Int): Int {
+    private fun counterOverThousand(feed: Int): Int {
         return when (feed) {
             in 1_000..999_999 -> feed / 100
             else -> feed / 100_000
