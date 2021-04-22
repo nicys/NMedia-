@@ -84,7 +84,7 @@ class PostRepositorySharedPrefsImpl(
     }
 }
 
-fun counterOverThousand(feed: Int): Int {
+private fun counterOverThousand(feed: Int): Int {
     return when (feed) {
         in 1_000..999_999 -> feed / 100
         else -> feed / 100_000

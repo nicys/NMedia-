@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.dto.Post
 import ru.netology.R
 import ru.netology.databinding.CardPostBinding
+import ru.netology.repository.totalizerSmartFeed
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
@@ -43,7 +44,7 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
-            share.text = post.shares
+            share.text = totalizerSmartFeed(post.sharesCnt)
             like.isChecked = post.likeByMe
             like.text = if (post.likeByMe) "1" else "0"
             like.setOnClickListener {
@@ -55,7 +56,10 @@ class PostViewHolder(
             video.setOnClickListener {
                 onInteractionListener.onVideo(post)
             }
-            content.setOnClickListener {
+//            content.setOnClickListener {
+//                onInteractionListener.onShowPost(post)
+//            }
+            postCard.setOnClickListener {
                 onInteractionListener.onShowPost(post)
             }
             menu.setOnClickListener {
@@ -88,5 +92,20 @@ class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
 
     override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem == newItem
+    }
+
+    private fun counterOverThousand(feed: Int): Int {
+        return when (feed) {
+            in 1_000..999_999 -> feed / 100
+            else -> feed / 100_000
+        }
+    }
+
+    fun totalizerSmartFeed(feed: Int): String {
+        return when (feed) {
+            in 0..999 -> "$feed"
+            in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+            else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
+        }
     }
 }
