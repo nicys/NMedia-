@@ -91,7 +91,7 @@ private fun counterOverThousand(feed: Int): Int {
     }
 }
 
-fun totalizerSmartFeed(feed: Int): String {
+private fun totalizerSmartFeed(feed: Int): String {
     return when (feed) {
         in 0..999 -> "$feed"
         in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
