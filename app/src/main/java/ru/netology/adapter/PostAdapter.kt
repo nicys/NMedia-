@@ -56,9 +56,9 @@ class PostViewHolder(
             video.setOnClickListener {
                 onInteractionListener.onVideo(post)
             }
-            content.setOnClickListener {
-                onInteractionListener.onShowPost(post)
-            }
+//            content.setOnClickListener {
+//                onInteractionListener.onShowPost(post)
+//            }
             postCard.setOnClickListener {
                 onInteractionListener.onShowPost(post)
             }

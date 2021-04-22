@@ -33,72 +33,79 @@ class ShowPostFragment : Fragment() {
     ): View {
         val binding = FragmentShowPostBinding.inflate(inflater, container, false)
 
-        arguments?.postData?.let {
-            val showPost = it
-            viewModel.getPostById(it.id).observe(viewLifecycleOwner, { post ->
-                post ?: return@observe
-                binding.apply {
-                    author.text = post.author
-                    published.text = post.published
-                    content.text = post.content
-                    share.text = viewModel.totalizerSmartFeed(post.sharesCnt)
-                    like.isChecked = post.likeByMe
-                    like.text = if (post.likeByMe) "1" else "0"
-                    menu.setOnClickListener {
-                        PopupMenu(it.context, it).apply {
-                            inflate(R.menu.option_post)
-                            setOnMenuItemClickListener { item ->
-                                when (item.itemId) {
-                                    R.id.remove -> {
-                                        viewModel.removeById(post.id)
-                                        findNavController().navigate(R.id.action_showPostFragment_to_feedFragment)
-                                        true
+        with(viewModel) {
+            arguments?.postData?.let {
+                val showPost = it
+
+                getPostById(it.id).observe(viewLifecycleOwner, { post ->
+                    post ?: return@observe
+
+                    binding.apply {
+                        author.text = post.author
+                        published.text = post.published
+                        content.text = post.content
+                        share.text = totalizerSmartFeed(post.sharesCnt)
+                        like.isChecked = post.likeByMe
+                        like.text = if (post.likeByMe) "1" else "0"
+
+                        menu.setOnClickListener {
+                            PopupMenu(it.context, it).apply {
+                                inflate(R.menu.option_post)
+                                setOnMenuItemClickListener { item ->
+                                    when (item.itemId) {
+                                        R.id.remove -> {
+                                            removeById(post.id)
+                                            findNavController().navigate(R.id.action_showPostFragment_to_feedFragment)
+                                            true
+                                        }
+                                        R.id.edit -> {
+                                            findNavController().navigate(R.id.action_showPostFragment_to_addEditPostFragment,
+                                                Bundle().apply
+                                                { textData = post.content })
+                                            true
+                                        }
+                                        else -> false
                                     }
-                                    R.id.edit -> {
-                                        findNavController().navigate(R.id.action_showPostFragment_to_addEditPostFragment,
-                                            Bundle().apply
-                                            { textData = post.content })
-                                        true
-                                    }
-                                    else -> false
                                 }
-                            }
-                        }.show()
-                    }
-                    like.setOnClickListener {
-                        viewModel.likeById(showPost.id)
-                    }
-                    share.setOnClickListener {
-                        val intent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, showPost.published)
-                            type = "text/plain"
+                            }.show()
                         }
-                        val shareIntent =
-                            Intent.createChooser(intent, getString(R.string.chooser_share_post))
-                        startActivity(shareIntent)
-                        viewModel.shareById(showPost.id)
-                    }
-                    video.setOnClickListener {
-                        post.video?.let {
+
+                        like.setOnClickListener {
+                            likeById(showPost.id)
+                        }
+
+                        share.setOnClickListener {
                             val intent = Intent().apply {
-                                action = Intent.ACTION_VIEW
-                                Intent(Intent.ACTION_VIEW, Uri.parse("url"))
-                                data = Uri.parse(showPost.video)
+                                action = Intent.ACTION_SEND
+                                putExtra(Intent.EXTRA_TEXT, showPost.published)
+                                type = "text/plain"
                             }
-                            val videoIntent =
-                                Intent.createChooser(intent, getString(R.string.chooser_video_post))
-                            startActivity(videoIntent)
+                            val shareIntent =
+                                Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                            startActivity(shareIntent)
+                            shareById(showPost.id)
+                        }
+
+                        video.setOnClickListener {
+                            post.video?.let {
+                                val intent = Intent().apply {
+                                    action = Intent.ACTION_VIEW
+                                    Intent(Intent.ACTION_VIEW, Uri.parse("url"))
+                                    data = Uri.parse(showPost.video)
+                                }
+                                val videoIntent =
+                                    Intent.createChooser(
+                                        intent,
+                                        getString(R.string.chooser_video_post)
+                                    )
+                                startActivity(videoIntent)
+                            }
                         }
                     }
+                })
+            }
 
-                }
-            })
         }
-
-
-
-
         return binding.root
     }
 }
