@@ -2,9 +2,8 @@ package ru.netology.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.netology.dto.Post
 import ru.netology.nmedia.dao.PostDao
-import ru.netology.nmedia.dao.PostDaoImpl
-import ru.netology.nmedia.dto.Post
 
 class PostRepositorySQLiteImpl(
     private val dao: PostDao
@@ -36,8 +35,8 @@ class PostRepositorySQLiteImpl(
         dao.likeById(id)
         posts = posts.map {
             if (it.id != id) it else it.copy(
-                likedByMe = !it.likedByMe,
-                likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
+                likeByMe = !it.likeByMe,
+                like = if (it.likeByMe) it.like - 1 else it.like + 1
             )
         }
         data.value = posts
@@ -47,6 +46,32 @@ class PostRepositorySQLiteImpl(
         dao.removeById(id)
         posts = posts.filter { it.id != id }
         data.value = posts
+    }
+
+    override fun shareById(id: Long) {
+        dao.shareById(id)
+        posts = posts.map {
+            if (it.id != id) it else it.copy(
+                sharesCnt = it.sharesCnt + 1,
+                shares = totalizerSmartFeed(it.sharesCnt + 1)
+            )
+        }
+        data.value = posts
+    }
+
+    private fun counterOverThousand(feed: Int): Int {
+        return when (feed) {
+            in 1_000..999_999 -> feed / 100
+            else -> feed / 100_000
+        }
+    }
+
+    private fun totalizerSmartFeed(feed: Int): String {
+        return when (feed) {
+            in 0..999 -> "$feed"
+            in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+            else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
+        }
     }
 }
 
