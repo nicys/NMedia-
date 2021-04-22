@@ -6,10 +6,9 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.dto.Post
 import ru.netology.R
 import ru.netology.databinding.CardPostBinding
-import ru.netology.repository.totalizerSmartFeed
+import ru.netology.dto.Post
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
@@ -93,19 +92,19 @@ class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem == newItem
     }
+}
 
-    private fun counterOverThousand(feed: Int): Int {
-        return when (feed) {
-            in 1_000..999_999 -> feed / 100
-            else -> feed / 100_000
-        }
+private fun counterOverThousand(feed: Int): Int {
+    return when (feed) {
+        in 1_000..999_999 -> feed / 100
+        else -> feed / 100_000
     }
+}
 
-    fun totalizerSmartFeed(feed: Int): String {
-        return when (feed) {
-            in 0..999 -> "$feed"
-            in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
-            else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
-        }
+fun totalizerSmartFeed(feed: Int): String {
+    return when (feed) {
+        in 0..999 -> "$feed"
+        in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+        else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
     }
 }
