@@ -5,8 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import ru.netology.db.AppDb
 import ru.netology.dto.Post
 import ru.netology.repository.PostRepository
+import ru.netology.repository.PostRepositorySQLiteImpl
 import ru.netology.repository.PostRepositorySharedPrefsImpl
 
 private val empty = Post(
@@ -15,13 +17,16 @@ private val empty = Post(
     published = "",
     content = "",
     likeByMe = false,
+    like = 0,
     shares = "0",
     sharesCnt = 0,
     video = null
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositorySharedPrefsImpl(application)
+    private val repository: PostRepository = PostRepositorySQLiteImpl(
+        AppDb.getInstance(application).postDao
+    )
     val data = repository.getAll()
 
     val edited = MutableLiveData(empty)
@@ -61,12 +66,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             in 0..999 -> "$feed"
             in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
             else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
-        }
-    }
-
-    fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
-        posts.find {
-            it.id == id
         }
     }
 }
