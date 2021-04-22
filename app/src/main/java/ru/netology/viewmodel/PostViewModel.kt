@@ -66,7 +66,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
         posts.find {
-            id == id
+            it.id == id
         }
     }
 }
