@@ -1,11 +1,13 @@
 package ru.netology.dao
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ru.netology.entity.PostEntity
 
+@Dao
 interface PostDao {
     @Query("SELECT * FROM PostEntity ORDER BY id")
     fun getAll(): LiveData<List<PostEntity>>
