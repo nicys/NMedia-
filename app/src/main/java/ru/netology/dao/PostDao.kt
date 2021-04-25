@@ -13,7 +13,7 @@ interface PostDao {
     @Query(
         """
         UPDATE PostEntity SET
-        like = like + CASE WHEN likeByMe THEN -1 ELSE 1 END,
+        `like` = `like` + CASE WHEN likeByMe THEN -1 ELSE 1 END,
         likeByMe = CASE WHEN likeByMe THEN 0 ELSE 1 END
         WHERE id = :id
         """
@@ -29,7 +29,7 @@ interface PostDao {
     )
     fun shareById(id: Long)
 
-    @Query("DELETE FROM PostEntity ORDER BY id")
+    @Query("DELETE FROM PostEntity WHERE id = :id")
     fun removeById(id: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
