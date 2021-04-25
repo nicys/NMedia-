@@ -1,10 +1,11 @@
-package ru.netology.nmedia.dao
+package ru.netology.dao
 
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.core.database.getStringOrNull
 import ru.netology.dto.Post
+import ru.netology.nmedia.dao.PostDao
 
 class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
     companion object {
