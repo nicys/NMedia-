@@ -117,7 +117,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getPostById(id: Long): LiveData<Unit> = data.map { posts ->
+    fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
         posts.postss.find {
             it.id == id
         }
