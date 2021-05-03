@@ -122,6 +122,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             it.id == id
         }
     }
+
+    fun List<Post>.isPostById(id: Long): Post = this.single { it.id == id }
 }
 
 
