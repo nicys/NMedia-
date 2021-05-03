@@ -1,6 +1,5 @@
-package ru.netology.nmedia.repository
+package ru.netology.repository
 
-import androidx.lifecycle.LiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType.Companion.toMediaType
@@ -8,7 +7,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import ru.netology.dto.Post
-import ru.netology.repository.PostRepository
 import java.util.concurrent.TimeUnit
 
 
@@ -24,7 +22,7 @@ class PostRepositoryImpl: PostRepository {
         private val jsonType = "application/json".toMediaType()
     }
 
-    override fun getAll(): LiveData<List<Post>> {
+    override fun getAll(): List<Post> {
         val request: Request = Request.Builder()
             .url("${BASE_URL}/api/slow/posts")
             .build()
@@ -39,10 +37,27 @@ class PostRepositoryImpl: PostRepository {
 
     override fun likeById(id: Long) {
         // TODO: do this in homework
+        val request: Request = Request.Builder()
+
+//            .delete()
+            .url("${BASE_URL}/api/slow/posts/$id")
+            .build()
+
+        client.newCall(request)
+            .execute()
+            .close()
     }
 
     override fun shareById(id: Long) {
         TODO("Not yet implemented")
+        val request: Request = Request.Builder()
+//            .delete()
+            .url("${BASE_URL}/api/slow/posts/$id")
+            .build()
+
+        client.newCall(request)
+            .execute()
+            .close()
     }
 
     override fun save(post: Post) {
