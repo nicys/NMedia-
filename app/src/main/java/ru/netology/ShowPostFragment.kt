@@ -37,8 +37,8 @@ class ShowPostFragment : Fragment() {
             arguments?.postData?.let {
                 val showPost = it
 
-                getPostById(it.id).observe(viewLifecycleOwner, { post ->
-                    post ?: return@observe
+                getPostById(it.id).observe(viewLifecycleOwner, { postCreated ->
+                    postCreated ?: return@observe
 
                     binding.apply {
                         author.text = it.author
@@ -54,14 +54,14 @@ class ShowPostFragment : Fragment() {
                                 setOnMenuItemClickListener { item ->
                                     when (item.itemId) {
                                         R.id.remove -> {
-                                            removeById(it.id.toLong())
+                                            removeById(showPost.id)
                                             findNavController().navigate(R.id.action_showPostFragment_to_feedFragment)
                                             true
                                         }
                                         R.id.edit -> {
                                             findNavController().navigate(R.id.action_showPostFragment_to_addEditPostFragment,
                                                 Bundle().apply
-                                                { textData = post.content })
+                                                { textData = showPost.content })
                                             true
                                         }
                                         else -> false
@@ -87,7 +87,7 @@ class ShowPostFragment : Fragment() {
                         }
 
                         video.setOnClickListener {
-                            post.video?.let {
+                            showPost.video?.let {
                                 val intent = Intent().apply {
                                     action = Intent.ACTION_VIEW
                                     Intent(Intent.ACTION_VIEW, Uri.parse("url"))
