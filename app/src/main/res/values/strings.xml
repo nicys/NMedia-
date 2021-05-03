@@ -17,4 +17,7 @@
     <string name="add_post_fab">fab</string>
     <string name="video_button">video</string>
     <string name="chooser_video_post">video content</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="error_loading">Something went wrong. Try again later</string>
 </resources>
