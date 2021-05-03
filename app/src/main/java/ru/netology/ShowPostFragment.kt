@@ -41,12 +41,12 @@ class ShowPostFragment : Fragment() {
                     post ?: return@observe
 
                     binding.apply {
-                        author.text = post.text
-                        published.text = post.text
-                        content.text = post.text
-                        share.text = totalizerSmartFeed(post.sharesCnt)
+                        author.text = it.author
+                        published.text = it.published
+                        content.text = it.content
+                        share.text = totalizerSmartFeed(it.sharesCnt)
                         like.isChecked = like.isChecked
-                        like.text = if (post.likeByMe) "1" else "0"
+                        like.text = if (it.likeByMe) "1" else "0"
 
                         menu.setOnClickListener {
                             PopupMenu(it.context, it).apply {
@@ -54,7 +54,7 @@ class ShowPostFragment : Fragment() {
                                 setOnMenuItemClickListener { item ->
                                     when (item.itemId) {
                                         R.id.remove -> {
-                                            removeById(post.id)
+                                            removeById(it.id.toLong())
                                             findNavController().navigate(R.id.action_showPostFragment_to_feedFragment)
                                             true
                                         }
