@@ -1,6 +1,7 @@
 package ru.netology.viewmodel
 
 import android.app.Application
+import android.service.controls.actions.BooleanAction
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -78,6 +79,16 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun likeById(id: Long) {
+        thread {
+            _data.postValue(
+                _data.value?.copy(postS = _data.value?.postS.orEmpty()
+                    .filter { it.id != id }
+                    .
+                )
+            )
+        }
+
+
         thread { repository.likeById(id) }
     }
 

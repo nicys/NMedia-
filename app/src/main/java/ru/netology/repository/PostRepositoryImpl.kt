@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 class PostRepositoryImpl: PostRepository {
     private val client = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(60, TimeUnit.SECONDS)
         .build()
     private val gson = Gson()
     private val typeToken = object : TypeToken<List<Post>>() {}
@@ -36,10 +36,8 @@ class PostRepositoryImpl: PostRepository {
     }
 
     override fun likeById(id: Long) {
-        // TODO: do this in homework
         val request: Request = Request.Builder()
-
-//            .delete()
+            .delete()
             .url("${BASE_URL}/api/slow/posts/$id")
             .build()
 
@@ -49,15 +47,14 @@ class PostRepositoryImpl: PostRepository {
     }
 
     override fun shareById(id: Long) {
-        TODO("Not yet implemented")
-        val request: Request = Request.Builder()
-//            .delete()
-            .url("${BASE_URL}/api/slow/posts/$id")
-            .build()
-
-        client.newCall(request)
-            .execute()
-            .close()
+        // TODO("Not yet implemented")
+//        val request: Request = Request.Builder()
+//            .url("${BASE_URL}/api/slow/posts/$id")
+//            .build()
+//
+//        client.newCall(request)
+//            .execute()
+//            .close()
     }
 
     override fun save(post: Post) {
