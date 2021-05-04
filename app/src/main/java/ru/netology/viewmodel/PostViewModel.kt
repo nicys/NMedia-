@@ -47,7 +47,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 // Данные успешно получены
                 val posts = repository.getAll()
-                FeedModel(postss = posts, empty = posts.isEmpty())
+                FeedModel(postS = posts, empty = posts.isEmpty())
             } catch (e: IOException) {
                 // Получена ошибка
                 FeedModel(error = true)
@@ -88,16 +88,16 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun removeById(id: Long) {
         thread {
             // Оптимистичная модель
-            val old = _data.value?.postss.orEmpty()
+            val old = _data.value?.postS.orEmpty()
             _data.postValue(
-                _data.value?.copy(postss = _data.value?.postss.orEmpty()
+                _data.value?.copy(postS = _data.value?.postS.orEmpty()
                     .filter { it.id != id }
                 )
             )
             try {
                 repository.removeById(id)
             } catch (e: IOException) {
-                _data.postValue(_data.value?.copy(postss = old))
+                _data.postValue(_data.value?.copy(postS = old))
             }
         }
     }
@@ -118,7 +118,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
-        posts.postss.find {
+        posts.postS.find {
             it.id == id
         }
     }
