@@ -79,14 +79,15 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun likeById(id: Long) {
-        thread {
+//        thread { repository.likeById(id) }
+
+
             _data.postValue(
                 _data.value?.copy(postS = _data.value?.postS.orEmpty()
-                    .filter { it.id == id && it.likeByMe }
+                    .filter  { it.id == id && !it.likeByMe }
                 )
             )
-            repository.likeById(id)
-        }
+             thread { repository.likeById(id) }
     }
 
     fun shareById(id: Long) {
