@@ -82,7 +82,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         thread {
             _data.postValue(
                 _data.value?.copy(postS = _data.value?.postS.orEmpty()
-                    .filter { it.id == id && it.likeByMe != it.likeByMe }
+                    .filter { it.id == id && it.likeByMe }
                 )
             )
             repository.likeById(id)
