@@ -48,13 +48,6 @@ class PostRepositoryImpl: PostRepository {
 
     override fun shareById(id: Long) {
         // TODO("Not yet implemented")
-//        val request: Request = Request.Builder()
-//            .url("${BASE_URL}/api/slow/posts/$id")
-//            .build()
-//
-//        client.newCall(request)
-//            .execute()
-//            .close()
     }
 
     override fun save(post: Post) {
