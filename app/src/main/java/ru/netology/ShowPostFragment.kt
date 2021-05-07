@@ -1,5 +1,6 @@
 package ru.netology
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,19 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.AddEditPostFragment.Companion.textData
+import ru.netology.databinding.FragmentAddEditPostBinding
 import ru.netology.databinding.FragmentShowPostBinding
 import ru.netology.dto.Post
+import ru.netology.util.AndroidUtils
 import ru.netology.util.PostArg
+import ru.netology.util.StringArg
 import ru.netology.viewmodel.PostViewModel
 
 class ShowPostFragment : Fragment() {
 
     companion object {
-        var Bundle.postData: Post? by PostArg
+        var Bundle.textArg: String? by StringArg
     }
 
     private val viewModel: PostViewModel by viewModels(
@@ -30,82 +35,34 @@ class ShowPostFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentShowPostBinding.inflate(inflater, container, false)
+    ): View? {
+        val binding = FragmentAddEditPostBinding.inflate(inflater, container, false)
+        binding.edit.requestFocus()
 
-        with(viewModel) {
-            arguments?.postData?.let {
-                val showPost = it
+        arguments?.textArg?.let(binding.edit::setText)
 
-                getPostById(it.id).observe(viewLifecycleOwner, { postCreated ->
-                    postCreated ?: return@observe
-
-                    binding.apply {
-                        author.text = it.author
-                        published.text = it.published
-                        content.text = it.content
-                        share.text = totalizerSmartFeed(it.sharesCnt)
-                        like.isChecked = like.isChecked
-                        like.text = if (it.likeByMe) "1" else "0"
-
-                        menu.setOnClickListener {
-                            PopupMenu(it.context, it).apply {
-                                inflate(R.menu.option_post)
-                                setOnMenuItemClickListener { item ->
-                                    when (item.itemId) {
-                                        R.id.remove -> {
-                                            removeById(showPost.id)
-                                            findNavController().navigate(R.id.action_showPostFragment_to_feedFragment)
-                                            true
-                                        }
-                                        R.id.edit -> {
-                                            findNavController().navigate(R.id.action_showPostFragment_to_addEditPostFragment,
-                                                Bundle().apply
-                                                { textData = showPost.content })
-                                            true
-                                        }
-                                        else -> false
-                                    }
-                                }
-                            }.show()
-                        }
-
-                        like.setOnClickListener {
-                            likeById(showPost.id)
-                        }
-
-                        share.setOnClickListener {
-                            val intent = Intent().apply {
-                                action = Intent.ACTION_SEND
-                                putExtra(Intent.EXTRA_TEXT, showPost.published)
-                                type = "text/plain"
-                            }
-                            val shareIntent =
-                                Intent.createChooser(intent, getString(R.string.chooser_share_post))
-                            startActivity(shareIntent)
-                            shareById(showPost.id)
-                        }
-
-                        video.setOnClickListener {
-                            showPost.video?.let {
-                                val intent = Intent().apply {
-                                    action = Intent.ACTION_VIEW
-                                    Intent(Intent.ACTION_VIEW, Uri.parse("url"))
-                                    data = Uri.parse(showPost.video)
-                                }
-                                val videoIntent =
-                                    Intent.createChooser(
-                                        intent,
-                                        getString(R.string.chooser_video_post)
-                                    )
-                                startActivity(videoIntent)
-                            }
-                        }
-                    }
-                })
-            }
-
+        binding.ok.setOnClickListener {
+            viewModel.changeContent(binding.edit.text.toString())
+            viewModel.save()
+            savecontent("")
+            AndroidUtils.hideKeyboard(requireView())
+        }
+        viewModel.postCreated.observe(viewLifecycleOwner) {
+            viewModel.loadPosts()
+            findNavController().navigateUp()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            val content = binding.edit.text.toString()
+            savecontent(content)
+            findNavController().navigateUp()
         }
         return binding.root
+    }
+    fun savecontent(string: String) {
+        context?.openFileOutput("savecontent.json", Context.MODE_PRIVATE)?.bufferedWriter().use {
+            if (it != null) {
+                it.write(string)
+            }
+        }
     }
 }
