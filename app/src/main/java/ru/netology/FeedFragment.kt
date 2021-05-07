@@ -86,6 +86,10 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         })
 
+        binding.retryButton.setOnClickListener {
+            viewModel.loadPosts()
+        }
+
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }

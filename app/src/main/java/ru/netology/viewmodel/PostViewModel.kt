@@ -78,16 +78,29 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = edited.value?.copy(content = text)
     }
 
+//    fun likeRec(id: Long) = data.map { posts ->
+//        posts.postS.find {
+//            it.likeByMe != it.likeByMe
+//        }
+//    }
+
+
     fun likeById(id: Long) {
 //        thread { repository.likeById(id) }
+        thread {
+
+//        _data.postValue(
+//                _data.value?.copy(postS = _data.value?.postS.orEmpty()
+//                    .filter { it.id == id && !it.likeByMe }
+
+//            data.map { posts ->
+//                posts.postS.find {
+//                    it.likeByMe
+//                }
 
 
-            _data.postValue(
-                _data.value?.copy(postS = _data.value?.postS.orEmpty()
-                    .filter { it.id == id && !it.likeByMe }
-                )
-            )
-            thread {repository.likeById(id)
+                repository.likeById(id)
+
         }
     }
 
@@ -135,6 +148,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun List<Post>.isPostById(id: Long): Post = this.single { it.id == id }
 }
+
 
 
 //class PostViewModel(application: Application) : AndroidViewModel(application) {

@@ -19,7 +19,7 @@ class PostRepositoryImpl: PostRepository {
 
     companion object {
         // на реальном устройстве
-        private const val BASE_URL = "http://176.196.11.232:9999"
+        private const val BASE_URL = "http://176.196.11.226:9999"
         // на виртуальном
         //private const val BASE_URL = "http://10.0.2.2:9999"
         private val jsonType = "application/json".toMediaType()
@@ -40,26 +40,16 @@ class PostRepositoryImpl: PostRepository {
 
     override fun likeById(id: Long) {
         val request: Request = Request.Builder()
-            .post(gson.toJson(id).toRequestBody(jsonType))
-            .url("${BASE_URL}/api/slow/posts/$id")
-//            .url("${BASE_URL}/api/slow/posts/{id}/likes")
+//            .post(gson.toJson(id).toRequestBody(jsonType))
+//            .url("${BASE_URL}/api/slow/posts/$id")
+            .url("${BASE_URL}/api/slow/posts/{id}/likes")
             .build()
 
-        client.newCall(request)
-            .execute()
-            .close()
-    }
-
-//    override fun unlikeById(id: Long) {
-//        val request: Request = Request.Builder()
-//            .delete(gson.toJson(id).toRequestBody(jsonType))
-//            .url("${BASE_URL}/api/slow/posts/$id")
-//            .build()
-//
 //        client.newCall(request)
 //            .execute()
 //            .close()
-//    }
+    }
+
 
     override fun shareById(id: Long) {
         // TODO("Not yet implemented")
