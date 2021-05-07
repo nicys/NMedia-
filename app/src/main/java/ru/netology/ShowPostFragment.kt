@@ -37,16 +37,16 @@ class ShowPostFragment : Fragment() {
             arguments?.postData?.let {
                 val showPost = it
 
-                getPostById(it.id).observe(viewLifecycleOwner, { post ->
+                data.observe(viewLifecycleOwner, { post ->
                     post ?: return@observe
 
                     binding.apply {
-                        author.text = post.author
-                        published.text = post.published
-                        content.text = post.content
-                        share.text = totalizerSmartFeed(post.sharesCnt)
-                        like.isChecked = post.likeByMe
-                        like.text = if (post.likeByMe) "1" else "0"
+                        author.text = showPost.author
+                        published.text = showPost.published
+                        content.text = showPost.content
+                        share.text = totalizerSmartFeed(showPost.sharesCnt)
+                        like.isChecked = showPost.likeByMe
+                        like.text = if (showPost.likeByMe) "1" else "0"
 
                         menu.setOnClickListener {
                             PopupMenu(it.context, it).apply {
@@ -54,14 +54,14 @@ class ShowPostFragment : Fragment() {
                                 setOnMenuItemClickListener { item ->
                                     when (item.itemId) {
                                         R.id.remove -> {
-                                            removeById(post.id)
+                                            removeById(showPost.id)
                                             findNavController().navigate(R.id.action_showPostFragment_to_feedFragment)
                                             true
                                         }
                                         R.id.edit -> {
                                             findNavController().navigate(R.id.action_showPostFragment_to_addEditPostFragment,
                                                 Bundle().apply
-                                                { textData = post.content })
+                                                { textData = showPost.content })
                                             true
                                         }
                                         else -> false
@@ -87,7 +87,7 @@ class ShowPostFragment : Fragment() {
                         }
 
                         video.setOnClickListener {
-                            post.video?.let {
+                            showPost.video?.let {
                                 val intent = Intent().apply {
                                     action = Intent.ACTION_VIEW
                                     Intent(Intent.ACTION_VIEW, Uri.parse("url"))
@@ -104,7 +104,6 @@ class ShowPostFragment : Fragment() {
                     }
                 })
             }
-
         }
         return binding.root
     }

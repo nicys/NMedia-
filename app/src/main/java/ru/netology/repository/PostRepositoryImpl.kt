@@ -50,7 +50,6 @@ class PostRepositoryImpl: PostRepository {
 //            .close()
     }
 
-
     override fun shareById(id: Long) {
         // TODO("Not yet implemented")
     }
@@ -66,6 +65,8 @@ class PostRepositoryImpl: PostRepository {
             .close()
     }
 
+
+
     override fun removeById(id: Long) {
         val request: Request = Request.Builder()
             .delete()
@@ -75,5 +76,18 @@ class PostRepositoryImpl: PostRepository {
         client.newCall(request)
             .execute()
             .close()
+    }
+
+    override fun getPostById(id: Long): Post {
+        val request: Request = Request.Builder()
+            .url("${BASE_URL}/api/slow/posts/{id}")
+            .build()
+
+        return client.newCall(request)
+            .execute()
+            .use { it.body?.string() }
+            .let {
+                gson.fromJson(it, typeToken.type)
+            }
     }
 }
