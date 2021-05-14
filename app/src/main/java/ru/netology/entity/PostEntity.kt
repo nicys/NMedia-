@@ -13,9 +13,9 @@ data class PostEntity(
     val content: String,
     val likeByMe: Boolean,
     val like: Int = 0,
-    val shares: String,
+    val shares: String?,
     val sharesCnt: Int,
-    val video: String?
+    val video: String? = null
 ) {
     fun toDto() = Post(id, author, content, published, likeByMe, like, shares, sharesCnt, video)
 
@@ -26,7 +26,7 @@ data class PostEntity(
                 dto.content,
                 dto.published,
                 dto.likeByMe,
-                dto.like,
+                dto.likes,
                 dto.shares,
                 dto.sharesCnt,
                 dto.video)
