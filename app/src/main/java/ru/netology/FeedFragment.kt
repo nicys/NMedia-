@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.AddEditPostFragment.Companion.textData
-import ru.netology.ShowPostFragment.Companion.postData
+//import ru.netology.ShowPostFragment.Companion.postData
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
@@ -71,16 +71,16 @@ class FeedFragment : Fragment() {
                 }
             }
 
-            override fun onShowPost(post: Post) {
-                findNavController().navigate(R.id.action_feedFragment_to_showPostFragment,
-                    Bundle().apply { postData = post }
-                )
-            }
+//            override fun onShowPost(post: Post) {
+//                findNavController().navigate(R.id.action_feedFragment_to_showPostFragment,
+//                    Bundle().apply { postData = post }
+//                )
+//            }
         })
 
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner, { state ->
-            adapter.submitList(state.postS)
+            adapter.submitList(state.posts)
             binding.progress.isVisible = state.loading
             binding.errorGroup.isVisible = state.error
             binding.emptyText.isVisible = state.empty
