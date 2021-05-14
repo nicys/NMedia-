@@ -40,14 +40,13 @@ class PostRepositoryImpl: PostRepository {
 
     override fun likeById(id: Long) {
         val request: Request = Request.Builder()
-//            .post(gson.toJson(id).toRequestBody(jsonType))
-//            .url("${BASE_URL}/api/slow/posts/$id")
-            .url("${BASE_URL}/api/slow/posts/{id}/likes")
+            .post(gson.toJson(id).toRequestBody(jsonType))
+            .url("${BASE_URL}/api/slow/posts/$id/likes")
             .build()
 
-//        client.newCall(request)
-//            .execute()
-//            .close()
+        client.newCall(request)
+            .execute()
+            .close()
     }
 
     override fun shareById(id: Long) {
@@ -65,8 +64,6 @@ class PostRepositoryImpl: PostRepository {
             .close()
     }
 
-
-
     override fun removeById(id: Long) {
         val request: Request = Request.Builder()
             .delete()
@@ -76,18 +73,5 @@ class PostRepositoryImpl: PostRepository {
         client.newCall(request)
             .execute()
             .close()
-    }
-
-    override fun getPostById(id: Long): Post {
-        val request: Request = Request.Builder()
-            .url("${BASE_URL}/api/slow/posts/{id}")
-            .build()
-
-        return client.newCall(request)
-            .execute()
-            .use { it.body?.string() }
-            .let {
-                gson.fromJson(it, typeToken.type)
-            }
     }
 }
