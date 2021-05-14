@@ -1,11 +1,9 @@
 package ru.netology.viewmodel
 
 import android.app.Application
-import android.service.controls.actions.BooleanAction
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
 import ru.netology.repository.PostRepository
@@ -20,7 +18,7 @@ private val empty = Post(
     published = "",
     content = "",
     likeByMe = false,
-    like = 0,
+    likes = 0,
     shares = "0",
     sharesCnt = 0,
     video = null
@@ -48,7 +46,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 // Данные успешно получены
                 val posts = repository.getAll()
-                FeedModel(postS = posts, empty = posts.isEmpty())
+                FeedModel(posts = posts, empty = posts.isEmpty())
             } catch (e: IOException) {
                 // Получена ошибка
                 FeedModel(error = true)
@@ -78,17 +76,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = edited.value?.copy(content = text)
     }
 
-    //    fun likeRec(id: Long) = data.map { posts ->
-//        posts.postS.find {
-//            it.likeByMe != it.likeByMe
-//        }
-//    }
-//    fun likeIf(likeByMe: Boolean): String {
-//        return if (likeByMe) "1" else "0"
-//    }
-
     fun likeById(id: Long) {
-        thread { repository.likeById(id) }
+        thread {
+            _data.postValue(_data.value?.copy(posts = _data.value?.posts.orEmpty().map {
+                if (it.id != id) it else it.copy(
+                    likeByMe = !it.likeByMe,
+                    likes = if (it.likeByMe) it.likes - 1 else it.likes + 1
+                )
+            })
+            )
+            repository.likeById(id)
+        }
     }
 
     fun shareById(id: Long) {
@@ -98,16 +96,16 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun removeById(id: Long) {
         thread {
             // Оптимистичная модель
-            val old = _data.value?.postS.orEmpty()
+            val old = _data.value?.posts.orEmpty()
             _data.postValue(
-                _data.value?.copy(postS = _data.value?.postS.orEmpty()
+                _data.value?.copy(posts = _data.value?.posts.orEmpty()
                     .filter { it.id != id }
                 )
             )
             try {
                 repository.removeById(id)
             } catch (e: IOException) {
-                _data.postValue(_data.value?.copy(postS = old))
+                _data.postValue(_data.value?.copy(posts = old))
             }
         }
     }
@@ -127,49 +125,22 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-//        fun getPostById(id: Long): LiveData<Post?> = data.map { posts ->
-//            posts.postS.find {
+//    fun getPostById(id: Long) {
+//        _data.postValue(_data.value?.copy(posts = _data.value?.posts.orEmpty().map {
+//            if (it.id == id) it else return }
+//        ))
+//    }
+
+//        fun getPostById(id: Long) = data.map { posts ->
+//            posts.posts.find {
 //                it.id == id
 //            }
 //        }
 
-    fun getPostById(id: Long): Post = repository.getPostById(id)
+//    fun getPostById(id: Long): Post = repository.getPostById(id)
 
-    fun List<Post>.isPostById(id: Long): Post = this.single { it.id == id }
+//    fun List<Post>.isPostById(id: Long): Post = this.single { it.id == id }
 }
-
-
-//class PostViewModel(application: Application) : AndroidViewModel(application) {
-//    // упрощённый вариант
-//    private val repository: PostRepository = PostRepositoryRoomImpl(
-//        AppDb.getInstance(context = application).postDao()
-//    )
-//    val data = repository.getAll()
-//
-//    val edited = MutableLiveData(empty)
-//
-//    fun save() {
-//        edited.value?.let {
-//            repository.save(it)
-//        }
-//        edited.value = empty
-//    }
-//
-//    fun edit(post: Post) {
-//        edited.value = post
-//    }
-//
-//    fun changeContent(content: String) {
-//        val text = content.trim()
-//        if (edited.value?.content == text) {
-//            return
-//        }
-//        edited.value = edited.value?.copy(content = text)
-//    }
-//
-//    fun likeById(id: Long) = repository.likeById(id)
-//    fun shareById(id: Long) = repository.shareById(id)
-//    fun removeById(id: Long) = repository.removeById(id)
 
 
 
