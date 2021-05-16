@@ -98,10 +98,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         thread {
             // Оптимистичная модель
             val old = _data.value?.posts.orEmpty()
+            val posts = _data.value?.posts.orEmpty()
+                .filter { it.id != id }
             _data.postValue(
-                _data.value?.copy(posts = _data.value?.posts.orEmpty()
-                    .filter { it.id != id }
-                )
+                _data.value?.copy(posts = posts, empty = posts.isEmpty())
             )
             try {
                 repository.removeById(id)
