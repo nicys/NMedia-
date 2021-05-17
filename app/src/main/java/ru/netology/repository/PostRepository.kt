@@ -1,6 +1,5 @@
 package ru.netology.repository
 
-import androidx.lifecycle.LiveData
 import ru.netology.dto.Post
 
 interface PostRepository {
@@ -17,16 +16,16 @@ interface PostRepository {
         fun onError(e: Exception) {}
     }
 
-    fun likeById(id: Long, callback: GetIdCallback)
-    fun shareById(id: Long, callback: GetIdCallback)
-    fun removeById(id: Long, callback: GetIdCallback)
+    fun likeByIdAsync(id: Long, callback: GetIdCallback)
+    fun shareByIdAsync(id: Long, callback: GetIdCallback)
+    fun removeByIdAsync(id: Long, callback: GetIdCallback)
 
     interface GetIdCallback {
         fun onSuccess(id: Long) {}
         fun onError(e: Exception) {}
     }
 
-    fun save(post: Post, callback: GetPostCallback)
+    fun saveAsync(post: Post, callback: GetPostCallback)
 
     interface GetPostCallback {
         fun onSuccess(post: Post) {}
