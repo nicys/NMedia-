@@ -50,7 +50,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-    if (post.id == 0L) {
+    if (post.id == 0L)
+    {
         // TODO: remove hardcoded author & published
         posts = listOf(
             post.copy(
@@ -64,11 +65,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         return
     }
 
-    posts = posts.map {
+    posts = posts.map
+    {
         if (it.id != post.id) it else it.copy(content = post.content)
     }
-    data.value = posts
-
+    data .value = posts
 
 
     fun save() {
@@ -77,26 +78,24 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 override fun onSuccess(post: Post) {
                     _data.postValue(
                         _data.value?.copy(posts = _data.value?.posts.orEmpty().map {
-                            if (it.id != 0L) it.copy(
-                                        id = nextId++,
-                                        author = "Me",
-                                        likeByMe = false,
-                                        published = "now"
-                                    )
-                                ) + posts
-                            }
-                        }
-
-
-                    _postCreated.postValue(Unit)
-                }
-
-                override fun onError(e: Exception) {
-                    _data.postValue(FeedModel(error = true))
-                }
+//                            if (post.id == 0L) {
+//                                it.copy(
+//                                    id = 100,
+//                                    author = "Me",
+//                                    likeByMe = false,
+//                                    published = "now",
+//                                    content = "",
+//                                    likes = 0,
+//                                    shares = "0",
+//                                    sharesCnt = 0,
+//                                    video = null)
+//                            } else {
+                                return it.content = post.content
+                            })
+//                                _postCreated.postValue(Unit)
+                    )}
             })
         }
-        edited.value = empty
     }
 
     fun edit(post: Post) {
