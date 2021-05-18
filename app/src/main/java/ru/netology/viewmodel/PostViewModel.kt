@@ -50,52 +50,19 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-    if (post.id == 0L)
-    {
-        // TODO: remove hardcoded author & published
-        posts = listOf(
-            post.copy(
-                id = nextId++,
-                author = "Me",
-                likeByMe = false,
-                published = "now"
-            )
-        ) + posts
-        data.value = posts
-        return
-    }
-
-    posts = posts.map
-    {
-        if (it.id != post.id) it else it.copy(content = post.content)
-    }
-    data .value = posts
-
-
     fun save() {
         edited.value?.let {
             repository.saveAsync(it, object : PostRepository.GetPostCallback {
                 override fun onSuccess(post: Post) {
-                    _data.postValue(
-                        _data.value?.copy(posts = _data.value?.posts.orEmpty().map {
-//                            if (post.id == 0L) {
-//                                it.copy(
-//                                    id = 100,
-//                                    author = "Me",
-//                                    likeByMe = false,
-//                                    published = "now",
-//                                    content = "",
-//                                    likes = 0,
-//                                    shares = "0",
-//                                    sharesCnt = 0,
-//                                    video = null)
-//                            } else {
-                                return it.content = post.content
-                            })
-//                                _postCreated.postValue(Unit)
-                    )}
+                    _postCreated.postValue(Unit)
+                }
+
+                override fun onError(e: Exception) {
+                    _data.postValue(FeedModel(error = true))
+                }
             })
         }
+        edited.value = empty
     }
 
     fun edit(post: Post) {
@@ -229,8 +196,3 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 //        }
 //    }
 //}
-
-
-
-
-
