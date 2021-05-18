@@ -104,8 +104,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 _data.postValue(
                     _data.value?.copy(posts = _data.value?.posts.orEmpty().map {
                         if (it.id != id) it else it.copy(
-                            shares = totalizerSmartFeed(sharesCnt),
-                            likes = if (it.likeByMe) it.likes - 1 else it.likes + 1
+                            shares = totalizerSmartFeed(it.sharesCnt + 1)
                         )
                     })
                 )
