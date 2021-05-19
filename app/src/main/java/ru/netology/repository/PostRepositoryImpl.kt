@@ -19,7 +19,7 @@ class PostRepositoryImpl : PostRepository {
 
     companion object {
         // на реальном устройстве
-        private const val BASE_URL = "http://176.196.11.226:9999"
+        private const val BASE_URL = "http://176.196.11.232:9999"
 
         // на виртуальном
         //private const val BASE_URL = "http://10.0.2.2:9999"
@@ -47,6 +47,32 @@ class PostRepositoryImpl : PostRepository {
                 }
             })
     }
+
+//    override fun saveAsync(
+//        post: Post,
+//        callback: PostRepository.GetPostCallback
+//    ) {
+//        val request: Request = Request.Builder()
+////            .post(gson.toJson(post).toRequestBody(jsonType))
+//            .url("${BASE_URL}/api/slow/posts")
+//            .build()
+//
+//        client.newCall(request)
+//            .enqueue(object : Callback {
+//                override fun onResponse(call: Call, response: Response) {
+//                    val body = response.body?.string() ?: throw RuntimeException("body is null")
+//                    try {
+//                        callback.onSuccess(gson.fromJson(body, typeToken.type))
+//                    } catch (e: Exception) {
+//                        callback.onError(e)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call, e: IOException) {
+//                    callback.onError(e)
+//                }
+//            })
+//    }
 
     override fun likeByIdAsync(id: Long, callback: PostRepository.GetIdCallback) {
         val request: Request = Request.Builder()
