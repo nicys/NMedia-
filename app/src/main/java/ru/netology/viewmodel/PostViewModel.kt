@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import okhttp3.internal.notifyAll
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
 import ru.netology.repository.PostRepository
@@ -50,29 +51,26 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-    fun save() {
-        edited.value?.let {
-            repository.saveAsync(it, object : PostRepository.GetPostCallback {
-                override fun onSuccess(post: Post) {
-                    save()
-                    _postCreated.postValue(Unit)
-                }
-
-                override fun onError(e: Exception) {
-                    _data.postValue(FeedModel(error = true))
-                }
-            })
-        }
-        edited.value = empty
-    }
+//    fun save() {
+//        edited.value?.let {
+//            repository.saveAsync(it, object : PostRepository.GetPostCallback {
+//                override fun onSuccess(post: Post) {
+//                    _postCreated.postValue(Unit)
+//                }
+//
+//                override fun onError(e: Exception) {
+//                    _data.postValue(FeedModel(error = true))
+//                }
+//            })
+//        }
+//        edited.value = empty
+//    }
 
 //    fun save() {
 //        edited.value?.let {
 //            repository.saveAsync(it, object : PostRepository.GetPostCallback {
 //                override fun onSuccess(post: Post) {
-//                    _data.postValue(
-//                        (post.content)
-//                        )
+//                    _data.postValue()
 //                    )
 //                }
 //
