@@ -52,43 +52,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-//    fun save() {
-//        edited.value?.let {
-//            thread {
-//                repository.save(it)
-//                _postCreated.postValue(Unit)
-//            }
-//        }
-//        edited.value = empty
-//    }
-
-//    fun save() {
-//        edited.value?.let {
-//            repository.saveAsync(it, object : PostRepository.GetPostCallback {
-//                override fun onSuccess(post: Post) {
-//                    _data.postValue(
-//                        _data.value?.copy(posts = _data.value?.posts.orEmpty().map {
-//                            if (it.id == 0L) it.copy(
-//                                likes = 0,
-//                                likeByMe = false,
-//                            ) else it.copy(
-//                                id = it.id, likeByMe = it.likeByMe, shares = it.shares, author = it.author,
-//                                likes = it.likes, published = it.published, sharesCnt = it.sharesCnt,
-//                                video = it.video
-//                            )
-//                        })
-//                    )
-//                    _postCreated.postValue(Unit)
-//                }
-//
-//                override fun onError(e: Exception) {
-//                    _data.postValue(FeedModel(error = true))
-//                }
-//            })
-//        }
-//        edited.value = empty
-//    }
-
     fun save() {
         edited.value?.let {
             repository.saveAsync(it, object : PostRepository.GetPostCallback {
