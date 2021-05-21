@@ -15,6 +15,7 @@ import java.time.OffsetDateTime
 private val empty = Post(
     id = 0,
     author = "",
+    authorAvatar = "",
     published = "",
     content = "",
     likeByMe = false,
@@ -34,6 +35,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
+    private val _networkError = SingleLiveEvent<String>()
+    val networkError: LiveData<String>
+    get() = _networkError
 
     init {
         loadPosts()
@@ -60,7 +64,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 override fun onError(e: Exception) {
-                    _data.postValue(FeedModel(error = true))
+                    _networkError.value = e.message
                 }
             })
         }
@@ -93,7 +97,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onError(e: Exception) {
-                _data.postValue(FeedModel(error = true))
+                _networkError.value = e.message
             }
         })
     }
@@ -112,7 +116,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onError(e: Exception) {
-                _data.postValue(FeedModel(error = true))
+                _networkError.value = e.message
             }
         })
     }
