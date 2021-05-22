@@ -70,27 +70,27 @@ class PostRepositoryImpl : PostRepository {
             })
     }
 
-//    override fun unLikeByIdAsync(callback: PostRepository.GetPostCallback, id: Long) {
-//        val request: Request = Request.Builder()
-//            .post(gson.toJson(id).toRequestBody(jsonType))
-//            .url("${BASE_URL}/api/posts/$id/likes")
-//            .build()
-//        client.newCall(request)
-//            .enqueue(object : Callback {
-//                override fun onResponse(call: Call, response: Response) {
-//                    val body = response.body?.string() ?: throw RuntimeException("body is null")
-//                    try {
-//                        callback.onSuccess(gson.fromJson(body, Post::class.java))
-//                    } catch (e: Exception) {
-//                        callback.onError(e)
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call, e: IOException) {
-//                    callback.onError(e)
-//                }
-//            })
-//    }
+    override fun unLikeByIdAsync(callback: PostRepository.GetPostCallback, id: Long) {
+        val request: Request = Request.Builder()
+            .post(gson.toJson(id).toRequestBody(jsonType))
+            .url("${BASE_URL}/api/posts/$id/likes")
+            .build()
+        client.newCall(request)
+            .enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string() ?: throw RuntimeException("body is null")
+                    try {
+                        callback.onSuccess(gson.fromJson(body, Post::class.java))
+                    } catch (e: Exception) {
+                        callback.onError(e)
+                    }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    callback.onError(e)
+                }
+            })
+    }
 
     override fun shareByIdAsync(callback: PostRepository.GetPostCallback, id: Long) {
         val request: Request = Request.Builder()

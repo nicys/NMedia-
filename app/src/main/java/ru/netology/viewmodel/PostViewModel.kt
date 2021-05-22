@@ -86,9 +86,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             override fun onSuccess(post: Post) {
                 _data.postValue(
                     FeedModel(posts = _data.value?.posts
-                        .orEmpty().map { if (it.id != post.id) post else it.copy(
+                        .orEmpty().map { if (it.id != post.id) it else it.copy(
                             likeByMe = !it.likeByMe,
-                            likes = it.likes + 1
+                            likes = it.likes
                         )
                         })
                 )
@@ -100,24 +100,24 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }, id)
     }
 
-//    fun unLikeById(id: Long) {
-//        repository.likeByIdAsync(object : PostRepository.GetPostCallback {
-//            override fun onSuccess(post: Post) {
-//                _data.postValue(
-//                    FeedModel(posts = _data.value?.posts
-//                        .orEmpty().map { if (it.id != post.id) post else it.copy(
-//                            likeByMe = !it.likeByMe,
-//                            likes = it.likes - 1
-//                        )
-//                        })
-//                )
-//            }
-//
-//            override fun onError(e: Exception) {
-//                _networkError.value = e.message
-//            }
-//        }, id)
-//    }
+    fun unLikeById(id: Long) {
+        repository.likeByIdAsync(object : PostRepository.GetPostCallback {
+            override fun onSuccess(post: Post) {
+                _data.postValue(
+                    FeedModel(posts = _data.value?.posts
+                        .orEmpty().map { if (it.id != post.id) it else it.copy(
+                            likeByMe = !it.likeByMe,
+                            likes = it.likes - 1
+                        )
+                        })
+                )
+            }
+
+            override fun onError(e: Exception) {
+                _networkError.value = e.message
+            }
+        }, id)
+    }
 
 
 
