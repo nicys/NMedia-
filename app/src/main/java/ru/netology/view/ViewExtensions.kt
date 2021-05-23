@@ -1,4 +1,4 @@
-package ru.netology.nmedia.view
+package ru.netology.view
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
