@@ -88,7 +88,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                     FeedModel(posts = _data.value?.posts
                         .orEmpty().map { if (it.id != post.id) it else it.copy(
                             likeByMe = !it.likeByMe,
-                            likes = it.likes
+                            likes = it.likes + 1
                         )
                         })
                 )
