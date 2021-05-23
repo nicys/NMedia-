@@ -19,7 +19,7 @@ class PostRepositoryImpl : PostRepository {
 
     companion object {
         // на реальном устройстве
-        private const val BASE_URL = "http://176.196.11.232:9999"
+        private const val BASE_URL = "http://176.196.11.226:9999"
 
         // на виртуальном
         //private const val BASE_URL = "http://10.0.2.2:9999"
