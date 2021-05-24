@@ -47,8 +47,8 @@ class PostViewHolder(
             content.text = post.content
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
             share.text = totalizerSmartFeed(post.sharesCnt)
-            like.isChecked = post.likeByMe
-            like.text = if (post.likeByMe) "1" else "0"
+            like.isChecked = post.likedByMe
+            like.text = if (post.likedByMe) "1" else "0"
             like.setOnClickListener {
                 onInteractionListener.onLike(post)
             }

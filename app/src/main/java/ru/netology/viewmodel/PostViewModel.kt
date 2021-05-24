@@ -16,7 +16,7 @@ private val empty = Post(
     authorAvatar = "",
     published = "",
     content = "",
-    likeByMe = false,
+    likedByMe = false,
     likes = 0,
     shares = "0",
     sharesCnt = 0,
@@ -87,7 +87,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 _data.postValue(
                     FeedModel(posts = _data.value?.posts
                         .orEmpty().map { if (it.id != post.id) it else it.copy(
-                            likeByMe = !it.likeByMe,
+                            likedByMe = !it.likedByMe,
                             likes = it.likes + 1
                         )
                         })
@@ -106,7 +106,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 _data.postValue(
                     FeedModel(posts = _data.value?.posts
                         .orEmpty().map { if (it.id != post.id) it else it.copy(
-                            likeByMe = !it.likeByMe,
+                            likedByMe = !it.likedByMe,
                             likes = it.likes - 1
                         )
                         })
