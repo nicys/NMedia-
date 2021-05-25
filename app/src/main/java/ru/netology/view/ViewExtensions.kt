@@ -9,9 +9,9 @@ import ru.netology.R
 fun ImageView.load(url: String, vararg transforms: BitmapTransformation = emptyArray()) =
     Glide.with(this)
         .load(url)
-        .timeout(10_000)
-
-        .error(R.drawable.ic_netology_48)
+        .timeout(1_000)
+        .placeholder(R.drawable.ic_avatar_loading_foreground)
+        .error(R.drawable.ic_avatar_error_foreground)
         .transform(*transforms)
         .into(this)
 
