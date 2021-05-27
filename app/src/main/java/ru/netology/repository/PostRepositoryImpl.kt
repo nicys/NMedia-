@@ -13,7 +13,7 @@ class PostRepositoryImpl : PostRepository {
         PostsApi.retrofitService.getAll().enqueue(object : Callback<List<Post>> {
             override fun onResponse(
                 call: Call<List<Post>>,
-                response: retrofit2.Response<List<Post>>
+                response: Response<List<Post>>
             ) {
                 if (!response.isSuccessful) {
                     callback.onError(RuntimeException(response.message()))
@@ -25,7 +25,7 @@ class PostRepositoryImpl : PostRepository {
                 )
             }
 
-            override fun onFailure(call: retrofit2.Call<List<Post>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
                 callback.onError(RuntimeException(t))
             }
         })
