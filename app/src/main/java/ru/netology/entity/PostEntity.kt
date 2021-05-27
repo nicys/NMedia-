@@ -27,7 +27,7 @@ data class PostEntity(
                 dto.authorAvatar,
                 dto.content,
                 dto.published,
-                dto.likeByMe,
+                dto.likedByMe,
                 dto.likes,
                 dto.shares,
                 dto.sharesCnt,
