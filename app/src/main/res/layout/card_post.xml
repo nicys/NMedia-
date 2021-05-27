@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
         android:contentDescription="@string/avatar_name"
         app:layout_constraintBottom_toBottomOf="@id/barrier_1"
         app:layout_constraintStart_toStartOf="parent"
