@@ -3,8 +3,8 @@ package ru.netology.repository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.netology.api.PostsApi
 import ru.netology.dto.Post
-import ru.netology.nmedia.api.PostsApi
 
 
 class PostRepositoryImpl : PostRepository {
