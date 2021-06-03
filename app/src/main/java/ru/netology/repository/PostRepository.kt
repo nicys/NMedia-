@@ -1,18 +1,15 @@
 package ru.netology.repository
 
+import androidx.lifecycle.LiveData
 import ru.netology.dto.Post
 
 interface PostRepository {
 
-    suspend fun getAllAsync(): List<Post>
-    suspend fun likeByIdAsyn(id: Long)
-    suspend fun dislikeByIdAsyn(id: Long)
-    suspend fun shareByIdAsyn(id: Long)
-    suspend fun removeByIdAsyn(id: Long)
-    suspend fun saveAsyn(post: Post)
-
-//    interface Callback<T> {
-//        fun onSuccess(value: T) {}
-//        fun onError(e: Exception) {}
-//    }
+    val data: LiveData<List<Post>>
+    suspend fun getAll()
+    suspend fun save(post: Post)
+    suspend fun removeById(id: Long)
+    suspend fun likeById(id: Long)
+    suspend fun disLikeById(id: Long)
+    suspend fun shakeById(id: Long)
 }
