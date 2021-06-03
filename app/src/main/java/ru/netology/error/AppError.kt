@@ -1,4 +1,4 @@
-package ru.netology.nmedia.error
+package ru.netology.error
 
 sealed class AppError(var code: String): RuntimeException()
 class ApiError(val status: Int, code: String): AppError(code)
