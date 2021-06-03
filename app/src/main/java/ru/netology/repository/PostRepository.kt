@@ -12,7 +12,7 @@ interface PostRepository {
     suspend fun saveAsyn(callback: Callback<Post>, post: Post)
 
     interface Callback<T> {
-        fun onSuccess(value: T) {}
-        fun onError(e: Exception) {}
+        suspend fun onSuccess(value: T) {}
+        suspend fun onError(e: Exception) {}
     }
 }
