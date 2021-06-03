@@ -4,15 +4,15 @@ import ru.netology.dto.Post
 
 interface PostRepository {
 
-    suspend fun getAllAsync(callback: Callback<List<Post>>)
-    suspend fun likeByIdAsyn(callback: Callback<Post>, id: Long)
-    suspend fun dislikeByIdAsyn(callback: Callback<Post>, id: Long)
-    suspend fun shareByIdAsyn(callback: Callback<Post>, id: Long)
-    suspend fun removeByIdAsyn(callback: Callback<Unit>, id: Long)
-    suspend fun saveAsyn(callback: Callback<Post>, post: Post)
+    suspend fun getAllAsync(): List<Post>
+    suspend fun likeByIdAsyn(id: Long)
+    suspend fun dislikeByIdAsyn(id: Long)
+    suspend fun shareByIdAsyn(id: Long)
+    suspend fun removeByIdAsyn(id: Long)
+    suspend fun saveAsyn(post: Post)
 
-    interface Callback<T> {
-        suspend fun onSuccess(value: T) {}
-        suspend fun onError(e: Exception) {}
-    }
+//    interface Callback<T> {
+//        fun onSuccess(value: T) {}
+//        fun onError(e: Exception) {}
+//    }
 }
