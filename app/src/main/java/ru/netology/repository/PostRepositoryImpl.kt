@@ -10,7 +10,7 @@ import ru.netology.dto.Post
 
 class PostRepositoryImpl : PostRepository {
 
-    override fun getAllAsync(callback: PostRepository.Callback<List<Post>>) {
+    override suspend fun getAllAsync(callback: PostRepository.Callback<List<Post>>) {
         PostsApi.retrofitService.getAll().enqueue(object : Callback<List<Post>> {
             override fun onResponse(
                 call: Call<List<Post>>,
@@ -32,7 +32,7 @@ class PostRepositoryImpl : PostRepository {
         })
     }
 
-    override fun saveAsyn(callback: PostRepository.Callback<Post>, post: Post) {
+    override suspend fun saveAsyn(callback: PostRepository.Callback<Post>, post: Post) {
         PostsApi.retrofitService.save(post).enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (!response.isSuccessful) {
@@ -52,7 +52,7 @@ class PostRepositoryImpl : PostRepository {
     }
 
 
-    override fun likeByIdAsyn(callback: PostRepository.Callback<Post>, id: Long) {
+    override suspend fun likeByIdAsyn(callback: PostRepository.Callback<Post>, id: Long) {
         PostsApi.retrofitService.likeById(id).enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (!response.isSuccessful) {
@@ -71,7 +71,7 @@ class PostRepositoryImpl : PostRepository {
         })
     }
 
-    override fun dislikeByIdAsyn(callback: PostRepository.Callback<Post>, id: Long) {
+    override suspend fun dislikeByIdAsyn(callback: PostRepository.Callback<Post>, id: Long) {
         PostsApi.retrofitService.dislikeById(id).enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (!response.isSuccessful) {
@@ -90,7 +90,7 @@ class PostRepositoryImpl : PostRepository {
         })
     }
 
-    override fun shareByIdAsyn(callback: PostRepository.Callback<Post>, id: Long) {
+    override suspend fun shareByIdAsyn(callback: PostRepository.Callback<Post>, id: Long) {
         PostsApi.retrofitService.shareById(id).enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (!response.isSuccessful) {
@@ -109,7 +109,7 @@ class PostRepositoryImpl : PostRepository {
         })
     }
 
-    override fun removeByIdAsyn(callback: PostRepository.Callback<Unit>, id: Long) {
+    override suspend fun removeByIdAsyn(callback: PostRepository.Callback<Unit>, id: Long) {
         PostsApi.retrofitService.removeById(id).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (!response.isSuccessful) {
