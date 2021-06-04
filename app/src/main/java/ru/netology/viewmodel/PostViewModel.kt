@@ -1,11 +1,12 @@
 package ru.netology.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
+import ru.netology.db.AppDb
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
+import ru.netology.model.FeedModelState
 import ru.netology.repository.PostRepository
 import ru.netology.repository.PostRepositoryImpl
 import ru.netology.util.SingleLiveEvent
@@ -25,46 +26,55 @@ private val empty = Post(
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     // упрощённый вариант
-    private val repository: PostRepository = PostRepositoryImpl()
-    private val _data = MutableLiveData(FeedModel())
-    val data: LiveData<FeedModel>
-        get() = _data
-    val edited = MutableLiveData(empty)
+    private val repository: PostRepository =
+        PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
+
+    val data: LiveData<FeedModel> = repository.data.map(::FeedModel)
+    private val _dataState = MutableLiveData<FeedModelState>()
+    val dataState: LiveData<FeedModelState>
+        get() = _dataState
+
+    private val edited = MutableLiveData(empty)
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
-    private val _networkError = SingleLiveEvent<String>()
-    val networkError: LiveData<String>
-        get() = _networkError
 
     init {
         loadPosts()
     }
+/* Используем viewModelScope (расширяется от MainScope, который в свою очередь расширяется от CoroutineScope)
+для запуска корутины, т.к. она уже интегрирована с ViewModel и не нужно переопределять метод onClear() на закрытие корутины */
+    fun loadPosts() = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            repository.getAll()
+            _dataState.value = FeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
 
-    fun loadPosts() {
-        _data.value = FeedModel(loading = true)
-        repository.getAllAsync(object : PostRepository.Callback<List<Post>> {
-            override fun onSuccess(value: List<Post>) {
-                _data.value = FeedModel(posts = value, empty = value.isEmpty())
-            }
-
-            override fun onError(e: Exception) {
-                _data.value = FeedModel(error = true)
-            }
-        })
+    fun refreshPosts() = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(refreshing = true)
+            repository.getAll()
+            _dataState.value = FeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
     }
 
     fun save() {
         edited.value?.let {
-            repository.saveAsyn(object : PostRepository.Callback<Post> {
-                override fun onSuccess(value: Post) {
-                    _postCreated.postValue(Unit)
+            _postCreated.value = Unit
+            viewModelScope.launch {
+                try {
+                    repository.save(it)
+                    _dataState.value = FeedModelState()
+                } catch (e: Exception) {
+                    _dataState.value = FeedModelState(error = true)
                 }
-
-                override fun onError(e: Exception) {
-                    _networkError.value = e.message
-                }
-            }, it)
+            }
         }
         edited.value = empty
     }
@@ -82,7 +92,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun likeById(id: Long) {
-        repository.likeByIdAsyn(object : PostRepository.Callback<Post> {
+        viewModelScope.launch {
+            try {
+                repository.likeById(id)
+            }
+        }
+        repository.likeById(object : PostRepository.Callback<Post> {
             override fun onSuccess(value: Post) {
                 _data.postValue(
                     FeedModel(posts = _data.value?.posts

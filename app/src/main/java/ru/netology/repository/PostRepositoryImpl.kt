@@ -1,36 +1,55 @@
 package ru.netology.repository
 
-import okhttp3.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import ru.netology.api.PostsApi
+import androidx.lifecycle.*
+import okio.IOException
+import ru.netology.api.*
+import ru.netology.dao.PostDao
 import ru.netology.dto.Post
+import ru.netology.entity.PostEntity
+import ru.netology.entity.toDto
+import ru.netology.entity.toEntity
+import ru.netology.error.ApiError
+import ru.netology.error.NetworkError
+import ru.netology.error.UnknownError
 
+class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
+    override val data = dao.getAll().map(List<PostEntity>::toDto)
 
-class PostRepositoryImpl : PostRepository {
-
-    override suspend fun getAllAsync(callback: PostRepository.Callback<List<Post>>) {
-        PostsApi.retrofitService.getAll().enqueue(object : Callback<List<Post>> {
-            override fun onResponse(
-                call: Call<List<Post>>,
-                response: Response<List<Post>>
-            ) {
-                if (!response.isSuccessful) {
-                    callback.onError(RuntimeException(response.message()))
-                    return
-                }
-
-                callback.onSuccess(
-                    response.body() ?: throw java.lang.RuntimeException("body is null")
-                )
+    override suspend fun getAll() {
+        try {
+            val response = PostsApi.service.getAll()
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
             }
 
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                callback.onError(RuntimeException(t))
-            }
-        })
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            dao.insert(body.toEntity())
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
+
+    override suspend fun save(post: Post) {
+        try {
+            val response = PostsApi.service.save(post)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            dao.insert(PostEntity.fromDto(body))
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw ru.netology.nmedia.error.UnknownError
+        }
+    }
+
+
+
+
 
     override suspend fun saveAsyn(callback: PostRepository.Callback<Post>, post: Post) {
         PostsApi.retrofitService.save(post).enqueue(object : Callback<Post> {
