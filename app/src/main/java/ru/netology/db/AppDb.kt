@@ -23,7 +23,9 @@ abstract class AppDb : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context, AppDb::class.java, "app.db")
-//                .allowMainThreadQueries() // По сути нужна только для тестирования. При корутинах - плохо.
+//                .allowMainThreadQueries()
+/*Отключили, т.к. нельзя исльпользовать ROOM в UI потоке. По сути .allowMainThreadQueries()  нужна только для тестирования.
+При корутинах не используется - все запросы уходят из основного потока.*/
                 .build()
     }
 }
