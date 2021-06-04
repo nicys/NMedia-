@@ -9,6 +9,7 @@ import ru.netology.entity.PostEntity
 
 @Dao
 interface PostDao {
+/* Не указываем модификатор suspend, т.к. возвращаем LiveData */
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun getAll(): LiveData<List<PostEntity>>
 
