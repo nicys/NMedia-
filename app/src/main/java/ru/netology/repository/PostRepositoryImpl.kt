@@ -43,7 +43,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
-            throw ru.netology.nmedia.error.UnknownError
+            throw UnknownError
         }
     }
 
