@@ -1,6 +1,8 @@
 package ru.netology.repository
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import okio.IOException
 import ru.netology.api.*
 import ru.netology.dao.PostDao
@@ -13,7 +15,9 @@ import ru.netology.error.NetworkError
 import ru.netology.error.UnknownError
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
-    override val data = dao.getAll().map(List<PostEntity>::toDto)
+    override val data = dao.getAll()
+        .map(List<PostEntity>::toDto)
+        .flowOn(Dispatchers.Default) // контролирует какой контекст используется по паплайну выше (upstream)
 
     override suspend fun getAll() {
         try {
