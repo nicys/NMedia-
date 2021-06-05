@@ -158,21 +158,33 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 repository.removeById(id)
-//                data.map {
-//                    FeedModel(posts = data.value?.posts
-//                        .orEmpty().map {
-//                            val posts = data.value?.posts.orEmpty()
-//                                .filter { it.id != id }
-//                            data.value(
-//                                _data.value?.copy(posts = posts, empty = posts.isEmpty())
-//                            )
-//                        })
-//                }
+                val posts = data.value?.posts.orEmpty()
+                    .filter { it.id != id }
+                data.value?.copy(posts = posts, empty = posts.isEmpty())
             } catch (e: Exception) {
                 _networkError.value = e.message
             }
         }
     }
+
+private fun counterOverThousand(feed: Int): Int {
+    return when (feed) {
+        in 1_000..999_999 -> feed / 100
+        else -> feed / 100_000
+    }
+}
+
+fun totalizerSmartFeed(feed: Int): String {
+    return when (feed) {
+        in 0..999 -> "$feed"
+        in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+        else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
+    }
+}
+}
+
+
+
 //
 //    fun removeById(id: Long) {
 //        repository.removeByIdAsyn(object : PostRepository.Callback<Unit> {
@@ -189,19 +201,3 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 //            }
 //        }, id)
 //    }
-
-    private fun counterOverThousand(feed: Int): Int {
-        return when (feed) {
-            in 1_000..999_999 -> feed / 100
-            else -> feed / 100_000
-        }
-    }
-
-    fun totalizerSmartFeed(feed: Int): String {
-        return when (feed) {
-            in 0..999 -> "$feed"
-            in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
-            else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
-        }
-    }
-}
