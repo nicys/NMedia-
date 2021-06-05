@@ -47,10 +47,6 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         }
     }
 
-//    override suspend fun removeById(id: Long) {
-//        TODO("Not yet implemented")
-//    }
-
     override suspend fun removeById(id: Long) {
         try {
             val response = PostsApi.service.removeById(id)
