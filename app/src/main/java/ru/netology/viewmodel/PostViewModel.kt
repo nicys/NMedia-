@@ -38,6 +38,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
+    private val _networkError = SingleLiveEvent<String>()
+    val networkError: LiveData<String>
+        get() = _networkError
 
     init {
         loadPosts()
