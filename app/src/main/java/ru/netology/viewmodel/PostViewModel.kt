@@ -154,41 +154,41 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun removeById(id: Long) {
-        viewModelScope.launch {
-            try {
-                repository.removeById(id)
-                data.map {
-                    FeedModel(posts = data.value?.posts
-                        .orEmpty().map {
-                            val posts = data.value?.posts.orEmpty()
-                                .filter { it.id != id }
-                            _data.value(
-                                _data.value?.copy(posts = posts, empty = posts.isEmpty())
-                            )
-                        })
-                }
-            } catch (e: Exception) {
-                _networkError.value = e.message
-            }
-        }
-    }
-
-    fun removeById(id: Long) {
-        repository.removeByIdAsyn(object : PostRepository.Callback<Unit> {
-            override fun onSuccess(value: Unit) {
-                val posts = _data.value?.posts.orEmpty()
-                    .filter { it.id != id }
-                _data.postValue(
-                    _data.value?.copy(posts = posts, empty = posts.isEmpty())
-                )
-            }
-
-            override fun onError(e: Exception) {
-                _networkError.value = e.message
-            }
-        }, id)
-    }
+//    fun removeById(id: Long) {
+//        viewModelScope.launch {
+//            try {
+//                repository.removeById(id)
+//                data.map {
+//                    FeedModel(posts = data.value?.posts
+//                        .orEmpty().map {
+//                            val posts = data.value?.posts.orEmpty()
+//                                .filter { it.id != id }
+//                            data.value(
+//                                _data.value?.copy(posts = posts, empty = posts.isEmpty())
+//                            )
+//                        })
+//                }
+//            } catch (e: Exception) {
+//                _networkError.value = e.message
+//            }
+//        }
+//    }
+//
+//    fun removeById(id: Long) {
+//        repository.removeByIdAsyn(object : PostRepository.Callback<Unit> {
+//            override fun onSuccess(value: Unit) {
+//                val posts = _data.value?.posts.orEmpty()
+//                    .filter { it.id != id }
+//                _data.postValue(
+//                    _data.value?.copy(posts = posts, empty = posts.isEmpty())
+//                )
+//            }
+//
+//            override fun onError(e: Exception) {
+//                _networkError.value = e.message
+//            }
+//        }, id)
+//    }
 
     private fun counterOverThousand(feed: Int): Int {
         return when (feed) {
