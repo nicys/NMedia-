@@ -100,6 +100,15 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 repository.likeById(id)
+                _data.postValue(
+                    FeedModel(posts = _data.value?.posts
+                        .orEmpty().map {
+                            if (it.id != value.id) it else it.copy(
+                                likedByMe = !it.likedByMe,
+                                likes = it.likes + 1
+                            )
+                        })
+                )
             }
         }
         repository.likeById(object : PostRepository.Callback<Post> {
