@@ -81,20 +81,34 @@ class FeedFragment : Fragment() {
 
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner, { state ->
-            adapter.submitList(state.posts) {
-                binding.list.smoothScrollToPosition(state.posts.size)
-            }
-            binding.progress.isVisible = state.loading
-            binding.errorGroup.isVisible = state.error
+            adapter.submitList(state.posts)
+            { binding.list.onScrollStateChanged(state.posts.size) } // перемещение вниз (ожидается)
+//            smoothScrollToPosition(state.posts.size)
             binding.emptyText.isVisible = state.empty
         })
 
+        binding.list.adapter = adapter
+        viewModel.dataState.observe(viewLifecycleOwner, { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .show()
+            }
+        })
+
         viewModel.networkError.observe(viewLifecycleOwner, {
-            Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
+                .show()
         })
 
         binding.retryButton.setOnClickListener {
             viewModel.loadPosts()
+        }
+
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
         }
 
         binding.fab.setOnClickListener {
@@ -104,3 +118,15 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 }
+
+
+
+
+
+//        viewModel.dataState.observe(viewLifecycleOwner, { state ->
+//            adapter.submitList(state.posts) {
+//                binding.list.smoothScrollToPosition(state.posts.size)
+//            }
+//            binding.progress.isVisible = state.loading
+//            binding.errorGroup.isVisible = state.error
+//        })
