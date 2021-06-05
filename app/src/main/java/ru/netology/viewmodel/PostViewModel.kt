@@ -38,6 +38,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
+
     private val _networkError = SingleLiveEvent<String>()
     val networkError: LiveData<String>
         get() = _networkError
@@ -45,8 +46,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     init {
         loadPosts()
     }
-/* Используем viewModelScope (расширяется от MainScope, который в свою очередь расширяется от CoroutineScope)
-для запуска корутины, т.к. она уже интегрирована с ViewModel и не нужно переопределять метод onClear() на закрытие корутины */
+
+    /* Используем viewModelScope (расширяется от MainScope, который в свою очередь расширяется от CoroutineScope)
+    для запуска корутины, т.к. она уже интегрирована с ViewModel и не нужно переопределять метод onClear() на закрытие корутины */
     fun loadPosts() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
@@ -94,80 +96,82 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = edited.value?.copy(content = text)
     }
 
-
-
     fun likeById(id: Long) {
         viewModelScope.launch {
             try {
                 repository.likeById(id)
-                _data.postValue(
-                    FeedModel(posts = _data.value?.posts
+                data.map {
+                    FeedModel(posts = data.value?.posts
                         .orEmpty().map {
-                            if (it.id != value.id) it else it.copy(
+                            if (it.id != id) it else it.copy(
                                 likedByMe = !it.likedByMe,
                                 likes = it.likes + 1
                             )
                         })
-                )
-            }
-        }
-        repository.likeById(object : PostRepository.Callback<Post> {
-            override fun onSuccess(value: Post) {
-                _data.postValue(
-                    FeedModel(posts = _data.value?.posts
-                        .orEmpty().map {
-                            if (it.id != value.id) it else it.copy(
-                                likedByMe = !it.likedByMe,
-                                likes = it.likes + 1
-                            )
-                        })
-                )
-            }
-
-            override fun onError(e: Exception) {
+                }
+            } catch (e: Exception) {
                 _networkError.value = e.message
             }
-        }, id)
+        }
     }
 
-    fun dislikeById(id: Long) {
-        repository.dislikeByIdAsyn(object : PostRepository.Callback<Post> {
-            override fun onSuccess(value: Post) {
-                _data.postValue(
-                    FeedModel(posts = _data.value?.posts
+    fun disLikeById(id: Long) {
+        viewModelScope.launch {
+            try {
+                repository.disLikeById(id)
+                data.map {
+                    FeedModel(posts = data.value?.posts
                         .orEmpty().map {
-                            if (it.id != value.id) it else it.copy(
+                            if (it.id != id) it else it.copy(
                                 likedByMe = !it.likedByMe,
                                 likes = it.likes - 1
                             )
                         })
-                )
-            }
-
-            override fun onError(e: Exception) {
+                }
+            } catch (e: Exception) {
                 _networkError.value = e.message
             }
-        }, id)
+        }
     }
 
 
     fun shareById(id: Long) {
-        repository.shareByIdAsyn(object : PostRepository.Callback<Post> {
-            override fun onSuccess(value: Post) {
-                _data.postValue(
-                    _data.value?.copy(posts = _data.value?.posts.orEmpty().map {
-                        if (it.id != id) it else it.copy(
-                            sharesCnt = it.sharesCnt + 1,
-                            shares = totalizerSmartFeed(it.sharesCnt + 1)
-                        )
-                    })
-                )
-            }
-
-            override fun onError(e: Exception) {
+        viewModelScope.launch {
+            try {
+                repository.shareById(id)
+                data.map {
+                    FeedModel(posts = data.value?.posts
+                        .orEmpty().map {
+                            if (it.id != id) it else it.copy(
+                                sharesCnt = it.sharesCnt + 1,
+                                shares = totalizerSmartFeed(it.sharesCnt + 1)
+                            )
+                        })
+                }
+            } catch (e: Exception) {
                 _networkError.value = e.message
             }
-        }, id)
+        }
+    }
+
+    fun removeById(id: Long) {
+        viewModelScope.launch {
+            try {
+                repository.removeById(id)
+                data.map {
+                    FeedModel(posts = data.value?.posts
+                        .orEmpty().map {
+                            val posts = data.value?.posts.orEmpty()
+                                .filter { it.id != id }
+                            _data.value(
+                                _data.value?.copy(posts = posts, empty = posts.isEmpty())
+                            )
+                        })
+                }
+            } catch (e: Exception) {
+                _networkError.value = e.message
+            }
+        }
     }
 
     fun removeById(id: Long) {
