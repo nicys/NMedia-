@@ -115,24 +115,24 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun unlikeById(id: Long) {
-        viewModelScope.launch {
-            try {
-                repository.unlikeById(id)
-                data.map {
-                    FeedModel(posts = data.value?.posts
-                        .orEmpty().map {
-                            if (it.id != id) it else it.copy(
-                                likedByMe = !it.likedByMe,
-                                likes = it.likes - 1
-                            )
-                        })
-                }
-            } catch (e: Exception) {
-                _networkError.value = e.message
-            }
-        }
-    }
+//    fun unlikeById(id: Long) {
+//        viewModelScope.launch {
+//            try {
+//                repository.unlikeById(id)
+//                data.map {
+//                    FeedModel(posts = data.value?.posts
+//                        .orEmpty().map {
+//                            if (it.id != id) it else it.copy(
+//                                likedByMe = !it.likedByMe,
+//                                likes = it.likes - 1
+//                            )
+//                        })
+//                }
+//            } catch (e: Exception) {
+//                _networkError.value = e.message
+//            }
+//        }
+//    }
 
 
     fun shareById(id: Long) {
