@@ -154,10 +154,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-//    fun removeById(id: Long) {
-//        viewModelScope.launch {
-//            try {
-//                repository.removeById(id)
+    fun removeById(id: Long) {
+        viewModelScope.launch {
+            try {
+                repository.removeById(id)
 //                data.map {
 //                    FeedModel(posts = data.value?.posts
 //                        .orEmpty().map {
@@ -168,11 +168,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 //                            )
 //                        })
 //                }
-//            } catch (e: Exception) {
-//                _networkError.value = e.message
-//            }
-//        }
-//    }
+            } catch (e: Exception) {
+                _networkError.value = e.message
+            }
+        }
+    }
 //
 //    fun removeById(id: Long) {
 //        repository.removeByIdAsyn(object : PostRepository.Callback<Unit> {
