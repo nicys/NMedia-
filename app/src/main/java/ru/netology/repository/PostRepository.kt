@@ -1,11 +1,11 @@
 package ru.netology.repository
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import ru.netology.dto.Post
 
 interface PostRepository {
 
-    val data: LiveData<List<Post>>
+    val data: Flow<List<Post>>
     suspend fun getAll()
     suspend fun save(post: Post)
     suspend fun removeById(id: Long)
