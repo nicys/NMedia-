@@ -83,9 +83,9 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         }
     }
 
-    override suspend fun dislikeById(id: Long) {
+    override suspend fun unlikeById(id: Long) {
         try {
-            val response = PostsApi.service.dislikeById(id)
+            val response = PostsApi.service.unlikeById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }

@@ -115,10 +115,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun dislikeById(id: Long) {
+    fun unlikeById(id: Long) {
         viewModelScope.launch {
             try {
-                repository.dislikeById(id)
+                repository.unlikeById(id)
                 data.map {
                     FeedModel(posts = data.value?.posts
                         .orEmpty().map {
