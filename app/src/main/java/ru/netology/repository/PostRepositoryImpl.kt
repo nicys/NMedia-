@@ -2,6 +2,7 @@ package ru.netology.repository
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import okio.IOException
 import ru.netology.api.*
@@ -11,6 +12,7 @@ import ru.netology.entity.PostEntity
 import ru.netology.entity.toDto
 import ru.netology.entity.toEntity
 import ru.netology.error.ApiError
+import ru.netology.error.AppError
 import ru.netology.error.NetworkError
 import ru.netology.error.UnknownError
 
@@ -35,6 +37,22 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             throw UnknownError
         }
     }
+
+    override fun getNewerCount(id: Long): Flow<Int> = flow {
+        while (true) {
+            delay(10_000L)
+            val response = PostsApi.service.getNewer(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            dao.insert(body.toEntity())
+            emit(body.size)
+        }
+    }
+        .catch { e -> throw AppError.from(e) }
+        .flowOn(Dispatchers.Default)
 
     override suspend fun save(post: Post) {
         try {
