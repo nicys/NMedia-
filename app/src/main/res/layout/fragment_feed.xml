@@ -7,7 +7,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="@id/tabs">
 
         <TextView
             android:id="@+id/retryTitle"
@@ -70,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tabs"
                 app:layout_constraintVertical_bias="0.0"
                 tools:layout_editor_absoluteX="0dp"
                 tools:listitem="@layout/card_post" />
@@ -89,5 +90,15 @@
         android:focusable="true"
         android:layout_gravity="bottom|end"
         app:srcCompat="@drawable/ic_add_24" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        style="@style/Widget.MaterialComponents.TabLayout.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:tabIconTint="@drawable/tab_icon_color_selector"
+        app:tabTextColor="?attr/colorPrimaryDark"
+        app:layout_scrollFlags="scroll|snap"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
