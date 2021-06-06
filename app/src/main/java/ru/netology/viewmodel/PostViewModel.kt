@@ -2,6 +2,9 @@ package ru.netology.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.db.AppDb
 import ru.netology.dto.Post
@@ -29,7 +32,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
 
-    val data: LiveData<FeedModel> = repository.data.map(::FeedModel)
+    val data: LiveData<FeedModel> = repository.data
+        .map(::FeedModel)
+        .catch { e -> e.printStackTrace() } // Перехватчик exceptions. Работает по upstream принципу.
+        .asLiveData(Dispatchers.Default) /* т.к. это переменная, то используем оператор приведения типа asLiveData
+        На самом деле это библиотечный extension*/
+
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
