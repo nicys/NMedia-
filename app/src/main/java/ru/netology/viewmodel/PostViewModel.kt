@@ -47,6 +47,13 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val postCreated: LiveData<Unit>
         get() = _postCreated
 
+    // data - наши посты, если они обновляются, то включается switchMap, которорый запускает, блок в {}
+    val newerCount: LiveData<Int> = data.switchMap {
+        repository.getNewerCount(it.posts.firstOrNull()?.id ?: 0L)
+            .catch { e -> e.printStackTrace() }
+            .asLiveData()
+    }
+
     private val _networkError = SingleLiveEvent<String>()
     val networkError: LiveData<String>
         get() = _networkError
