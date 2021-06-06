@@ -17,7 +17,8 @@ import ru.netology.error.UnknownError
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     override val data = dao.getAll()
         .map(List<PostEntity>::toDto)
-        .flowOn(Dispatchers.Default) // контролирует какой контекст используется по паплайну выше (upstream)
+        .flowOn(Dispatchers.Default) /* контролирует какой контекст используется по паплайну выше (upstream)
+         или выполнит все, что выше на другом потоке - Dispatchers.Default */
 
     override suspend fun getAll() {
         try {
