@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.AddEditPostFragment.Companion.textData
 //import ru.netology.ShowPostFragment.Companion.postData
@@ -18,6 +19,7 @@ import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
 import ru.netology.viewmodel.PostViewModel
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 
 
 class FeedFragment : Fragment() {
@@ -97,6 +99,9 @@ class FeedFragment : Fragment() {
                     .setAction(R.string.retry_loading) { viewModel.loadPosts() }
                     .show()
             }
+
+
+
         })
 
         viewModel.networkError.observe(viewLifecycleOwner, {
@@ -113,7 +118,7 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            // TODO: just log it, interaction must be in homework
+//            startSmoothScroll(list)
             println(state)
         }
 
@@ -123,7 +128,10 @@ class FeedFragment : Fragment() {
 
         return binding.root
     }
+
+    fun startSmoothScroll(smoothScroller: RecyclerView.SmoothScroller): Unit {}
 }
+
 
 
 
