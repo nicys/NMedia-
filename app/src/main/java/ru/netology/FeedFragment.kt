@@ -89,15 +89,28 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         })
 
+        viewModel.dataState.observe(viewLifecycleOwner, { state ->
+
+            binding.progress.isVisible = state.loading
+            binding.errorGroup.isVisible = state.error
+        })
+
         binding.list.adapter = adapter
         viewModel.dataState.observe(viewLifecycleOwner, { state ->
             binding.progress.isVisible = state.loading
             binding.swiperefresh.isRefreshing = state.refreshing
+
             binding.errorGroup.isVisible = state.error
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .setAction(R.string.retry_loading) { viewModel.loadPosts() }
                     .show()
+            }
+
+
+            binding.News.isVisible = state.newCounting
+            if (state.newCounting) {
+                startSmoothScroll(binding.list)
             }
 
 
@@ -129,7 +142,7 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 
-    fun startSmoothScroll(smoothScroller: RecyclerView.SmoothScroller): Unit {}
+    fun startSmoothScroll(smoothScroller: RecyclerView): Unit {}
 }
 
 
