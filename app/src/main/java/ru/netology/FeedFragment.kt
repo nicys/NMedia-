@@ -108,11 +108,10 @@ class FeedFragment : Fragment() {
             }
 
 
-            binding.News.isVisible = state.newCounting
-            if (state.newCounting) {
-                startSmoothScroll(binding.list)
-            }
-
+//            binding.tabNews.isVisible = state.newCounting
+//            if (state.newCounting) {
+//                startSmoothScroll(binding.list)
+//            }
 
 
         })
@@ -130,10 +129,18 @@ class FeedFragment : Fragment() {
             viewModel.refreshPosts()
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-//            startSmoothScroll(list)
-            println(state)
+        binding.tabNews.setOnClickListener {
+            startSmoothScroll(binding.list)
         }
+
+//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+//            binding.tabNews.isVisible = true
+//            if () {
+//                startSmoothScroll(binding.list)
+//            }
+////            startSmoothScroll(list)
+//            println(state)
+//        }
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
@@ -144,10 +151,6 @@ class FeedFragment : Fragment() {
 
     fun startSmoothScroll(smoothScroller: RecyclerView): Unit {}
 }
-
-
-
-
 
 
 //        viewModel.dataState.observe(viewLifecycleOwner, { state ->
