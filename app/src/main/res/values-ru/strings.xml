@@ -21,5 +21,7 @@
     <string name="empty_posts">Постов нет.\nЕсли создадите новый пост, то он появится здесь</string>
     <string name="error_loading">Что-то пошло не так. Попробуйте позднее</string>
     <string name="error_network">Ошибка сети. Попробуйте позднее</string>
+    <string name="news">НОВОСТИ</string>
+    <string name="interesting">ИНТЕРЕСНОЕ</string>
 
 </resources>
