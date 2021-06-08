@@ -10,6 +10,7 @@
         android:layout_height="match_parent" >
 
         <LinearLayout
+            android:id="@+id/appBarLiner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -18,7 +19,7 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/swiperefresh"
+                app:layout_constraintBottom_toTopOf="@+id/swiperefresh"
                 app:layout_scrollFlags="scroll|snap">
 
                 <com.google.android.material.tabs.TabItem
@@ -93,9 +94,10 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="631dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLiner"
             app:layout_constraintVertical_bias="1.0"
             tools:layout_editor_absoluteX="-16dp">
 
