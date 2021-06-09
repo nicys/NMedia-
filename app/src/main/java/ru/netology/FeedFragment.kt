@@ -84,7 +84,7 @@ class FeedFragment : Fragment() {
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner, { state ->
             adapter.submitList(state.posts)
-            { binding.list.onScrollStateChanged(state.posts.size) } // перемещение вниз (ожидается)
+//            { binding.list.onScrollStateChanged(state.posts.size) } // перемещение вниз (ожидается)
 //            smoothScrollToPosition(state.posts.size)
             binding.emptyText.isVisible = state.empty
         })
@@ -129,9 +129,9 @@ class FeedFragment : Fragment() {
             viewModel.refreshPosts()
         }
 
-        binding.tabNews.setOnClickListener {
-            startSmoothScroll(binding.list)
-        }
+//        binding.tabNews.setOnClickListener {
+//            startSmoothScroll(binding.list)
+//        }
 
 //        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
 //            binding.tabNews.isVisible = true
