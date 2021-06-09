@@ -149,7 +149,7 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 
-    fun startSmoothScroll(smoothScroller: RecyclerView): Unit {}
+//    fun startSmoothScroll(smoothScroller: RecyclerView): Unit {}
 }
 
 
