@@ -106,14 +106,6 @@ class FeedFragment : Fragment() {
                     .setAction(R.string.retry_loading) { viewModel.loadPosts() }
                     .show()
             }
-
-
-//            binding.tabNews.isVisible = state.newCounting
-//            if (state.newCounting) {
-//                startSmoothScroll(binding.list)
-//            }
-
-
         })
 
         viewModel.networkError.observe(viewLifecycleOwner, {
@@ -128,19 +120,6 @@ class FeedFragment : Fragment() {
         binding.swiperefresh.setOnRefreshListener {
             viewModel.refreshPosts()
         }
-
-//        binding.tabNews.setOnClickListener {
-//            startSmoothScroll(binding.list)
-//        }
-
-//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-//            binding.tabNews.isVisible = true
-//            if () {
-//                startSmoothScroll(binding.list)
-//            }
-////            startSmoothScroll(list)
-//            println(state)
-//        }
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
