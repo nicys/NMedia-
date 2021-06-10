@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import ru.netology.NewtPostFragment.Companion.textData
+import ru.netology.NewPostFragment.Companion.textData
 //import ru.netology.ShowPostFragment.Companion.postData
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
