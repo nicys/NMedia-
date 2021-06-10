@@ -1,6 +1,7 @@
 package ru.netology.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -10,9 +11,12 @@ import ru.netology.db.AppDb
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
 import ru.netology.model.FeedModelState
+import ru.netology.nmedia.dto.MediaUpload
+import ru.netology.nmedia.model.PhotoModel
 import ru.netology.repository.PostRepository
 import ru.netology.repository.PostRepositoryImpl
 import ru.netology.util.SingleLiveEvent
+import java.io.File
 
 private val empty = Post(
     id = 0,
@@ -26,6 +30,8 @@ private val empty = Post(
     sharesCnt = 0,
     video = null
 )
+
+private val noPhoto = PhotoModel()
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     // упрощённый вариант
@@ -58,6 +64,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val networkError: LiveData<String>
         get() = _networkError
 
+    private val _photo = MutableLiveData(noPhoto)
+    val photo: LiveData<PhotoModel>
+        get() = _photo
+
     init {
         loadPosts()
     }
@@ -89,14 +99,20 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
-                    repository.save(it)
+                    when (_photo.value) {
+                        noPhoto -> repository.save(it)
+                        else -> _photo.value?.file?.let { file ->
+                            repository.saveWithAttachment(it, MediaUpload(file))
+                        }
+                    }
                     _dataState.value = FeedModelState()
+                    edited.value = empty
+                    _photo.value = noPhoto
                 } catch (e: Exception) {
                     _dataState.value = FeedModelState(error = true)
                 }
             }
         }
-        edited.value = empty
     }
 
     fun edit(post: Post) {
@@ -109,6 +125,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
         edited.value = edited.value?.copy(content = text)
+    }
+
+    fun changePhoto(uri: Uri?, file: File?) {
+        _photo.value = PhotoModel(uri, file)
     }
 
     fun likeById(id: Long) {
@@ -182,37 +202,18 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-private fun counterOverThousand(feed: Int): Int {
-    return when (feed) {
-        in 1_000..999_999 -> feed / 100
-        else -> feed / 100_000
+    private fun counterOverThousand(feed: Int): Int {
+        return when (feed) {
+            in 1_000..999_999 -> feed / 100
+            else -> feed / 100_000
+        }
+    }
+
+    fun totalizerSmartFeed(feed: Int): String {
+        return when (feed) {
+            in 0..999 -> "$feed"
+            in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+            else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
+        }
     }
 }
-
-fun totalizerSmartFeed(feed: Int): String {
-    return when (feed) {
-        in 0..999 -> "$feed"
-        in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
-        else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
-    }
-}
-}
-
-
-
-//
-//    fun removeById(id: Long) {
-//        repository.removeByIdAsyn(object : PostRepository.Callback<Unit> {
-//            override fun onSuccess(value: Unit) {
-//                val posts = _data.value?.posts.orEmpty()
-//                    .filter { it.id != id }
-//                _data.postValue(
-//                    _data.value?.copy(posts = posts, empty = posts.isEmpty())
-//                )
-//            }
-//
-//            override fun onError(e: Exception) {
-//                _networkError.value = e.message
-//            }
-//        }, id)
-//    }
