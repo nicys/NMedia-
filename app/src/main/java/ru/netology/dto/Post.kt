@@ -12,7 +12,8 @@ data class Post(
     val likes: Int = 0,
     val shares: String? = "0",
     val sharesCnt: Int = 0,
-    val video: String? = null
+    val video: String? = null,
+    val attachment: Attachment? = null,
 )
 
 data class Attachment(
