@@ -21,9 +21,9 @@
     </fragment>
     <fragment
         android:id="@+id/addEditPostFragment"
-        android:name="ru.netology.AddEditPostFragment"
+        android:name="ru.netology.NewtPostFragment"
         android:label="fragment_add_edit_post"
-        tools:layout="@layout/fragment_add_edit_post" />
+        tools:layout="@layout/fragment_new_post" />
     <fragment
         android:id="@+id/showPostFragment"
         android:name="ru.netology.ShowPostFragment"
