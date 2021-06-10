@@ -21,5 +21,9 @@
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
     <string name="error_loading">Something went wrong. Try again later</string>
     <string name="error_network">Network error. Try again later</string>
+    <string name="description_select_photo">Select photo</string>
+    <string name="description_take_photo">Take photo</string>
+    <string name="description_photo">Photo</string>
+    <string name="remove">Remove</string>
 
 </resources>
