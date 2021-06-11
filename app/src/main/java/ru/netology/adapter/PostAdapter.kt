@@ -1,6 +1,7 @@
 package ru.netology.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +11,8 @@ import ru.netology.BuildConfig
 import ru.netology.R
 import ru.netology.databinding.CardPostBinding
 import ru.netology.dto.Post
+import ru.netology.enumeration.AttachmentType
+import ru.netology.view.load
 import ru.netology.view.loadCircleCrop
 
 interface OnInteractionListener {
@@ -46,9 +49,16 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
+
+            if (post.attachment != null) {
+                photo.visibility = View.VISIBLE
+                photo.load("${BuildConfig.BASE_URL}/media/${post.attachment}")
+            } else photo.visibility = View.GONE
+
             share.text = totalizerSmartFeed(post.sharesCnt)
             like.isChecked = post.likedByMe
             like.text = if (post.likedByMe) "1" else "0"
+
             like.setOnClickListener {
                 onInteractionListener.onLike(post)
             }
