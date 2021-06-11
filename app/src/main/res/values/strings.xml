@@ -5,6 +5,7 @@
     <string name="liked">likes</string>
     <string name="send">send</string>
     <string name="viewed">viewed</string>
+    <string name="photo">images and photos</string>
     <string name="popup_menu_edit">Edit</string>
     <string name="popup_menu_remove">Remove</string>
     <string name="post_text">Add new post text</string>

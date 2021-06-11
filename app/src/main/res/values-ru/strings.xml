@@ -5,6 +5,7 @@
     <string name="liked">likes</string>
     <string name="send">send</string>
     <string name="viewed">viewed</string>
+    <string name="photo">картинки и фотографии</string>
     <string name="popup_menu_edit">Изменить</string>
     <string name="popup_menu_remove">Удалить</string>
     <string name="post_text">Создать контент нового поста</string>
