@@ -28,7 +28,8 @@ private val empty = Post(
     likes = 0,
     shares = "0",
     sharesCnt = 0,
-    video = null
+    video = null,
+    attachment = null,
 )
 
 private val noPhoto = PhotoModel()
