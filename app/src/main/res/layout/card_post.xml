@@ -79,11 +79,11 @@
 
     <ImageView
         android:id="@+id/photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
         android:contentDescription="@string/photo"
-        android:visibility="gone"
+        app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintBottom_toTopOf="@+id/video"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,12 +92,12 @@
 
     <ImageView
         android:id="@+id/video"
-        android:layout_width="100dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="16:9"
+        android:layout_marginTop="1dp"
         android:layout_marginBottom="4dp"
         android:contentDescription="@string/video_button"
-        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/barrier_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
