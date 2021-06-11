@@ -23,6 +23,7 @@ interface OnInteractionListener {
     fun onShare(post: Post) {}
     fun onVideo(post: Post) {}
     fun onShowPost(post: Post) {}
+    fun onShowPhoto(post: Post) {}
 }
 
 class PostsAdapter(
@@ -51,12 +52,10 @@ class PostViewHolder(
             content.text = post.content
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
 
-            photo.load("${BuildConfig.BASE_URL}/media/${post.attachment}")
-
-//            if (post.attachment != null) {
-//                photo.load("${BuildConfig.BASE_URL}/media/${post.attachment}")
-//                photo.visibility = View.VISIBLE
-//            } else photo.visibility = View.GONE
+            if (post.attachment != null) {
+                photo.visibility = View.VISIBLE
+                photo.load("${BuildConfig.BASE_URL}/media/${post.attachment?.url}")
+            } else photo.visibility = View.GONE
 
             if (post.video != null) {
                 video.visibility = View.VISIBLE
@@ -75,8 +74,12 @@ class PostViewHolder(
             video.setOnClickListener {
                 onInteractionListener.onVideo(post)
             }
+
             postCard.setOnClickListener {
                 onInteractionListener.onShowPost(post)
+            }
+            postCard.setOnClickListener {
+                onInteractionListener.onShowPhoto(post)
             }
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
