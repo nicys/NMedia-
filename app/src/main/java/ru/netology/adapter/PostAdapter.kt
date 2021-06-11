@@ -14,6 +14,7 @@ import ru.netology.dto.Post
 import ru.netology.enumeration.AttachmentType
 import ru.netology.view.load
 import ru.netology.view.loadCircleCrop
+//import ru.netology.view.loadPhoto
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
@@ -50,10 +51,16 @@ class PostViewHolder(
             content.text = post.content
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
 
-            if (post.attachment != null) {
-                photo.visibility = View.VISIBLE
-                photo.load("${BuildConfig.BASE_URL}/media/${post.attachment}")
-            } else photo.visibility = View.GONE
+            photo.load("${BuildConfig.BASE_URL}/media/${post.attachment}")
+
+//            if (post.attachment != null) {
+//                photo.load("${BuildConfig.BASE_URL}/media/${post.attachment}")
+//                photo.visibility = View.VISIBLE
+//            } else photo.visibility = View.GONE
+
+            if (post.video != null) {
+                video.visibility = View.VISIBLE
+            } else video.visibility = View.GONE
 
             share.text = totalizerSmartFeed(post.sharesCnt)
             like.isChecked = post.likedByMe
