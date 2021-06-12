@@ -2,6 +2,8 @@ package ru.netology.adapter
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -51,13 +53,13 @@ class PostViewHolder(
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
 
             if (post.attachment != null) {
-                photoImage.visibility = View.VISIBLE
+                photoImage.visibility = VISIBLE
                 photoImage.load("${BuildConfig.BASE_URL}/media/${post.attachment.url}")
-            } else photoImage.visibility = View.GONE
+            } else photoImage.visibility = GONE
 
             if (post.video != null) {
-                video.visibility = View.VISIBLE
-            } else video.visibility = View.GONE
+                video.visibility = VISIBLE
+            } else video.visibility = GONE
 
             share.text = totalizerSmartFeed(post.sharesCnt)
             like.isChecked = post.likedByMe
