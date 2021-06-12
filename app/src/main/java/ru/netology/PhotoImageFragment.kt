@@ -14,7 +14,7 @@ import ru.netology.viewmodel.PostViewModel
 class PhotoImageFragment : Fragment() {
 
     companion object {
-        var Bundle.postData: Post? by PostArg
+        var Bundle.postPhoto: Post? by PostArg
     }
 
     private val viewModel: PostViewModel by viewModels(
@@ -29,7 +29,7 @@ class PhotoImageFragment : Fragment() {
         val binding = FragmentShowPostBinding.inflate(inflater, container, false)
 
         with(viewModel) {
-            arguments?.postData?.let {
+            arguments?.postPhoto?.let {
                 val showPhotoImage = it
 
                 getPostById(it.id).observe(viewLifecycleOwner, { post ->
