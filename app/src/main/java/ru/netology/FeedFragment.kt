@@ -79,7 +79,7 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_feedFragment_to_photoImageFragment,
                     Bundle().apply
                     {
-//                        postData = post
+                        postData = post
                         postPhoto = post.attachment?.url
                     })
             }
