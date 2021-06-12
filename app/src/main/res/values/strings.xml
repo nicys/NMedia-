@@ -26,5 +26,6 @@
     <string name="description_take_photo">Take photo</string>
     <string name="description_photo">Photo</string>
     <string name="remove">Remove</string>
+    <string name="showPhotoImage">Show photo and image</string>
 
 </resources>
