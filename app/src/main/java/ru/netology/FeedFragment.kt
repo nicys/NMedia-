@@ -77,7 +77,7 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_feedFragment_to_photoImageFragment,
                     Bundle().apply
                     {
-                        postPhoto = post
+                        postPhoto = post.attachment?.url
                     })
             }
 
@@ -139,9 +139,6 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 }
-
-
-
 
 
 //        viewModel.dataState.observe(viewLifecycleOwner, { state ->
