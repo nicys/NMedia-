@@ -13,11 +13,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.NewPostFragment.Companion.textData
+import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
+import ru.netology.enumeration.AttachmentType
 import ru.netology.viewmodel.PostViewModel
 
 
@@ -77,6 +79,7 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_feedFragment_to_photoImageFragment,
                     Bundle().apply
                     {
+//                        postData = post
                         postPhoto = post.attachment?.url
                     })
             }
