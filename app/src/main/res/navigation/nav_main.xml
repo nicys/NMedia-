@@ -18,6 +18,9 @@
             android:id="@+id/action_feedFragment_to_showPostFragment"
             app:destination="@id/showPostFragment"
             app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_feedFragment_to_photoImageFragment"
+            app:destination="@id/photoImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditPostFragment"
@@ -36,4 +39,9 @@
             android:id="@+id/action_showPostFragment_to_addEditPostFragment"
             app:destination="@id/addEditPostFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/photoImageFragment"
+        android:name="ru.netology.PhotoImageFragment"
+        android:label="fragment_photo_image"
+        tools:layout="@layout/fragment_photo_image" />
 </navigation>
