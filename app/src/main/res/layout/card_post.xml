@@ -78,7 +78,7 @@
         tools:text="@sample/posts.json/data/content" />
 
     <ImageView
-        android:id="@+id/photo"
+        android:id="@+id/photoImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
@@ -101,7 +101,7 @@
         app:layout_constraintBottom_toTopOf="@+id/barrier_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/photo"
+        app:layout_constraintTop_toBottomOf="@id/photoImage"
         app:srcCompat="@drawable/video_pic" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -109,7 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="photo" />
+        app:constraint_referenced_ids="photoImage" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"

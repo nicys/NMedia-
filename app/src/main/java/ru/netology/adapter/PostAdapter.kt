@@ -53,9 +53,9 @@ class PostViewHolder(
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
 
             if (post.attachment != null) {
-                photo.visibility = View.VISIBLE
-                photo.load("${BuildConfig.BASE_URL}/media/${post.attachment?.url}")
-            } else photo.visibility = View.GONE
+                photoImage.visibility = View.VISIBLE
+                photoImage.load("${BuildConfig.BASE_URL}/media/${post.attachment?.url}")
+            } else photoImage.visibility = View.GONE
 
             if (post.video != null) {
                 video.visibility = View.VISIBLE
