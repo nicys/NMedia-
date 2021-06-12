@@ -5,10 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".PhotoImageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:id="@+id/fullScreenPhoto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_gravity="center"
+        android:background="@color/purple_200"
+        android:contentDescription="@string/showPhotoImage">
+
+    </ImageView>
 
 </FrameLayout>
