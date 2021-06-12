@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.NewPostFragment.Companion.textData
+import ru.netology.PhotoImageFragment.Companion.postData
 //import ru.netology.ShowPostFragment.Companion.postData
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
@@ -72,6 +73,14 @@ class FeedFragment : Fragment() {
                 }
             }
 
+            override fun onPhotoImage(post: Post) {
+                findNavController().navigate(R.id.action_feedFragment_to_photoImageFragment,
+                    Bundle().apply
+                    {
+                        postData = post
+                    })
+            }
+
 //            override fun onShowPost(post: Post) {
 //                findNavController().navigate(R.id.action_feedFragment_to_showPostFragment,
 //                    Bundle().apply { postData = post }
@@ -120,6 +129,12 @@ class FeedFragment : Fragment() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }
+
+
+
+
+
+
 
         return binding.root
     }
