@@ -1,20 +1,20 @@
 package ru.netology
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import ru.netology.databinding.FragmentShowPostBinding
-import ru.netology.dto.Post
-import ru.netology.util.PostArg
+import ru.netology.databinding.FragmentPhotoImageBinding
+import ru.netology.util.StringArg
+import ru.netology.view.load
 import ru.netology.viewmodel.PostViewModel
 
 class PhotoImageFragment : Fragment() {
 
     companion object {
-        var Bundle.postPhoto: Post? by PostArg
+        var Bundle.postPhoto: String? by StringArg
     }
 
     private val viewModel: PostViewModel by viewModels(
@@ -26,24 +26,12 @@ class PhotoImageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentShowPostBinding.inflate(inflater, container, false)
+        val binding = FragmentPhotoImageBinding.inflate(inflater, container, false)
 
-        with(viewModel) {
-            arguments?.postPhoto?.let {
-                val showPhotoImage = it
-
-                getPostById(it.id).observe(viewLifecycleOwner, { post ->
-                    post ?: return@observe
-
-                    binding.apply {
-//                            author.text = showPhotoImage.author
-
-                        showPhotoImage.attachment
-//                            .load("${BuildConfig.BASE_URL}/media/") = showPhotoImage.attachment
-                    }
-                })
-            }
+        arguments?.postPhoto?.let {
+            binding.fullScreenPhoto.load("${BuildConfig.BASE_URL}/media/")
         }
+
         return binding.root
     }
 }
