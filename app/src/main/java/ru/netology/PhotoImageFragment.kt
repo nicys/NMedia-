@@ -28,9 +28,13 @@ class PhotoImageFragment : Fragment() {
     ): View? {
         val binding = FragmentPhotoImageBinding.inflate(inflater, container, false)
 
-        arguments?.postPhoto?.let {
-            binding.fullScreenPhoto.load("${BuildConfig.BASE_URL}/media/")
+        with(viewModel) {
+            arguments?.postPhoto?.let {
+                binding.fullScreenPhoto.load("${BuildConfig.BASE_URL}/media/")
+            }
         }
+
+
 
         return binding.root
     }
