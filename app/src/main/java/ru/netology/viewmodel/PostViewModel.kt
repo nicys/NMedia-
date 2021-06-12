@@ -217,4 +217,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
         }
     }
+
+    fun getPostById(id: Long): LiveData<FeedModel> = data.map { FeedModel(posts = data.value?.posts
+        .orEmpty().map {
+            if (it.id == id) it else empty
+        })
+    }
 }
