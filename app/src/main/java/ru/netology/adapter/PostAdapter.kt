@@ -11,10 +11,8 @@ import ru.netology.BuildConfig
 import ru.netology.R
 import ru.netology.databinding.CardPostBinding
 import ru.netology.dto.Post
-import ru.netology.enumeration.AttachmentType
 import ru.netology.view.load
 import ru.netology.view.loadCircleCrop
-//import ru.netology.view.loadPhoto
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
@@ -54,7 +52,7 @@ class PostViewHolder(
 
             if (post.attachment != null) {
                 photoImage.visibility = View.VISIBLE
-                photoImage.load("${BuildConfig.BASE_URL}/media/${post.attachment?.url}")
+                photoImage.load("${BuildConfig.BASE_URL}/media/${post.attachment.url}")
             } else photoImage.visibility = View.GONE
 
             if (post.video != null) {
@@ -75,10 +73,10 @@ class PostViewHolder(
                 onInteractionListener.onVideo(post)
             }
 
-            postCard.setOnClickListener {
+            content.setOnClickListener {
                 onInteractionListener.onShowPost(post)
             }
-            postCard.setOnClickListener {
+            photoImage.setOnClickListener {
                 onInteractionListener.onPhotoImage(post)
             }
             menu.setOnClickListener {
