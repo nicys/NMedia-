@@ -5,6 +5,7 @@
     <string name="liked">likes</string>
     <string name="send">send</string>
     <string name="viewed">viewed</string>
+    <string name="photo">images and photos</string>
     <string name="popup_menu_edit">Edit</string>
     <string name="popup_menu_remove">Remove</string>
     <string name="post_text">Add new post text</string>
@@ -21,5 +22,10 @@
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
     <string name="error_loading">Something went wrong. Try again later</string>
     <string name="error_network">Network error. Try again later</string>
+    <string name="description_select_photo">Select photo</string>
+    <string name="description_take_photo">Take photo</string>
+    <string name="description_photo">Photo</string>
+    <string name="remove">Remove</string>
+    <string name="showPhotoImage">Show photo and image</string>
 
 </resources>

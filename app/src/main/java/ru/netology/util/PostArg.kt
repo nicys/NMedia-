@@ -13,5 +13,4 @@ object PostArg: ReadWriteProperty<Bundle, Post?> {
     override fun getValue(thisRef: Bundle, property: KProperty<*>): Post? {
         return thisRef.getParcelable(property.name)
     }
-
 }

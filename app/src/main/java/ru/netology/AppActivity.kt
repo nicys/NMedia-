@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import ru.netology.AddEditPostFragment.Companion.textData
+import ru.netology.NewPostFragment.Companion.textData
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
 

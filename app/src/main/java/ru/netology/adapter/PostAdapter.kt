@@ -1,6 +1,9 @@
 package ru.netology.adapter
 
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +13,7 @@ import ru.netology.BuildConfig
 import ru.netology.R
 import ru.netology.databinding.CardPostBinding
 import ru.netology.dto.Post
+import ru.netology.view.load
 import ru.netology.view.loadCircleCrop
 
 interface OnInteractionListener {
@@ -19,6 +23,7 @@ interface OnInteractionListener {
     fun onShare(post: Post) {}
     fun onVideo(post: Post) {}
     fun onShowPost(post: Post) {}
+    fun onPhotoImage(post: Post) {}
 }
 
 class PostsAdapter(
@@ -46,9 +51,20 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
+
+            if (post.attachment != null) {
+                photoImage.visibility = VISIBLE
+                photoImage.load("${BuildConfig.BASE_URL}/media/${post.attachment.url}")
+            } else photoImage.visibility = GONE
+
+            if (post.video != null) {
+                video.visibility = VISIBLE
+            } else video.visibility = GONE
+
             share.text = totalizerSmartFeed(post.sharesCnt)
             like.isChecked = post.likedByMe
             like.text = if (post.likedByMe) "1" else "0"
+
             like.setOnClickListener {
                 onInteractionListener.onLike(post)
             }
@@ -58,8 +74,12 @@ class PostViewHolder(
             video.setOnClickListener {
                 onInteractionListener.onVideo(post)
             }
-            postCard.setOnClickListener {
+
+            content.setOnClickListener {
                 onInteractionListener.onShowPost(post)
+            }
+            photoImage.setOnClickListener {
+                onInteractionListener.onPhotoImage(post)
             }
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {

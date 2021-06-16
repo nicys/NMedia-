@@ -1,15 +1,22 @@
 package ru.netology.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.db.AppDb
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
 import ru.netology.model.FeedModelState
+import ru.netology.nmedia.dto.MediaUpload
+import ru.netology.nmedia.model.PhotoModel
 import ru.netology.repository.PostRepository
 import ru.netology.repository.PostRepositoryImpl
 import ru.netology.util.SingleLiveEvent
+import java.io.File
 
 private val empty = Post(
     id = 0,
@@ -21,15 +28,23 @@ private val empty = Post(
     likes = 0,
     shares = "0",
     sharesCnt = 0,
-    video = null
+    video = null,
+    attachment = null,
 )
+
+private val noPhoto = PhotoModel()
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     // упрощённый вариант
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
 
-    val data: LiveData<FeedModel> = repository.data.map(::FeedModel)
+    val data: LiveData<FeedModel> = repository.data
+        .map(::FeedModel)
+        .catch { e -> e.printStackTrace() } // Перехватчик exceptions. Работает по upstream принципу.
+        .asLiveData(Dispatchers.Default) /* т.к. это переменная, то используем оператор приведения типа asLiveData
+        На самом деле это библиотечный extension*/
+
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
@@ -39,9 +54,20 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val postCreated: LiveData<Unit>
         get() = _postCreated
 
+    // data - наши посты, если они обновляются, то включается switchMap, которорый запускает, блок в {}
+    val newerCount: LiveData<Int> = data.switchMap {
+        repository.getNewerCount(it.posts.firstOrNull()?.id ?: 0L)
+            .catch { e -> e.printStackTrace() }
+            .asLiveData()
+    }
+
     private val _networkError = SingleLiveEvent<String>()
     val networkError: LiveData<String>
         get() = _networkError
+
+    private val _photo = MutableLiveData(noPhoto)
+    val photo: LiveData<PhotoModel>
+        get() = _photo
 
     init {
         loadPosts()
@@ -74,14 +100,20 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
-                    repository.save(it)
+                    when (_photo.value) {
+                        noPhoto -> repository.save(it)
+                        else -> _photo.value?.file?.let { file ->
+                            repository.saveWithAttachment(it, MediaUpload(file))
+                        }
+                    }
                     _dataState.value = FeedModelState()
+                    edited.value = empty
+                    _photo.value = noPhoto
                 } catch (e: Exception) {
                     _dataState.value = FeedModelState(error = true)
                 }
             }
         }
-        edited.value = empty
     }
 
     fun edit(post: Post) {
@@ -94,6 +126,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
         edited.value = edited.value?.copy(content = text)
+    }
+
+    fun changePhoto(uri: Uri?, file: File?) {
+        _photo.value = PhotoModel(uri, file)
     }
 
     fun likeById(id: Long) {
@@ -167,37 +203,24 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-private fun counterOverThousand(feed: Int): Int {
-    return when (feed) {
-        in 1_000..999_999 -> feed / 100
-        else -> feed / 100_000
+    private fun counterOverThousand(feed: Int): Int {
+        return when (feed) {
+            in 1_000..999_999 -> feed / 100
+            else -> feed / 100_000
+        }
+    }
+
+    fun totalizerSmartFeed(feed: Int): String {
+        return when (feed) {
+            in 0..999 -> "$feed"
+            in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
+            else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
+        }
+    }
+
+    fun getPostById(id: Long): LiveData<FeedModel> = data.map { FeedModel(posts = data.value?.posts
+        .orEmpty().map {
+            if (it.id == id) it else empty
+        })
     }
 }
-
-fun totalizerSmartFeed(feed: Int): String {
-    return when (feed) {
-        in 0..999 -> "$feed"
-        in 1_000..999_999 -> "${(counterOverThousand(feed).toDouble() / 10)}K"
-        else -> "${(counterOverThousand(feed).toDouble() / 10)}M"
-    }
-}
-}
-
-
-
-//
-//    fun removeById(id: Long) {
-//        repository.removeByIdAsyn(object : PostRepository.Callback<Unit> {
-//            override fun onSuccess(value: Unit) {
-//                val posts = _data.value?.posts.orEmpty()
-//                    .filter { it.id != id }
-//                _data.postValue(
-//                    _data.value?.copy(posts = posts, empty = posts.isEmpty())
-//                )
-//            }
-//
-//            override fun onError(e: Exception) {
-//                _networkError.value = e.message
-//            }
-//        }, id)
-//    }

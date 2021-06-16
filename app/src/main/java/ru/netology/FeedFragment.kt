@@ -1,5 +1,6 @@
 package ru.netology
 
+//import ru.netology.ShowPostFragment.Companion.postData
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,12 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import ru.netology.AddEditPostFragment.Companion.textData
-//import ru.netology.ShowPostFragment.Companion.postData
+import ru.netology.NewPostFragment.Companion.textData
+import ru.netology.PhotoImageFragment.Companion.postData
+import ru.netology.PhotoImageFragment.Companion.postPhoto
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
+import ru.netology.enumeration.AttachmentType
 import ru.netology.viewmodel.PostViewModel
 
 
@@ -72,6 +75,15 @@ class FeedFragment : Fragment() {
                 }
             }
 
+            override fun onPhotoImage(post: Post) {
+                findNavController().navigate(R.id.action_feedFragment_to_photoImageFragment,
+                    Bundle().apply
+                    {
+                        postData = post
+                        postPhoto = post.attachment?.url
+                    })
+            }
+
 //            override fun onShowPost(post: Post) {
 //                findNavController().navigate(R.id.action_feedFragment_to_showPostFragment,
 //                    Bundle().apply { postData = post }
@@ -112,16 +124,24 @@ class FeedFragment : Fragment() {
             viewModel.refreshPosts()
         }
 
+        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+            // TODO: just log it, interaction must be in homework
+            println(state)
+        }
+
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }
 
+
+
+
+
+
+
         return binding.root
     }
 }
-
-
-
 
 
 //        viewModel.dataState.observe(viewLifecycleOwner, { state ->

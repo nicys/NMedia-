@@ -5,6 +5,7 @@
     <string name="liked">likes</string>
     <string name="send">send</string>
     <string name="viewed">viewed</string>
+    <string name="photo">картинки и фотографии</string>
     <string name="popup_menu_edit">Изменить</string>
     <string name="popup_menu_remove">Удалить</string>
     <string name="post_text">Создать контент нового поста</string>
@@ -21,5 +22,10 @@
     <string name="empty_posts">Постов нет.\nЕсли создадите новый пост, то он появится здесь</string>
     <string name="error_loading">Что-то пошло не так. Попробуйте позднее</string>
     <string name="error_network">Ошибка сети. Попробуйте позднее</string>
+    <string name="description_select_photo">Выбрать фото</string>
+    <string name="description_take_photo">Сделать фото</string>
+    <string name="description_photo">Фото</string>
+    <string name="remove">Удалить</string>
+    <string name="showPhotoImage">Просмотр фото и изображений</string>
 
 </resources>

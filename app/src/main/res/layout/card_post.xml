@@ -78,17 +78,30 @@
         tools:text="@sample/posts.json/data/content" />
 
     <ImageView
+        android:id="@+id/photoImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+        android:contentDescription="@string/photo"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintBottom_toTopOf="@+id/video"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
         android:id="@+id/video"
-        android:layout_width="100dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="16:9"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="4dp"
         android:contentDescription="@string/video_button"
         app:layout_constraintBottom_toTopOf="@+id/barrier_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@id/photoImage"
         app:srcCompat="@drawable/video_pic" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -96,7 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="content" />
+        app:constraint_referenced_ids="photoImage" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
