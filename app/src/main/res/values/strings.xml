@@ -27,5 +27,7 @@
     <string name="description_photo">Photo</string>
     <string name="remove">Remove</string>
     <string name="showPhotoImage">Show photo and image</string>
+    <string name="news">NEWS</string>
+    <string name="interesting">INTERESTING</string>
 
 </resources>
