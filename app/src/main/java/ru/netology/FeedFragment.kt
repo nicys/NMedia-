@@ -1,6 +1,8 @@
 package ru.netology
 
 //import ru.netology.ShowPostFragment.Companion.postData
+
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +13,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
@@ -26,6 +30,7 @@ class FeedFragment : Fragment() {
 
     val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
+    @SuppressLint("UnsafeOptInUsageError")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -130,7 +135,12 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            if (state > 0) binding.upTab.visibility = View.VISIBLE
+            if (state > 0) {
+                binding.upTab.visibility = View.VISIBLE
+                val badge = context?.let { BadgeDrawable.create(it) }
+                badge?.isVisible = true
+                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+            }
         }
 
         binding.upTab.setOnClickListener {
