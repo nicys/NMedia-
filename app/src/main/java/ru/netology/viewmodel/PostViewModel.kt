@@ -29,7 +29,6 @@ private val empty = Post(
     shares = "0",
     sharesCnt = 0,
     video = null,
-    wasRead = false,
     attachment = null,
 )
 
