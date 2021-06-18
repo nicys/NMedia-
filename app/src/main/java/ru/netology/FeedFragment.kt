@@ -7,15 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
@@ -23,7 +19,6 @@ import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
-import ru.netology.enumeration.AttachmentType
 import ru.netology.viewmodel.PostViewModel
 
 
@@ -139,31 +134,13 @@ class FeedFragment : Fragment() {
         }
 
         binding.upTab.setOnClickListener {
-//            viewModel.loadPosts()
             binding.list.smoothScrollToPosition(0)
             binding.upTab.visibility = View.GONE
-
         }
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }
-
-
-
-
-
-
-
         return binding.root
     }
 }
-
-
-//        viewModel.dataState.observe(viewLifecycleOwner, { state ->
-//            adapter.submitList(state.posts) {
-//                binding.list.smoothScrollToPosition(state.posts.size)
-//            }
-//            binding.progress.isVisible = state.loading
-//            binding.errorGroup.isVisible = state.error
-//        })
