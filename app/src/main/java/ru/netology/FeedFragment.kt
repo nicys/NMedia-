@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
@@ -33,6 +34,12 @@ class FeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
+
+        val tabViewNews: TabLayout = binding.upTab //This is my tab layout
+        tabViewNews.getTabAt(0)!!.text = "НОВОСТИ"
+
+        val tabViewInteresting: TabLayout = binding.upTab //This is my tab layout
+        tabViewInteresting.getTabAt(1)!!.text = "ИНТЕРЕСНО"
 
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
