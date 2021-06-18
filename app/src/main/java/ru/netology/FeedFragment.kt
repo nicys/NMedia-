@@ -7,10 +7,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import ru.netology.NewPostFragment.Companion.textData
@@ -132,10 +135,14 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            var count = state
+            if (state > 0) binding.upTab.visibility = View.VISIBLE
+        }
 
-            // TODO: just log it, interaction must be in homework
-            println(state)
+        binding.upTab[0].setOnClickListener {
+            viewModel.loadPosts()
+            binding.list.smoothScrollToPosition(0)
+            binding.upTab.visibility = View.GONE
+
         }
 
         binding.fab.setOnClickListener {
