@@ -125,6 +125,8 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+            var count = state
+
             // TODO: just log it, interaction must be in homework
             println(state)
         }
