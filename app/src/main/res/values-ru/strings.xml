@@ -29,5 +29,6 @@
     <string name="showPhotoImage">Просмотр фото и изображений</string>
     <string name="news">НОВОСТИ</string>
     <string name="interesting">ИНТЕРЕСНОЕ</string>
+    <string name="upTad">скроллинг наверх</string>
 
 </resources>

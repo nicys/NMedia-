@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
 
-
 <!--    <com.google.android.material.tabs.TabLayout-->
 <!--        android:id="@+id/upTab"-->
 <!--        android:layout_width="match_parent"-->
@@ -38,6 +37,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/upTab"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:srcCompat="@mipmap/ic_image_uploading"-->
+<!--            android:contentDescription="@string/upTad" />-->
 
         <TextView
             android:id="@+id/retryTitle"
@@ -106,6 +114,20 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/upTab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="142dp"
+        android:backgroundTint="@color/purple_100"
+        app:backgroundTint="@color/purple_500"
+        android:clickable="true"
+        android:contentDescription="@string/upTad"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_image_uploading_foreground" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

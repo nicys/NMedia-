@@ -38,11 +38,11 @@ class FeedFragment : Fragment() {
     ): View {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
 
-        val tabViewNews: TabLayout = binding.upTab //This is my tab layout
-        tabViewNews.getTabAt(0)!!.text = "НОВОСТИ"
-
-        val tabViewInteresting: TabLayout = binding.upTab //This is my tab layout
-        tabViewInteresting.getTabAt(1)!!.text = "ИНТЕРЕСНО"
+//        val tabViewNews: TabLayout = binding.upTab //This is my tab layout
+//        tabViewNews.getTabAt(0)!!.text = "НОВОСТИ"
+//
+//        val tabViewInteresting: TabLayout = binding.upTab //This is my tab layout
+//        tabViewInteresting.getTabAt(1)!!.text = "ИНТЕРЕСНО"
 
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
@@ -138,8 +138,8 @@ class FeedFragment : Fragment() {
             if (state > 0) binding.upTab.visibility = View.VISIBLE
         }
 
-        binding.upTab[0].setOnClickListener {
-            viewModel.loadPosts()
+        binding.upTab.setOnClickListener {
+//            viewModel.loadPosts()
             binding.list.smoothScrollToPosition(0)
             binding.upTab.visibility = View.GONE
 
