@@ -17,6 +17,7 @@ data class Post(
     val shares: String? = "0",
     val sharesCnt: Int = 0,
     val video: String? = null,
+    val wasRead: Boolean = false,
     val attachment: @RawValue Attachment? = null,
 ) : Parcelable
 
