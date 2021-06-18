@@ -85,7 +85,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="142dp"
         android:backgroundTint="@color/purple_100"
-        app:backgroundTint="@color/purple_500"
+        app:backgroundTint="@color/purple_100"
         android:clickable="true"
         android:visibility="gone"
         android:contentDescription="@string/upTad"
