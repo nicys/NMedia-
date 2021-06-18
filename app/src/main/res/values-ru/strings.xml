@@ -27,5 +27,8 @@
     <string name="description_photo">Фото</string>
     <string name="remove">Удалить</string>
     <string name="showPhotoImage">Просмотр фото и изображений</string>
+    <string name="news">НОВОСТИ</string>
+    <string name="interesting">ИНТЕРЕСНОЕ</string>
+    <string name="upTad">скроллинг наверх</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package ru.netology
 
 //import ru.netology.ShowPostFragment.Companion.postData
+
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +13,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
@@ -19,7 +23,6 @@ import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
-import ru.netology.enumeration.AttachmentType
 import ru.netology.viewmodel.PostViewModel
 
 
@@ -27,12 +30,19 @@ class FeedFragment : Fragment() {
 
     val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
+    @SuppressLint("UnsafeOptInUsageError")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
+
+//        val tabViewNews: TabLayout = binding.upTab //This is my tab layout
+//        tabViewNews.getTabAt(0)!!.text = "НОВОСТИ"
+//
+//        val tabViewInteresting: TabLayout = binding.upTab //This is my tab layout
+//        tabViewInteresting.getTabAt(1)!!.text = "ИНТЕРЕСНО"
 
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
@@ -125,29 +135,22 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            // TODO: just log it, interaction must be in homework
-            println(state)
+            if (state > 0) {
+                binding.upTab.visibility = View.VISIBLE
+                val badge = context?.let { BadgeDrawable.create(it) }
+                badge?.isVisible = true
+                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+            }
+        }
+
+        binding.upTab.setOnClickListener {
+            binding.list.smoothScrollToPosition(0)
+            binding.upTab.visibility = View.GONE
         }
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }
-
-
-
-
-
-
-
         return binding.root
     }
 }
-
-
-//        viewModel.dataState.observe(viewLifecycleOwner, { state ->
-//            adapter.submitList(state.posts) {
-//                binding.list.smoothScrollToPosition(state.posts.size)
-//            }
-//            binding.progress.isVisible = state.loading
-//            binding.errorGroup.isVisible = state.error
-//        })
