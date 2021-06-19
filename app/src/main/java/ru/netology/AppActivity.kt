@@ -7,11 +7,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.messaging.FirebaseMessaging
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.auth.AppAuth
 import ru.netology.viewmodel.AuthViewModel
