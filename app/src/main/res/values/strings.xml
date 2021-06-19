@@ -30,5 +30,9 @@
     <string name="news">NEWS</string>
     <string name="interesting">INTERESTING</string>
     <string name="upTad">up scrolling</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="google_play_unavailable">Google Api Unavailable</string>
 
 </resources>
