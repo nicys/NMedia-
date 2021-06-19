@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="32dp"
     android:background="@color/lightBlueGrey"
-    tools:context=".FragmentAuthen">
+    tools:context=".AuthenFragment">
 
 
     <TextView
