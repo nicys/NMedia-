@@ -139,10 +139,12 @@ class FeedFragment : Fragment() {
             if (count > 0) {
                 binding.upTab.visibility = View.VISIBLE
                 var badge = context?.let { BadgeDrawable.create(it) }
-                badge?.isVisible = true
-                badge?.number = count
-                badge?.backgroundColor = resources.getColor(R.color.purple_700)
-                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+                with(badge) {
+                    this?.isVisible = true
+                    this?.number = count
+                    this?.backgroundColor = resources.getColor(R.color.purple_700)
+                    this?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+                }
             }
         }
 
