@@ -34,5 +34,9 @@
     <string name="sign_up">Регистрация</string>
     <string name="sign_out">Выход</string>
     <string name="google_play_unavailable">Google Api Недоступно</string>
+    <string name="login">Введите логин:</string>
+    <string name="password">Введите пароль:</string>
+    <string name="enter">Войти</string>
+    <string name="annotation">Для входа в систему укажите свой логин и пароль...</string>
 
 </resources>
