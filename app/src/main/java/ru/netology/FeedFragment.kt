@@ -135,12 +135,12 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) {
-            var state = it
-            if (state > 0) {
+            var count = it
+            if (count > 0) {
                 binding.upTab.visibility = View.VISIBLE
                 var badge = context?.let { BadgeDrawable.create(it) }
                 badge?.isVisible = true
-                badge?.number = state
+                badge?.number = count
                 badge?.backgroundColor = resources.getColor(R.color.purple_700)
                 badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
             }
