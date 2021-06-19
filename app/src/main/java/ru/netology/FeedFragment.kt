@@ -134,14 +134,26 @@ class FeedFragment : Fragment() {
             viewModel.refreshPosts()
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+        viewModel.newerCount.observe(viewLifecycleOwner) {
+            var state = it
             if (state > 0) {
                 binding.upTab.visibility = View.VISIBLE
-                val badge = context?.let { BadgeDrawable.create(it) }
+                var badge = context?.let { BadgeDrawable.create(it) }
                 badge?.isVisible = true
+                badge?.number = state
+                badge?.backgroundColor = resources.getColor(R.color.purple_700)
                 badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
             }
         }
+
+//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+//            if (state > 0) {
+//                binding.upTab.visibility = View.VISIBLE
+//                var badge = context?.let { BadgeDrawable.create(it) }
+//                badge?.isVisible = true
+//                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+//            }
+//        }
 
         binding.upTab.setOnClickListener {
             binding.list.smoothScrollToPosition(0)
