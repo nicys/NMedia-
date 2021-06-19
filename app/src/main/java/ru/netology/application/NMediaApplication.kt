@@ -1,4 +1,4 @@
-package ru.netology.nmedia.application
+package ru.netology.application
 
 import android.app.Application
 import ru.netology.auth.AppAuth
