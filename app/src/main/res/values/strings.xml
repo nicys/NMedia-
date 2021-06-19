@@ -34,5 +34,9 @@
     <string name="sign_up">Sign Up</string>
     <string name="sign_out">Sign Out</string>
     <string name="google_play_unavailable">Google Api Unavailable</string>
+    <string name="login">Enter login:</string>
+    <string name="password">Enter password:</string>
+    <string name="enter">Enter</string>
+    <string name="annotation">To enter the system, enter your login and password...</string>
 
 </resources>
