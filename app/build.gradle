@@ -75,6 +75,7 @@ dependencies {
     def okhttploggin_version = "4.9.1"
     def coroutines_version = "1.5.0"
     def imagepicker_version = "2.1"
+    def play_services_base_version = "17.6.0"
 
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -103,6 +104,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttploggin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "com.github.dhaval2404:imagepicker:$imagepicker_version"
+    implementation "com.google.android.gms:play-services-base:$play_services_base_version"
+
 
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     kapt "androidx.room:room-compiler:$room_version"
