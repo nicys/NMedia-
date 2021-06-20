@@ -37,6 +37,6 @@
     <string name="login">Введите логин:</string>
     <string name="password">Введите пароль:</string>
     <string name="enter">Войти</string>
-    <string name="annotation">Для входа в систему укажите свой логин и пароль...</string>
+    <string name="annotation">Для входа в систему укажите свой логин и пароль или зарегистрируйтесь</string>
 
 </resources>
