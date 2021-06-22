@@ -20,8 +20,8 @@ import ru.netology.error.ApiError
 import ru.netology.error.AppError
 import ru.netology.error.NetworkError
 import ru.netology.error.UnknownError
-import ru.netology.nmedia.dto.Media
-import ru.netology.nmedia.dto.MediaUpload
+import ru.netology.dto.Media
+import ru.netology.dto.MediaUpload
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     override val data = dao.getAll()
