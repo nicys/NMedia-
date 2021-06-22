@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.databinding.FragmentSingInBinding
+import ru.netology.util.AndroidUtils
 import ru.netology.viewmodel.AuthViewModel
 
 class SignInFragment : Fragment() {
@@ -17,7 +19,7 @@ class SignInFragment : Fragment() {
 //    }
 
     @ExperimentalCoroutinesApi
-    private val viewModel: AuthViewModel by viewModels(
+    private val viewModelAuth: AuthViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
@@ -27,6 +29,19 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSingInBinding.inflate(inflater, container, false)
+
+        binding.enter.setOnClickListener {
+            val login = binding.inputLogin.text?.trim().toString()
+            val password = binding.inputPassword.text?.trim().toString()
+            if (login != null && password != null) {
+                viewModelAuth.authentication(login, password)
+                AndroidUtils.hideKeyboard(it)
+                findNavController().navigateUp()
+            }
+        }
+
+
+
         return binding.root
     }
 }

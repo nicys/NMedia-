@@ -8,6 +8,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okio.IOException
 import ru.netology.api.*
+import ru.netology.auth.AppAuth
 import ru.netology.dao.PostDao
 import ru.netology.dto.Attachment
 import ru.netology.dto.Post
@@ -103,7 +104,23 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             return response.body() ?: throw ApiError(response.code(), response.message())
-        } catch (e: java.io.IOException) {
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
+    override suspend fun authentication(login: String, password: String) {
+        try {
+            val response = PostsApi.service.updateUser(login, password)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val authState = response.body() ?: throw ApiError(response.code(), response.message())
+            authState.token?.let { AppAuth.getInstance().setAuth(authState.id, it) }
+
+        } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
             throw UnknownError
