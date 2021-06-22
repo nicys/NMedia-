@@ -18,4 +18,5 @@ interface PostRepository {
     suspend fun shareById(id: Long)
     suspend fun upload(upload: MediaUpload): Media
     suspend fun authentication(login: String, password: String)
+    suspend fun registration(nameUser: String, login: String, password: String)
 }

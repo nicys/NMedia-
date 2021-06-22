@@ -25,4 +25,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun registration(nameUser: String, login: String, password: String) {
+        viewModelScope.launch {
+            repository.registration(nameUser, login, password)
+        }
+    }
 }

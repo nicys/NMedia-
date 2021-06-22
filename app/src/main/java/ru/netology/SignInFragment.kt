@@ -43,6 +43,7 @@ class SignInFragment : Fragment() {
             } else {
                 Snackbar.make(requireView(), getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
                     .show()
+                return@setOnClickListener
             }
         }
 
