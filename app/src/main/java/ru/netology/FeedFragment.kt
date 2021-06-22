@@ -143,6 +143,19 @@ class FeedFragment : Fragment() {
             }
         }
 
+//        viewModel.newerCount.observe(viewLifecycleOwner) {
+//            var count = it
+//            if (count > 0) {
+//                binding.upTab.visibility = View.VISIBLE
+//                context?.let { BadgeDrawable.create(it) }.apply {
+//                    this?.isVisible = true
+//                    this?.number = count
+//                    this?.backgroundColor = resources.getColor(R.color.purple_700)
+//                    this?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+//                }
+//            }
+//        }
+
         binding.upTab.setOnClickListener {
             binding.list.smoothScrollToPosition(0)
             binding.upTab.visibility = View.GONE
