@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
@@ -28,8 +29,10 @@ import ru.netology.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
 
+    @ExperimentalCoroutinesApi
     val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
+    @ExperimentalCoroutinesApi
     @SuppressLint("UnsafeOptInUsageError")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -138,8 +141,7 @@ class FeedFragment : Fragment() {
             var count = it
             if (count > 0) {
                 binding.upTab.visibility = View.VISIBLE
-                var badge = context?.let { BadgeDrawable.create(it) }
-                with(badge) {
+                context?.let { BadgeDrawable.create(it) }.apply {
                     this?.isVisible = true
                     this?.number = count
                     this?.backgroundColor = resources.getColor(R.color.purple_700)
