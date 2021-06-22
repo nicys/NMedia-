@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.netology.BuildConfig
 import ru.netology.auth.AppAuth
+import ru.netology.auth.AuthState
 import ru.netology.dto.Post
 import ru.netology.nmedia.dto.Media
 
@@ -67,6 +68,10 @@ interface PostsApiService {
     @Multipart
     @POST("media")
     suspend fun upload(@Part media: MultipartBody.Part): Response<Media>
+
+    @FormUrlEncoded
+    @POST("users/authentication")
+    suspend fun updateUser(@Field("login") login: String, @Field("pass") pass: String): Response<AuthState>
 }
 
 object PostsApi {
