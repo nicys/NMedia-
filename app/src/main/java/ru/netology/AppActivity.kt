@@ -59,13 +59,13 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             R.id.signin -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signInFragment)
                 // TODO: just hardcode it, implementation must be in homework
-                AppAuth.getInstance().setAuth(5, "x-token")
+//                AppAuth.getInstance().setAuth(5, "x-token")
                 true
             }
             R.id.signup -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signUpFragment)
                 // TODO: just hardcode it, implementation must be in homework
-                AppAuth.getInstance().setAuth(5, "x-token")
+//                AppAuth.getInstance().setAuth(5, "x-token")
                 true
             }
             R.id.signout -> {
