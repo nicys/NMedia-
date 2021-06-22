@@ -10,7 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.databinding.AuthenFragmentBinding
 import ru.netology.viewmodel.AuthViewModel
 
-class AuthenFragment : Fragment() {
+class SignInFragment : Fragment() {
 //    companion object {
 //        var Bundle.postPhoto: String? by StringArg
 //        var Bundle.postData: Post? by PostArg

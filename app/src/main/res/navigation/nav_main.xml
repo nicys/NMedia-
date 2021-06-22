@@ -22,8 +22,8 @@
             android:id="@+id/action_feedFragment_to_photoImageFragment"
             app:destination="@id/photoImageFragment" />
         <action
-            android:id="@+id/action_feedFragment_to_authenFragment"
-            app:destination="@id/authenFragment" />
+            android:id="@+id/action_feedFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditPostFragment"
@@ -48,8 +48,8 @@
         android:label="fragment_photo_image"
         tools:layout="@layout/fragment_photo_image" />
     <fragment
-        android:id="@+id/authenFragment"
-        android:name="ru.netology.AuthenFragment"
-        android:label="authen_fragment"
-        tools:layout="@layout/authen_fragment" />
+        android:id="@+id/signInFragment"
+        android:name="ru.netology.SignInFragment"
+        android:label="sing_in_fragment"
+        tools:layout="@layout/sing_in_fragment" />
 </navigation>
