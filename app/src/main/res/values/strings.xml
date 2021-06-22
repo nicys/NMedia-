@@ -37,6 +37,6 @@
     <string name="login">Enter login:</string>
     <string name="password">Enter password:</string>
     <string name="enter">Enter</string>
-    <string name="annotation">To log in, enter your username and password or register</string>
+    <string name="annotation">To log in, enter your username and password or register:</string>
 
 </resources>
