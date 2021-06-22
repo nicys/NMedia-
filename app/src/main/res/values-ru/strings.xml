@@ -35,8 +35,11 @@
     <string name="sign_out">Выход</string>
     <string name="google_play_unavailable">Google Api Недоступно</string>
     <string name="login">Введите логин:</string>
+    <string name="userName">Введите свое имя:</string>
     <string name="password">Введите пароль:</string>
     <string name="enter">Войти</string>
-    <string name="annotation">Для входа в систему укажите свой логин и пароль или зарегистрируйтесь:</string>
+    <string name="annotationSignIn">Для входа в систему укажите свой логин и пароль или зарегистрируйтесь:</string>
+    <string name="annotationSignUp">Для входа в систему необходимо зарегистрироваться:</string>
+    <string name="hasSignIp">У меня уже есть логин и пароль...</string>
 
 </resources>
