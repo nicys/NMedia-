@@ -41,5 +41,6 @@
     <string name="annotationSignIn">To log in, enter your username and password or register:</string>
     <string name="annotationSignUp">To log in, you need to register:</string>
     <string name="hasSignIp">I already have a username and password...</string>
+    <string name="dontFilled">Not all fields are filled in.</string>
 
 </resources>

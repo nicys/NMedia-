@@ -41,5 +41,6 @@
     <string name="annotationSignIn">Для входа в систему укажите свой логин и пароль или зарегистрируйтесь:</string>
     <string name="annotationSignUp">Для входа в систему необходимо зарегистрироваться:</string>
     <string name="hasSignIp">У меня уже есть логин и пароль...</string>
+    <string name="dontFilled">Не все поля заполнены.</string>
 
 </resources>
