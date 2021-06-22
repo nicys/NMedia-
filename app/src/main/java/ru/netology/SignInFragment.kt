@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import ru.netology.databinding.AuthenFragmentBinding
+import ru.netology.databinding.FragmentSingInBinding
 import ru.netology.viewmodel.AuthViewModel
 
 class SignInFragment : Fragment() {
@@ -26,7 +26,7 @@ class SignInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = AuthenFragmentBinding.inflate(inflater, container, false)
+        val binding = FragmentSingInBinding.inflate(inflater, container, false)
         return binding.root
     }
 }
