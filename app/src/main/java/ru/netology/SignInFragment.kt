@@ -33,18 +33,33 @@ class SignInFragment : Fragment() {
     ): View? {
         val binding = FragmentSingInBinding.inflate(inflater, container, false)
 
-        binding.enter.setOnClickListener {
-            val login = binding.inputLogin.text?.trim().toString()
-            val password = binding.inputPassword.text?.trim().toString()
-            if (login != null || password != null) {
+        binding.entrance.setOnClickListener {
+            val login: String? = binding.inputLogin.toString()
+            val password: String? = binding.inputPassword.toString()
+            if (login == null || password == null) {
+                Snackbar.make(binding.root, getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
+                    .show()
+                return@setOnClickListener
+            } else {
                 viewModelAuth.authentication(login, password)
                 AndroidUtils.hideKeyboard(it)
                 findNavController().navigateUp()
-            } else {
-                Snackbar.make(requireView(), getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
-                    .show()
-                return@setOnClickListener
             }
+
+
+
+//            val login = binding.inputLogin.text?.trim().toString()
+//            val password = binding.inputPassword.text?.trim().toString()
+//            if (login != null || password != null) {
+//                viewModelAuth.authentication(login, password)
+//                AndroidUtils.hideKeyboard(it)
+//                findNavController().navigateUp()
+//            } else {
+//                Snackbar.make(requireView(), getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
+//                    .show()
+//                return@setOnClickListener
+//            }
+
         }
 
         binding.toSingUp.setOnClickListener {
