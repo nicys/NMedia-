@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+//apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'kotlin-android-extensions' ОТКЛЮЧЕН - вызывает ошибку из-за устаревания KAE
 
 android {
@@ -22,12 +23,12 @@ android {
     }
 
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -47,6 +48,12 @@ android {
             manifestPlaceholders.usesCleartextTraffic = true
             buildConfigField "String", "BASE_URL", '"http://176.196.11.232:9999"'
         }
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -77,6 +84,7 @@ dependencies {
     def imagepicker_version = "2.1"
     def play_services_base_version = "17.6.0"
     def firebase_version = "28.0.1"
+    def firebase_messages_version = "22.0.0"
 
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -108,6 +116,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:$play_services_base_version"
     implementation platform("com.google.firebase:firebase-bom:$firebase_version")
     implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-messaging:$firebase_messages_version"
 
 
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
