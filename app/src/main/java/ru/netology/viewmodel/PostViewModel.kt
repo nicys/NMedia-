@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.auth.AppAuth
 import ru.netology.db.AppDb
+import ru.netology.dto.MediaUpload
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
 import ru.netology.model.FeedModelState
-import ru.netology.nmedia.dto.MediaUpload
-import ru.netology.nmedia.model.PhotoModel
+import ru.netology.model.PhotoModel
 import ru.netology.repository.PostRepository
 import ru.netology.repository.PostRepositoryImpl
 import ru.netology.util.SingleLiveEvent

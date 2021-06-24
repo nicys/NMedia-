@@ -11,7 +11,7 @@ import ru.netology.BuildConfig
 import ru.netology.auth.AppAuth
 import ru.netology.auth.AuthState
 import ru.netology.dto.Post
-import ru.netology.nmedia.dto.Media
+import ru.netology.dto.Media
 
 private const val BASE_URL = "${BuildConfig.BASE_URL}/api/slow/"
 
