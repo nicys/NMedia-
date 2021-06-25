@@ -42,7 +42,7 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             invalidateOptionsMenu()
         }
 
-//        checkGoogleApiAvailability()
+        checkGoogleApiAvailability()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -78,22 +78,22 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
         }
     }
 
-//    private fun checkGoogleApiAvailability() {
-//        with(GoogleApiAvailability.getInstance()) {
-//            val code = isGooglePlayServicesAvailable(this@AppActivity)
-//            if (code == ConnectionResult.SUCCESS) {
-//                return@with
-//            }
-//            if (isUserResolvableError(code)) {
-//                getErrorDialog(this@AppActivity, code, 9000)?.show()
-//                return
-//            }
-//            Toast.makeText(this@AppActivity, R.string.google_play_unavailable, Toast.LENGTH_LONG)
-//                .show()
-//        }
-//
-//        FirebaseMessaging.getInstance().token.addOnSuccessListener {
-//            println(it)
-//        }
-//    }
+    private fun checkGoogleApiAvailability() {
+        with(GoogleApiAvailability.getInstance()) {
+            val code = isGooglePlayServicesAvailable(this@AppActivity)
+            if (code == ConnectionResult.SUCCESS) {
+                return@with
+            }
+            if (isUserResolvableError(code)) {
+                getErrorDialog(this@AppActivity, code, 9000)?.show()
+                return
+            }
+            Toast.makeText(this@AppActivity, R.string.google_play_unavailable, Toast.LENGTH_LONG)
+                .show()
+        }
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            println(it)
+        }
+    }
 }
