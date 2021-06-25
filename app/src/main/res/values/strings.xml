@@ -42,5 +42,8 @@
     <string name="annotationSignUp">To log in, you need to register:</string>
     <string name="hasSignIp">I already have a username and password...</string>
     <string name="dontFilled">Not all fields are filled in.</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
 
 </resources>

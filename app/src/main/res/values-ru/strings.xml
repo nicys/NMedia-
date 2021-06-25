@@ -42,5 +42,8 @@
     <string name="annotationSignUp">Для входа в систему необходимо зарегистрироваться:</string>
     <string name="hasSignIp">У меня уже есть логин и пароль...</string>
     <string name="dontFilled">Не все поля заполнены.</string>
+    <string name="channel_remote_name">Уведомления с сервера</string>
+    <string name="channel_remote_description">Уведомления с удалённого сервера</string>
+    <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string>
 
 </resources>
