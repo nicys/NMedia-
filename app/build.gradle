@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'kotlin-android-extensions' ОТКЛЮЧЕН - вызывает ошибку из-за устаревания KAE
 
 android {
@@ -58,7 +58,6 @@ allprojects {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def core_version = "1.5.0"
     def appcompat_version = "1.3.0"
     def constraintlayout_version = "2.0.4"
@@ -85,6 +84,7 @@ dependencies {
     def play_services_base_version = "17.6.0"
     def firebase_version = "28.0.1"
     def firebase_messages_version = "22.0.0"
+    def legacy_support_v4 = "1.0.0"
 
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -117,6 +117,7 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$firebase_version")
     implementation "com.google.firebase:firebase-messaging-ktx"
     implementation "com.google.firebase:firebase-messaging:$firebase_messages_version"
+    implementation "androidx.legacy:legacy-support-v4:$legacy_support_v4"
 
 
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
