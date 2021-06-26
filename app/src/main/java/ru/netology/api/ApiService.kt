@@ -82,7 +82,7 @@ interface ApiService {
     suspend fun registrationUser(@Field("name") name: String, @Field("login") login: String, @Field("pass") pass: String): Response<AuthState>
 }
 
-object PostsApi {
+object Api {
     val service: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
