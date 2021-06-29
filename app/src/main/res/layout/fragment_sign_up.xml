@@ -41,7 +41,6 @@
         android:id="@+id/textFieldName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         app:endIconMode="clear_text"
         app:layout_constraintTop_toBottomOf="@+id/annotation"
         tools:ignore="MissingConstraints"
