@@ -32,9 +32,9 @@ class SignUpFragment : Fragment() {
         val binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
         binding.register.setOnClickListener {
-            val userName: String? = binding.inputName.toString()
-            val login: String? = binding.inputLogin2.toString()
-            val password: String? = binding.inputPassword2.toString()
+            val userName: String? = binding.inputName.text.toString()
+            val login: String? = binding.inputLogin2.text.toString()
+            val password: String? = binding.inputPassword2.text.toString()
             if (userName == null || login == null || password == null) {
                 Snackbar.make(requireView(), getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
                     .show()

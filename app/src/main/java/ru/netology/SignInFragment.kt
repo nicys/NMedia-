@@ -35,8 +35,8 @@ class SignInFragment : Fragment() {
         val binding = FragmentSingInBinding.inflate(inflater, container, false)
 
         binding.entrance.setOnClickListener {
-            val login: String? = binding.inputLogin.toString()
-            val password: String? = binding.inputPassword.toString()
+            val login: String? = binding.inputLogin.text.toString()
+            val password: String? = binding.inputPassword.text.toString()
             if (login == null || password == null) {
                 Snackbar.make(binding.root, getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
                     .show()
