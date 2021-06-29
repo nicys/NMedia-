@@ -8,7 +8,6 @@
     android:background="@color/lightBlueGrey"
     tools:context=".SignUpFragment">
 
-
     <TextView
         android:id="@+id/annotation"
         android:layout_width="wrap_content"
@@ -17,14 +16,13 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="39dp"
         android:lineSpacingExtra="15dp"
+        android:padding="5dp"
         android:text="@string/annotationSignUp"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <Button
         android:id="@+id/register"
@@ -56,11 +54,11 @@
             android:layout_marginStart="64dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="64dp"
-            android:hint="@string/userName"
             android:background="@color/lightWhiteGreen"
+            android:hint="@string/userName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,8 +66,8 @@
         android:id="@+id/textFieldLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldName"
         app:endIconMode="clear_text"
+        app:layout_constraintTop_toBottomOf="@+id/textFieldName"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp">
 
@@ -80,8 +78,8 @@
             android:layout_marginStart="64dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="64dp"
-            android:hint="@string/login"
             android:background="@color/lightWhiteGreen"
+            android:hint="@string/login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
@@ -92,8 +90,8 @@
         android:id="@+id/textFieldPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldLogin"
         app:endIconMode="password_toggle"
+        app:layout_constraintTop_toBottomOf="@+id/textFieldLogin"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp">
 
@@ -104,8 +102,8 @@
             android:layout_marginStart="64dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="64dp"
-            android:hint="@string/password"
             android:background="@color/lightWhiteGreen"
+            android:hint="@string/password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
@@ -123,6 +121,5 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
