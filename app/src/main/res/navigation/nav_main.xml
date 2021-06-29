@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_feedFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_exitFragment"
+            app:destination="@id/exitFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditPostFragment"
@@ -68,4 +71,9 @@
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/exitFragment"
+        android:name="ru.netology.ExitFragment"
+        android:label="fragment_exit"
+        tools:layout="@layout/fragment_exit" />
 </navigation>
