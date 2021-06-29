@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
@@ -28,8 +29,10 @@ import ru.netology.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
 
+    @ExperimentalCoroutinesApi
     val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
+    @ExperimentalCoroutinesApi
     @SuppressLint("UnsafeOptInUsageError")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -134,14 +137,27 @@ class FeedFragment : Fragment() {
             viewModel.refreshPosts()
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            if (state > 0) {
+        viewModel.newerCount.observe(viewLifecycleOwner) {
+            var count = it
+            if (count > 0) {
                 binding.upTab.visibility = View.VISIBLE
-                val badge = context?.let { BadgeDrawable.create(it) }
-                badge?.isVisible = true
-                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+                context?.let { BadgeDrawable.create(it) }.apply {
+                    this?.isVisible = true
+                    this?.number = count
+                    this?.backgroundColor = resources.getColor(R.color.purple_700)
+                    this?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+                }
             }
         }
+
+//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+//            if (state > 0) {
+//                binding.upTab.visibility = View.VISIBLE
+//                var badge = context?.let { BadgeDrawable.create(it) }
+//                badge?.isVisible = true
+//                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+//            }
+//        }
 
         binding.upTab.setOnClickListener {
             binding.list.smoothScrollToPosition(0)
