@@ -16,10 +16,6 @@ import ru.netology.util.AndroidUtils
 import ru.netology.viewmodel.AuthViewModel
 
 class SignInFragment : Fragment() {
-//    companion object {
-//        var Bundle.postPhoto: String? by StringArg
-//        var Bundle.postData: Post? by PostArg
-//    }
 
     @ExperimentalCoroutinesApi
     private val viewModelAuth: AuthViewModel by viewModels(
