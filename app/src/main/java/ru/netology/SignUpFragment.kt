@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import ru.netology.auth.AppAuth
 import ru.netology.databinding.FragmentSignUpBinding
 import ru.netology.databinding.FragmentSingInBinding
 import ru.netology.util.AndroidUtils
@@ -44,21 +45,6 @@ class SignUpFragment : Fragment() {
                 findNavController().navigateUp()
             }
 
-
-
-
-//            val userName = binding.inputName.text?.trim().toString()
-//            val login = binding.inputLogin2.text?.trim().toString()
-//            val password = binding.inputPassword2.text?.trim().toString()
-//            if (userName != null || login != null || password != null) {
-//                viewModelAuth.registration(userName, login, password)
-//                AndroidUtils.hideKeyboard(it)
-//                findNavController().navigateUp()
-//            } else {
-//                Snackbar.make(requireView(), getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
-//                    .show()
-//                return@setOnClickListener
-//            }
         }
 
         binding.toSingIn.setOnClickListener {

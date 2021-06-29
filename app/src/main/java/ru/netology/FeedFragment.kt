@@ -150,14 +150,14 @@ class FeedFragment : Fragment() {
             }
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            if (state > 0) {
-                binding.upTab.visibility = View.VISIBLE
-                var badge = context?.let { BadgeDrawable.create(it) }
-                badge?.isVisible = true
-                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
-            }
-        }
+//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+//            if (state > 0) {
+//                binding.upTab.visibility = View.VISIBLE
+//                var badge = context?.let { BadgeDrawable.create(it) }
+//                badge?.isVisible = true
+//                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+//            }
+//        }
 
         binding.upTab.setOnClickListener {
             binding.list.smoothScrollToPosition(0)
