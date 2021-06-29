@@ -45,5 +45,8 @@
     <string name="channel_remote_name">Server notifications</string>
     <string name="channel_remote_description">Notifications from remote server</string>
     <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="exit_annotation">Log out of your account?</string>
+    <string name="yes">YES</string>
+    <string name="not">NOT</string>
 
 </resources>
