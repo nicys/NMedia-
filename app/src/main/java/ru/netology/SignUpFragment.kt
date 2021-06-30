@@ -31,9 +31,9 @@ class SignUpFragment : Fragment() {
         val binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
         binding.register.setOnClickListener {
-            val userName: String? = binding.inputName.toString()
-            val login: String? = binding.inputLogin2.toString()
-            val password: String? = binding.inputPassword2.toString()
+            val userName: String? = binding.inputName.text.toString()
+            val login: String? = binding.inputLogin2.text.toString()
+            val password: String? = binding.inputPassword2.text.toString()
             if (userName == null || login == null || password == null) {
                 Snackbar.make(requireView(), getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
                     .show()
@@ -43,22 +43,6 @@ class SignUpFragment : Fragment() {
                 AndroidUtils.hideKeyboard(it)
                 findNavController().navigateUp()
             }
-
-
-
-
-//            val userName = binding.inputName.text?.trim().toString()
-//            val login = binding.inputLogin2.text?.trim().toString()
-//            val password = binding.inputPassword2.text?.trim().toString()
-//            if (userName != null || login != null || password != null) {
-//                viewModelAuth.registration(userName, login, password)
-//                AndroidUtils.hideKeyboard(it)
-//                findNavController().navigateUp()
-//            } else {
-//                Snackbar.make(requireView(), getString(R.string.dontFilled), Snackbar.LENGTH_LONG)
-//                    .show()
-//                return@setOnClickListener
-//            }
         }
 
         binding.toSingIn.setOnClickListener {
