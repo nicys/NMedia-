@@ -1,7 +1,9 @@
 package ru.netology
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -10,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.auth.AppAuth
+import ru.netology.auth.AuthState
 import ru.netology.viewmodel.AuthViewModel
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
@@ -42,6 +46,28 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             invalidateOptionsMenu()
         }
 
+        FirebaseInstallations.getInstance().id.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                println("some stuff happened: ${task.exception}")
+                return@addOnCompleteListener
+            }
+
+            val token = task.result
+        }
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+//            Log.w(TAG, "$task", task.exception)
+            if (!task.isSuccessful) {
+                println("some stuff happened: ${task.exception}")
+                return@addOnCompleteListener
+            }
+
+            val token = task.result
+            Toast.makeText(applicationContext, "$token", Toast.LENGTH_LONG).show()
+//            println("TOKEN is $token")
+            println(token)
+        }
+
         checkGoogleApiAvailability()
     }
 
@@ -60,13 +86,13 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             R.id.signin -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signInFragment)
                 // TODO: just hardcode it, implementation must be in homework
-//                AppAuth.getInstance().setAuth(5, "x-token")
+                AppAuth.getInstance().authStateFlow
                 true
             }
             R.id.signup -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signUpFragment)
                 // TODO: just hardcode it, implementation must be in homework
-//                AppAuth.getInstance().setAuth(5, "x-token")
+                AppAuth.getInstance().authStateFlow
                 true
             }
             R.id.signout -> {
@@ -92,8 +118,8 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                 .show()
         }
 
-        FirebaseMessaging.getInstance().token.addOnSuccessListener {
-            println(it)
-        }
+//        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+//            println(it)
+//        }
     }
 }
