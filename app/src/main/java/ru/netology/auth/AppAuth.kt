@@ -5,6 +5,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import ru.netology.api.Api
 import ru.netology.dto.PushToken
 
 class AppAuth private constructor(context: Context) {
@@ -56,8 +57,8 @@ class AppAuth private constructor(context: Context) {
     fun sendPushToken(token: String? = null) {
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                val pushToken = PushToken(token ?: Firebase.messaging.token.await())
-                ru.netology.api.Api.service.save(pushToken)
+                val pushToken = PushToken(token ?: Firebase.messaging.token.result)
+                Api.service.save(pushToken)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
