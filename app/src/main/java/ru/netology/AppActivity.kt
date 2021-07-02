@@ -56,16 +56,15 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-//            Log.w(TAG, "$task", task.exception)
             if (!task.isSuccessful) {
                 println("some stuff happened: ${task.exception}")
                 return@addOnCompleteListener
             }
 
             val token = task.result
-            Toast.makeText(applicationContext, "$token", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "token -> $token", Toast.LENGTH_LONG).show()
 //            println("TOKEN is $token")
-            println(token)
+            println("token -> $token")
         }
 
         checkGoogleApiAvailability()
