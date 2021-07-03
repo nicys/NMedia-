@@ -4,10 +4,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
@@ -30,18 +32,28 @@ class FCMService : FirebaseMessagingService() {
             val channel = NotificationChannel(channelId, name, importance).apply {
                 description = descriptionText
             }
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.createNotificationChannel(channel)
+            notificationManager?.createNotificationChannel(channel)
         }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-
-        message.data[action]?.let {
-            when (Action.valueOf(it)) {
-                Action.LIKE -> handleLike(gson.fromJson(message.data[content], Like::class.java))
+        val content = gson.fromJson(message.data[action], Content::class.java)
+        when (content.recipient) {
+            AppAuth.getInstance().authStateFlow.value.id, null -> {
+                NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setContentText(content.content)
+                    .build()
+                    .also {
+                        notificationManager?.notify(Random.nextInt(), it)
+                    }
             }
-        }
+                else -> AppAuth.getInstance().sendPushToken()
+            }
+
+//            when (Action.valueOf(it)) {
+//                Action.LIKE -> handleLike(gson.fromJson(message.data[content], Like::class.java))
+//            }
     }
 
     override fun onNewToken(token: String) {
@@ -66,6 +78,9 @@ class FCMService : FirebaseMessagingService() {
     }
 }
 
+val Context.notificationManager: NotificationManager?
+    get() = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+
 enum class Action {
     LIKE,
 }
@@ -75,6 +90,11 @@ data class Like(
     val userName: String,
     val postId: Long,
     val postAuthor: String,
+)
+
+data class Content(
+    val recipient: Long? = null,
+    val content: String? = null,
 )
 
 
