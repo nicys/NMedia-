@@ -51,8 +51,8 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                 println("some stuff happened: ${task.exception}")
                 return@addOnCompleteListener
             }
-
             val token = task.result
+            println("id -> $token")
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -62,8 +62,7 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             }
 
             val token = task.result
-            Toast.makeText(applicationContext, "token -> $token", Toast.LENGTH_LONG).show()
-//            println("TOKEN is $token")
+//            Toast.makeText(applicationContext, "token -> $token", Toast.LENGTH_LONG).show()
             println("token -> $token")
         }
 
@@ -85,13 +84,13 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             R.id.signin -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signInFragment)
                 // TODO: just hardcode it, implementation must be in homework
-                AppAuth.getInstance().authStateFlow
+//                AppAuth.getInstance().authStateFlow
                 true
             }
             R.id.signup -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signUpFragment)
                 // TODO: just hardcode it, implementation must be in homework
-                AppAuth.getInstance().authStateFlow
+//                AppAuth.getInstance().authStateFlow
                 true
             }
             R.id.signout -> {
