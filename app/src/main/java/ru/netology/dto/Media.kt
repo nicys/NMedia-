@@ -1,4 +1,4 @@
-package ru.netology.nmedia.dto
+package ru.netology.dto
 
 import java.io.File
 
