@@ -40,7 +40,8 @@ data class PostEntity(
                 dto.shares,
                 dto.sharesCnt,
                 dto.video,
-                AttachmentEmbeddable.fromDto(dto.attachment))
+                AttachmentEmbeddable.fromDto(dto.attachment)
+            )
     }
 }
 
