@@ -1,5 +1,8 @@
 package ru.netology.repository
 
+import android.net.Uri
+import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -10,6 +13,7 @@ import okio.IOException
 import ru.netology.api.*
 import ru.netology.auth.AppAuth
 import ru.netology.dao.PostDao
+import ru.netology.dao.PostWorkDao
 import ru.netology.dto.Attachment
 import ru.netology.dto.Post
 import ru.netology.entity.PostEntity
@@ -22,9 +26,13 @@ import ru.netology.error.NetworkError
 import ru.netology.error.UnknownError
 import ru.netology.dto.Media
 import ru.netology.dto.MediaUpload
+import ru.netology.entity.PostWorkEntity
 
-class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
-    override val data = dao.getAll()
+class PostRepositoryImpl(
+    private val postDao: PostDao,
+    private val postWorkDao: PostWorkDao,
+) : PostRepository {
+    override val data = postDao.getAll()
         .map(List<PostEntity>::toDto)
         .flowOn(Dispatchers.Default) /* контролирует какой контекст используется по паплайну выше (upstream)
          или выполнит все, что выше на другом потоке - Dispatchers.Default */
@@ -37,7 +45,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(body.toEntity())
+            postDao.insert(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -54,7 +62,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(body.toEntity())
+            postDao.insert(body.toEntity())
             emit(body.size)
         }
     }
@@ -69,7 +77,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(PostEntity.fromDto(body))
+            postDao.insert(PostEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -143,6 +151,32 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         }
     }
 
+    override suspend fun saveWork(post: Post, upload: MediaUpload?): Long {
+        try {
+            val entity = PostWorkEntity.fromDto(post).apply {
+                if (upload != null) {
+                    this.uri = upload.file.toUri().toString()
+                }
+            }
+            return postWorkDao.insert(entity)
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
+    override suspend fun processWork(id: Long) {
+        try {
+            // TODO: handle this in homework
+            val entity = postWorkDao.getById(id)
+            if (entity.uri != null) {
+                val upload = MediaUpload(Uri.parse(entity.uri).toFile())
+            }
+            println(entity.id)
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
     override suspend fun removeById(id: Long) {
         try {
             val response = Api.service.removeById(id)
@@ -151,7 +185,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             response.body() ?: throw ApiError(response.code(), response.message())
-            dao.removeById(id)
+            postDao.removeById(id)
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -167,7 +201,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             response.body() ?: throw ApiError(response.code(), response.message())
-            dao.likeById(id)
+            postDao.likeById(id)
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -199,7 +233,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             response.body() ?: throw ApiError(response.code(), response.message())
-            dao.shareById(id)
+            postDao.shareById(id)
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
