@@ -21,7 +21,7 @@ class RefreshPostsWorker(
         val repository: PostRepository =
             PostRepositoryImpl(
                 AppDb.getInstance(context = applicationContext).postDao(),
-//                AppDb.getInstance(context = applicationContext).postWorkDao(),
+                AppDb.getInstance(context = applicationContext).postWorkDao(),
             )
 
         try {
