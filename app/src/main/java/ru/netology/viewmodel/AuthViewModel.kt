@@ -11,7 +11,10 @@ import ru.netology.repository.PostRepository
 import ru.netology.repository.PostRepositoryImpl
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
+    private val repository: PostRepository = PostRepositoryImpl(
+        AppDb.getInstance(context = application).postDao(),
+        AppDb.getInstance(context = application).postWorkDao(),
+    )
 
     val data: LiveData<AuthState> = AppAuth.getInstance()
         .authStateFlow
