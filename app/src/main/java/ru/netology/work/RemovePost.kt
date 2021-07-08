@@ -7,7 +7,7 @@ import ru.netology.db.AppDb
 import ru.netology.repository.PostRepository
 import ru.netology.repository.PostRepositoryImpl
 
-class RemovePost(
+class RemovePostWorker(
     applicationContext: Context,
     params: WorkerParameters
 ) : CoroutineWorker(applicationContext, params) {
