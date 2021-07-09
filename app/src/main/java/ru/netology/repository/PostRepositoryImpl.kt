@@ -69,32 +69,45 @@ class PostRepositoryImpl(
         .catch { e -> throw AppError.from(e) }
         .flowOn(Dispatchers.Default)
 
-    override suspend fun save(post: Post) {
+    override suspend fun saveWork(post: Post, upload: MediaUpload?): Long {
         try {
-            val response = Api.service.save(post)
-            if (!response.isSuccessful) {
-                throw ApiError(response.code(), response.message())
+            val entity = PostWorkEntity.fromDto(post).apply {
+                if (upload != null) {
+                    this.uri = upload.file.toUri().toString()
+                }
             }
-
-            val body = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(PostEntity.fromDto(body))
-        } catch (e: IOException) {
-            throw NetworkError
+            return postWorkDao.insert(entity)
         } catch (e: Exception) {
             throw UnknownError
         }
     }
 
-    override suspend fun saveWithAttachment(post: Post, upload: MediaUpload) {
+    override suspend fun processWork(id: Long) {
         try {
-            val media = upload(upload)
-            // TODO: add support for other types
-            val postWithAttachment = post.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
-            save(postWithAttachment)
-        } catch (e: AppError) {
-            throw e
-        } catch (e: java.io.IOException) {
-            throw NetworkError
+            // TODO: handle this in homework
+            val entity = postWorkDao.getById(id).toDto()
+            if (entity.attachment != null) {
+                val media = upload(MediaUpload(entity.attachment.url.toUri().toFile()))
+                // TODO: add support for other types
+                val postWithAttachment =
+                    entity.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
+                val response = Api.service.save(postWithAttachment)
+                val body = response.body() ?: throw ApiError(response.code(), response.message())
+                postDao.insert(PostEntity.fromDto(body))
+            } else {
+                val response = Api.service.save(entity)
+                val body = response.body() ?: throw ApiError(response.code(), response.message())
+                postDao.insert(PostEntity.fromDto(body))
+            }
+//            println(entity.id)
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
+    override suspend fun processWorkRemoved(id: Long) {
+        try {
+            postWorkDao.removeById(id)
         } catch (e: Exception) {
             throw UnknownError
         }
@@ -146,32 +159,6 @@ class PostRepositoryImpl(
 
         } catch (e: IOException) {
             throw NetworkError
-        } catch (e: Exception) {
-            throw UnknownError
-        }
-    }
-
-    override suspend fun saveWork(post: Post, upload: MediaUpload?): Long {
-        try {
-            val entity = PostWorkEntity.fromDto(post).apply {
-                if (upload != null) {
-                    this.uri = upload.file.toUri().toString()
-                }
-            }
-            return postWorkDao.insert(entity)
-        } catch (e: Exception) {
-            throw UnknownError
-        }
-    }
-
-    override suspend fun processWork(id: Long) {
-        try {
-            // TODO: handle this in homework
-            val entity = postWorkDao.getById(id)
-            if (entity.uri != null) {
-                val upload = MediaUpload(Uri.parse(entity.uri).toFile())
-            }
-            println(entity.id)
         } catch (e: Exception) {
             throw UnknownError
         }
@@ -241,3 +228,37 @@ class PostRepositoryImpl(
         }
     }
 }
+
+
+
+
+//    override suspend fun save(post: Post) {
+//        try {
+//            val response = Api.service.save(post)
+//            if (!response.isSuccessful) {
+//                throw ApiError(response.code(), response.message())
+//            }
+//
+//            val body = response.body() ?: throw ApiError(response.code(), response.message())
+//            postDao.insert(PostEntity.fromDto(body))
+//        } catch (e: IOException) {
+//            throw NetworkError
+//        } catch (e: Exception) {
+//            throw UnknownError
+//        }
+//    }
+//
+//    override suspend fun saveWithAttachment(post: Post, upload: MediaUpload) {
+//        try {
+//            val media = upload(upload)
+//            // TODO: add support for other types
+//            val postWithAttachment = post.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
+//            save(postWithAttachment)
+//        } catch (e: AppError) {
+//            throw e
+//        } catch (e: java.io.IOException) {
+//            throw NetworkError
+//        } catch (e: Exception) {
+//            throw UnknownError
+//        }
+//    }
