@@ -99,7 +99,6 @@ class PostRepositoryImpl(
                 val body = response.body() ?: throw ApiError(response.code(), response.message())
                 postDao.insert(PostEntity.fromDto(body))
             }
-//            println(entity.id)
         } catch (e: Exception) {
             throw UnknownError
         }
@@ -107,6 +106,9 @@ class PostRepositoryImpl(
 
     override suspend fun processWorkRemoved(id: Long) {
         try {
+            val response = Api.service.removeById(id)
+            response.body() ?: throw ApiError(response.code(), response.message())
+            postDao.removeById(id)
             postWorkDao.removeById(id)
         } catch (e: Exception) {
             throw UnknownError
@@ -228,37 +230,3 @@ class PostRepositoryImpl(
         }
     }
 }
-
-
-
-
-//    override suspend fun save(post: Post) {
-//        try {
-//            val response = Api.service.save(post)
-//            if (!response.isSuccessful) {
-//                throw ApiError(response.code(), response.message())
-//            }
-//
-//            val body = response.body() ?: throw ApiError(response.code(), response.message())
-//            postDao.insert(PostEntity.fromDto(body))
-//        } catch (e: IOException) {
-//            throw NetworkError
-//        } catch (e: Exception) {
-//            throw UnknownError
-//        }
-//    }
-//
-//    override suspend fun saveWithAttachment(post: Post, upload: MediaUpload) {
-//        try {
-//            val media = upload(upload)
-//            // TODO: add support for other types
-//            val postWithAttachment = post.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
-//            save(postWithAttachment)
-//        } catch (e: AppError) {
-//            throw e
-//        } catch (e: java.io.IOException) {
-//            throw NetworkError
-//        } catch (e: Exception) {
-//            throw UnknownError
-//        }
-//    }
