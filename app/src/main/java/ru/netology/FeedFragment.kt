@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
@@ -28,8 +31,10 @@ import ru.netology.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
 
+    @ExperimentalCoroutinesApi
     val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
+    @ExperimentalCoroutinesApi
     @SuppressLint("UnsafeOptInUsageError")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -134,14 +139,47 @@ class FeedFragment : Fragment() {
             viewModel.refreshPosts()
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            if (state > 0) {
-                binding.upTab.visibility = View.VISIBLE
-                val badge = context?.let { BadgeDrawable.create(it) }
-                badge?.isVisible = true
-                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+        val badge = requireContext().let { BadgeDrawable.create(it) }
+            .apply {
+                isVisible = true
+                backgroundColor = resources.getColor(R.color.purple_700)
+            }
+// Устанавливаем значок, когда размеры вьюшки уже известны
+        binding.upTab.doOnPreDraw {
+            BadgeUtils.attachBadgeDrawable(badge, binding.upTab)
+        }
+// По умолчанию видимость View.INVISIBLE, а не View.GONE чтобы размер всегда был (Можно через xml задать)
+//        binding.upTab.isInvisible = true
+        viewModel.newerCount.observe(viewLifecycleOwner) { count ->
+            if (count > 0) {
+                binding.upTab.isVisible = true
+                badge.number = count
+            } else {
+                binding.upTab.isInvisible = true
             }
         }
+
+//        viewModel.newerCount.observe(viewLifecycleOwner) {
+//            var count = it
+//            if (count > 0) {
+//                binding.upTab.visibility = View.VISIBLE
+//                context?.let { BadgeDrawable.create(it) }.apply {
+//                    this?.isVisible = true
+//                    this?.number = count
+//                    this?.backgroundColor = resources.getColor(R.color.purple_700)
+//                    this?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+//                }
+//            }
+//        }
+
+//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+//            if (state > 0) {
+//                binding.upTab.visibility = View.VISIBLE
+//                var badge = context?.let { BadgeDrawable.create(it) }
+//                badge?.isVisible = true
+//                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+//            }
+//        }
 
         binding.upTab.setOnClickListener {
             binding.list.smoothScrollToPosition(0)
