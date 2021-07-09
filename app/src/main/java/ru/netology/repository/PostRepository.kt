@@ -21,6 +21,3 @@ interface PostRepository {
     suspend fun processWork(id: Long)
     suspend fun processWorkRemoved(id: Long)
 }
-
-//suspend fun save(post: Post)
-//suspend fun saveWithAttachment(post: Post, upload: MediaUpload)
