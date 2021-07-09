@@ -26,7 +26,7 @@ class RemovePostWorker(
                 AppDb.getInstance(context = applicationContext).postWorkDao(),
             )
         return try {
-            repository.processWork(id)
+            repository.processWorkRemoved(id)
             Result.success()
         } catch (e: Exception) {
             Result.retry()
