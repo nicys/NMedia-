@@ -35,6 +35,7 @@ class PostRepositoryImpl @Inject constructor(
     private val postDao: PostDao,
     private val postWorkDao: PostWorkDao,
     private val apiService: ApiService,
+    private val auth: AppAuth,
 ) : PostRepository {
     override val data = postDao.getAll()
         .map(List<PostEntity>::toDto)
@@ -145,7 +146,7 @@ class PostRepositoryImpl @Inject constructor(
                 throw ApiError(response.code(), response.message())
             }
             val authState = response.body() ?: throw ApiError(response.code(), response.message())
-            authState.token?.let { AppAuth.getInstance().setAuth(authState.id, it) }
+            authState.token?.let { auth.setAuth(authState.id, it) }
 
         } catch (e: IOException) {
             throw NetworkError
@@ -161,7 +162,7 @@ class PostRepositoryImpl @Inject constructor(
                 throw ApiError(response.code(), response.message())
             }
             val authState = response.body() ?: throw ApiError(response.code(), response.message())
-            authState.token?.let { AppAuth.getInstance().setAuth(authState.id, it) }
+            authState.token?.let { auth.setAuth(authState.id, it) }
 
         } catch (e: IOException) {
             throw NetworkError

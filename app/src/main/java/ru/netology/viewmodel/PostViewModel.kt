@@ -1,6 +1,5 @@
 package ru.netology.viewmodel
 
-import android.app.Application
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.lifecycle.*
@@ -13,14 +12,12 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.auth.AppAuth
-import ru.netology.db.AppDb
 import ru.netology.dto.MediaUpload
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
 import ru.netology.model.FeedModelState
 import ru.netology.model.PhotoModel
 import ru.netology.repository.PostRepository
-import ru.netology.repository.PostRepositoryImpl
 import ru.netology.util.SingleLiveEvent
 import ru.netology.work.RemovePostWorker
 import ru.netology.work.SavePostWorker
