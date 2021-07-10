@@ -3,6 +3,7 @@ package ru.netology.repository
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.lifecycle.*
+import com.google.android.gms.common.api.Api
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -42,7 +43,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun getAll() {
         try {
-            val response = Api.service.getAll()
+            val response = apiService.getAll()
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -59,7 +60,7 @@ class PostRepositoryImpl @Inject constructor(
     override fun getNewerCount(id: Long): Flow<Int> = flow {
         while (true) {
             delay(10_000L)
-            val response = Api.service.getNewer(id)
+            val response = apiService.getNewer(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -94,11 +95,11 @@ class PostRepositoryImpl @Inject constructor(
                 // TODO: add support for other types
                 val postWithAttachment =
                     entity.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
-                val response = Api.service.save(postWithAttachment)
+                val response = apiService.save(postWithAttachment)
                 val body = response.body() ?: throw ApiError(response.code(), response.message())
                 postDao.insert(PostEntity.fromDto(body))
             } else {
-                val response = Api.service.save(entity)
+                val response = apiService.save(entity)
                 val body = response.body() ?: throw ApiError(response.code(), response.message())
                 postDao.insert(PostEntity.fromDto(body))
             }
@@ -109,7 +110,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun processWorkRemoved(id: Long) {
         try {
-            val response = Api.service.removeById(id)
+            val response = apiService.removeById(id)
             response.body() ?: throw ApiError(response.code(), response.message())
             postDao.removeById(id)
             postWorkDao.removeById(id)
@@ -124,7 +125,7 @@ class PostRepositoryImpl @Inject constructor(
                 "file", upload.file.name, upload.file.asRequestBody()
             )
 
-            val response = Api.service.upload(media)
+            val response = apiService.upload(media)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -139,7 +140,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun authentication(login: String, password: String) {
         try {
-            val response = Api.service.updateUser(login, password)
+            val response = apiService.updateUser(login, password)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -155,7 +156,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun registration(nameUser: String, login: String, password: String) {
         try {
-            val response = Api.service.registrationUser(nameUser, login, password)
+            val response = apiService.registrationUser(nameUser, login, password)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -171,7 +172,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun removeById(id: Long) {
         try {
-            val response = Api.service.removeById(id)
+            val response = apiService.removeById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -187,7 +188,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun likeById(id: Long) {
         try {
-            val response = Api.service.likeById(id)
+            val response = apiService.likeById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -219,7 +220,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun shareById(id: Long) {
         try {
-            val response = Api.service.shareById(id)
+            val response = apiService.shareById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
