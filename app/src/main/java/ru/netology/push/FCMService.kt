@@ -21,6 +21,7 @@ import kotlin.random.Random
 
 @AndroidEntryPoint
 class FCMService : FirebaseMessagingService() {
+    private val action = "action"
     private val content = "content"
     private val channelId = "remote"
     private val gson = Gson()
