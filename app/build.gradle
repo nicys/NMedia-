@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'dagger.hilt.android.plugin'
 //apply plugin: 'kotlin-android-extensions' ОТКЛЮЧЕН - вызывает ошибку из-за устаревания KAE
 
 android {
@@ -79,6 +80,7 @@ dependencies {
     def firebase_messages_version = "22.0.0"
     def legacy_support_v4 = "1.0.0"
     def workmanager_version = "2.5.0"
+    def hilt_work_version = "1.0.0"
 
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -114,10 +116,13 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:$firebase_messages_version"
     implementation "androidx.legacy:legacy-support-v4:$legacy_support_v4"
     implementation "androidx.work:work-runtime-ktx:$workmanager_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-work:$hilt_work_version"
 
 
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     kapt "androidx.room:room-compiler:$room_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
 
     testImplementation "junit:junit:$junit_version"
