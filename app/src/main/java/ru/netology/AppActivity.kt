@@ -89,18 +89,18 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             R.id.signin -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signInFragment)
                 // TODO: just hardcode it, implementation must be in homework
-//                AppAuth.getInstance().authStateFlow
+//                auth.authStateFlow
                 true
             }
             R.id.signup -> {
                 findNavController(R.id.fragment_nav_host).navigate(R.id.action_feedFragment_to_signUpFragment)
                 // TODO: just hardcode it, implementation must be in homework
-//                AppAuth.getInstance().authStateFlow
+//                auth.authStateFlow
                 true
             }
             R.id.signout -> {
                 // TODO: just hardcode it, implementation must be in homework
-//                AppAuth.getInstance().removeAuth()
+                auth.removeAuth()
                 true
             }
             else -> super.onOptionsItemSelected(item)
