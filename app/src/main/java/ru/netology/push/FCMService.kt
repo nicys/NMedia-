@@ -65,22 +65,22 @@ class FCMService : FirebaseMessagingService() {
         auth.sendPushToken(token)
     }
 
-    private fun handleLike(content: Like) {
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(
-                getString(
-                    R.string.notification_user_liked,
-                    content.userName,
-                    content.postAuthor,
-                )
-            )
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
-
-        NotificationManagerCompat.from(this)
-            .notify(Random.nextInt(100_000), notification)
-    }
+//    private fun handleLike(content: Like) {
+//        val notification = NotificationCompat.Builder(this, channelId)
+//            .setSmallIcon(R.drawable.ic_notification)
+//            .setContentTitle(
+//                getString(
+//                    R.string.notification_user_liked,
+//                    content.userName,
+//                    content.postAuthor,
+//                )
+//            )
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            .build()
+//
+//        NotificationManagerCompat.from(this)
+//            .notify(Random.nextInt(100_000), notification)
+//    }
 }
 
 val Context.notificationManager: NotificationManager?
