@@ -35,7 +35,7 @@ class RemovePostWorker(
 }
 
 @Singleton
-class RemovePostsWorkerFactory @Inject constructor(
+class RemovePostWorkerFactory @Inject constructor(
     private val repository: PostRepository,
 ) : WorkerFactory() {
     override fun createWorker(

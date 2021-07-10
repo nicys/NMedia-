@@ -52,7 +52,7 @@ class FCMService : FirebaseMessagingService() {
                         notificationManager?.notify(Random.nextInt(), it)
                     }
             }
-                else -> auth.authStateFlow.sendPushToken()
+                else -> auth.sendPushToken()
             }
 
 //            when (Action.valueOf(it)) {
@@ -61,7 +61,7 @@ class FCMService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
-        auth.authStateFlow.sendPushToken(token)
+        auth.sendPushToken(token)
     }
 
     private fun handleLike(content: Like) {
