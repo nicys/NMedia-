@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.databinding.FragmentSingInBinding
 import ru.netology.util.AndroidUtils
 import ru.netology.viewmodel.AuthViewModel
 
+@AndroidEntryPoint
 class SignInFragment : Fragment() {
 
     @ExperimentalCoroutinesApi

@@ -1,6 +1,5 @@
 package ru.netology.repository
 
-import android.net.Uri
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.lifecycle.*
@@ -15,8 +14,11 @@ import ru.netology.auth.AppAuth
 import ru.netology.dao.PostDao
 import ru.netology.dao.PostWorkDao
 import ru.netology.dto.Attachment
+import ru.netology.dto.Media
+import ru.netology.dto.MediaUpload
 import ru.netology.dto.Post
 import ru.netology.entity.PostEntity
+import ru.netology.entity.PostWorkEntity
 import ru.netology.entity.toDto
 import ru.netology.entity.toEntity
 import ru.netology.enumeration.AttachmentType
@@ -24,13 +26,14 @@ import ru.netology.error.ApiError
 import ru.netology.error.AppError
 import ru.netology.error.NetworkError
 import ru.netology.error.UnknownError
-import ru.netology.dto.Media
-import ru.netology.dto.MediaUpload
-import ru.netology.entity.PostWorkEntity
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PostRepositoryImpl(
+@Singleton
+class PostRepositoryImpl @Inject constructor(
     private val postDao: PostDao,
     private val postWorkDao: PostWorkDao,
+    private val apiService: ApiService,
 ) : PostRepository {
     override val data = postDao.getAll()
         .map(List<PostEntity>::toDto)

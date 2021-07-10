@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
@@ -29,6 +30,7 @@ import ru.netology.dto.Post
 import ru.netology.viewmodel.PostViewModel
 
 
+@AndroidEntryPoint
 class FeedFragment : Fragment() {
 
     @ExperimentalCoroutinesApi

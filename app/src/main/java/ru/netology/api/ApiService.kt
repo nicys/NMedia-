@@ -22,7 +22,7 @@ private val logging = HttpLoggingInterceptor().apply {
     }
 }
 
-private val okhttp = OkHttpClient.Builder()
+val okhttp = OkHttpClient.Builder()
     .addInterceptor { chain ->
         AppAuth.getInstance().authStateFlow.value.token?.let { token ->
             val newRequest = chain.request().newBuilder()
@@ -35,7 +35,7 @@ private val okhttp = OkHttpClient.Builder()
     .addInterceptor(logging)
     .build()
 
-private val retrofit = Retrofit.Builder()
+val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(BASE_URL)
     .client(okhttp)
