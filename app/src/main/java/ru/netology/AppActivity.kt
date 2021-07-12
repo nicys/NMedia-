@@ -20,17 +20,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
-    @Inject
-    lateinit var auth: AppAuth
-
-    @Inject
-    lateinit var firebaseMessaging: FirebaseMessaging
-
-    @Inject
-    lateinit var googleApi: GoogleApiAvailability
-
-    @Inject
-    lateinit var firebaseInstall: FirebaseInstallations
+    @Inject lateinit var auth: AppAuth
+    @Inject lateinit var firebaseMessaging: FirebaseMessaging
+    @Inject lateinit var googleApi: GoogleApiAvailability
+    @Inject lateinit var firebaseInstall: FirebaseInstallations
 
     private val viewModel: AuthViewModel by viewModels()
 
