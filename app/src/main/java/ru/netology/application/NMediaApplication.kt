@@ -7,14 +7,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.netology.auth.AppAuth
+import ru.netology.work.DependencyWorkerFactory
 import ru.netology.work.RefreshPostsWorker
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
-class NMediaApplication : Application() {
+class NMediaApplication : Application(), Configuration.Provider {
     private val appScope = CoroutineScope(Dispatchers.Default)
 
+    @Inject
+    lateinit var dependencyWorkerFactory: DependencyWorkerFactory
     @Inject
     lateinit var auth: AppAuth
     @Inject
@@ -48,4 +51,8 @@ class NMediaApplication : Application() {
         }
     }
 
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(dependencyWorkerFactory)
+            .build()
 }
