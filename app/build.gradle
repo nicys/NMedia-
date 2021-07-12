@@ -40,7 +40,7 @@ android {
         }
         debug {
             manifestPlaceholders.usesCleartextTraffic = true
-            buildConfigField "String", "BASE_URL", '"http://176.196.11.226:9999"'
+            buildConfigField "String", "BASE_URL", '"http://176.196.11.232:9999"'
         }
     }
 }
@@ -81,7 +81,8 @@ dependencies {
     def legacy_support_v4 = "1.0.0"
     def workmanager_version = "2.5.0"
     def hilt_work_version = "1.0.0"
-
+    def hilt_navigation_version = "1.0.0"
+    def hilt_compiler_version = "1.0.0"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -118,11 +119,13 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$workmanager_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.hilt:hilt-work:$hilt_work_version"
+    implementation "androidx.hilt:hilt-navigation-fragment:$hilt_navigation_version"
 
 
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     kapt "androidx.room:room-compiler:$room_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
 
     testImplementation "junit:junit:$junit_version"
