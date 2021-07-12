@@ -1,7 +1,6 @@
 package ru.netology.work
 
 import android.content.Context
-import androidx.work.Configuration
 import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
@@ -15,15 +14,6 @@ import javax.inject.Singleton
 object WokModule {
     @Provides
     @Singleton
-    fun provideWorkManager(
-        @ApplicationContext context: Context,
-        workerFactory: DependencyWorkerFactory,
-    ): WorkManager {
-        WorkManager.initialize(
-            context, Configuration.Builder()
-                .setWorkerFactory(workerFactory)
-                .build()
-        )
-        return WorkManager.getInstance(context)
-    }
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager =
+        WorkManager.getInstance(context)
 }

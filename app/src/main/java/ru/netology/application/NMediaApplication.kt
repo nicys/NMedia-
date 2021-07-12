@@ -1,13 +1,13 @@
 package ru.netology.application
 
 import android.app.Application
+import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.netology.auth.AppAuth
-import ru.netology.work.DependencyWorkerFactory
 import ru.netology.work.RefreshPostsWorker
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -16,12 +16,9 @@ import javax.inject.Inject
 class NMediaApplication : Application(), Configuration.Provider {
     private val appScope = CoroutineScope(Dispatchers.Default)
 
-    @Inject
-    lateinit var dependencyWorkerFactory: DependencyWorkerFactory
-    @Inject
-    lateinit var auth: AppAuth
-    @Inject
-    lateinit var workManager: WorkManager
+    @Inject lateinit var dependencyWorkerFactory: HiltWorkerFactory
+    @Inject lateinit var auth: AppAuth
+    @Inject lateinit var workManager: WorkManager
 
     override fun onCreate() {
         super.onCreate()

@@ -4,13 +4,10 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker
-import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ru.netology.repository.PostRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltWorker
 class RemovePostWorker @AssistedInject constructor(
@@ -33,21 +30,5 @@ class RemovePostWorker @AssistedInject constructor(
         } catch (e: Exception) {
             ListenableWorker.Result.retry()
         }
-    }
-}
-
-@Singleton
-class RemovePostWorkerFactory @Inject constructor(
-    private val repository: PostRepository,
-) : WorkerFactory() {
-    override fun createWorker(
-        appContext: Context,
-        workerClassName: String,
-        workerParameters: WorkerParameters
-    ): ListenableWorker? = when (workerClassName) {
-        RemovePostWorker::class.java.name ->
-            RemovePostWorker(appContext, workerParameters, repository)
-        else ->
-            null
     }
 }
