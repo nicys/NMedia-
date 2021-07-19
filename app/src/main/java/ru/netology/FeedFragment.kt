@@ -14,12 +14,16 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.observeOn
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
@@ -27,6 +31,7 @@ import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
+import ru.netology.viewmodel.AuthViewModel
 import ru.netology.viewmodel.PostViewModel
 
 
@@ -35,6 +40,9 @@ class FeedFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
     val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+
+    @ExperimentalCoroutinesApi
+    val authViewModel: AuthViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
     @ExperimentalCoroutinesApi
     @SuppressLint("UnsafeOptInUsageError")
@@ -109,14 +117,28 @@ class FeedFragment : Fragment() {
         })
 
         binding.list.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner, { state ->
-            adapter.submitList(state.posts)
-            { binding.list.onScrollStateChanged(state.posts.size) } // перемещение вниз (ожидается)
-//            smoothScrollToPosition(state.posts.size)
-            binding.emptyText.isVisible = state.empty
-        })
 
-        binding.list.adapter = adapter
+        lifecycleScope.launchWhenCreated {
+            viewModel.dataPaging.collectLatest {
+                adapter.submitData(it)
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            authViewModel.data.observe(viewLifecycleOwner, {
+                adapter.refresh()
+            })
+        }
+
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest { state ->
+                binding.swiperefresh.isRefreshing =
+                    state.refresh is LoadState.Loading ||
+                            state.prepend is LoadState.Loading ||
+                            state.append is LoadState.Loading
+            }
+        }
+
         viewModel.dataState.observe(viewLifecycleOwner, { state ->
             binding.progress.isVisible = state.loading
             binding.swiperefresh.isRefreshing = state.refreshing
@@ -138,7 +160,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+            adapter.refresh()
         }
 
         val badge = requireContext().let { BadgeDrawable.create(it) }
@@ -160,28 +182,6 @@ class FeedFragment : Fragment() {
                 binding.upTab.isInvisible = true
             }
         }
-
-//        viewModel.newerCount.observe(viewLifecycleOwner) {
-//            var count = it
-//            if (count > 0) {
-//                binding.upTab.visibility = View.VISIBLE
-//                context?.let { BadgeDrawable.create(it) }.apply {
-//                    this?.isVisible = true
-//                    this?.number = count
-//                    this?.backgroundColor = resources.getColor(R.color.purple_700)
-//                    this?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
-//                }
-//            }
-//        }
-
-//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-//            if (state > 0) {
-//                binding.upTab.visibility = View.VISIBLE
-//                var badge = context?.let { BadgeDrawable.create(it) }
-//                badge?.isVisible = true
-//                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
-//            }
-//        }
 
         binding.upTab.setOnClickListener {
             binding.list.smoothScrollToPosition(0)
