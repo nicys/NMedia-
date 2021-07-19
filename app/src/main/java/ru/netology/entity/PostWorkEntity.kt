@@ -3,38 +3,40 @@ package ru.netology.entity
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.netology.dto.Attachment
 import ru.netology.dto.Post
-import ru.netology.enumeration.AttachmentType
 
 @Entity
-data class PostEntity(
+data class PostWorkEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
+    val postId: Long,
     val author: String,
     val authorId: Long,
     val authorAvatar: String,
     val published: String,
     val content: String,
-    val likeByMe: Boolean,
+    val likedByMe: Boolean,
     val likes: Int = 0,
     val shares: String?,
     val sharesCnt: Int,
     val video: String? = null,
     @Embedded
     var attachment: AttachmentEmbeddable?,
+    var uri: String? = null,
 ) {
-    fun toDto() = Post(id, author, authorId, authorAvatar, content, published, likeByMe, likes, shares, sharesCnt, video, attachment?.toDto())
+    fun toDto() = Post(postId, author, authorId, authorAvatar, published, content, likedByMe, likes, shares, sharesCnt, video, attachment?.toDto(),
+    )
 
     companion object {
         fun fromDto(dto: Post) =
-            PostEntity(
+            PostWorkEntity(
+                0L,
                 dto.id,
                 dto.author,
                 dto.authorId,
                 dto.authorAvatar,
-                dto.content,
                 dto.published,
+                dto.content,
                 dto.likedByMe,
                 dto.likes,
                 dto.shares,
@@ -44,19 +46,3 @@ data class PostEntity(
             )
     }
 }
-
-data class AttachmentEmbeddable(
-    var url: String,
-    var type: AttachmentType,
-) {
-    fun toDto() = Attachment(url, type)
-
-    companion object {
-        fun fromDto(dto: Attachment?) = dto?.let {
-            AttachmentEmbeddable(it.url, it.type)
-        }
-    }
-}
-
-fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
-fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)

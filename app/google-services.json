@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "324143463520",
+    "project_id": "netologypushes",
+    "storage_bucket": "netologypushes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324143463520:android:1b9cedd8e994cc5355d705",
+        "android_client_info": {
+          "package_name": "ru.netology"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324143463520-q9la83c895door4l5ba0s65rm1mka5lt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjXue-T7mq2EqtL9lYLvOZPFu6mvyEXyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324143463520-q9la83c895door4l5ba0s65rm1mka5lt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
