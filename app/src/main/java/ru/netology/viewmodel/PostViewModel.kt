@@ -3,10 +3,14 @@ package ru.netology.viewmodel
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import androidx.work.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -49,6 +53,18 @@ class PostViewModel @Inject constructor(
     private val workManager: WorkManager,
     auth: AppAuth,
 ) : ViewModel() {
+
+    private val cached = repository.dataPaging
+        .cachedIn(viewModelScope)
+
+    val dataPaging: Flow<PagingData<Post>> = auth.authStateFlow
+        .flatMapLatest { (myId, _) ->
+            cached.map { pagingData ->
+                pagingData.map { post ->
+                    post.copy(ownedByMe = post.authorId == myId)
+                }
+            }
+        }
 
     val data: LiveData<FeedModel> = auth.authStateFlow
         .flatMapLatest { (myId, _) ->
@@ -95,16 +111,6 @@ class PostViewModel @Inject constructor(
     fun loadPosts() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
-            repository.getAll()
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
-
-    fun refreshPosts() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(refreshing = true)
             repository.getAll()
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
@@ -161,13 +167,12 @@ class PostViewModel @Inject constructor(
             try {
                 repository.likeById(id)
                 data.map {
-                    FeedModel(posts = data.value?.posts
-                        .orEmpty().map {
-                            if (it.id != id) it else it.copy(
-                                likedByMe = !it.likedByMe,
-                                likes = it.likes + 1
-                            )
-                        })
+                    FeedModel(posts = data.value?.posts.orEmpty().map {
+                        if (it.id != id) it else it.copy(
+                            likedByMe = !it.likedByMe,
+                            likes = it.likes + 1
+                        )
+                    })
                 }
             } catch (e: Exception) {
                 _networkError.value = e.message
@@ -200,13 +205,12 @@ class PostViewModel @Inject constructor(
             try {
                 repository.shareById(id)
                 data.map {
-                    FeedModel(posts = data.value?.posts
-                        .orEmpty().map {
-                            if (it.id != id) it else it.copy(
-                                sharesCnt = it.sharesCnt + 1,
-                                shares = totalizerSmartFeed(it.sharesCnt + 1)
-                            )
-                        })
+                    FeedModel(posts = data.value?.posts.orEmpty().map {
+                        if (it.id != id) it else it.copy(
+                            sharesCnt = it.sharesCnt + 1,
+                            shares = totalizerSmartFeed(it.sharesCnt + 1)
+                        )
+                    })
                 }
             } catch (e: Exception) {
                 _networkError.value = e.message

@@ -3,6 +3,9 @@ package ru.netology.repository
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.lifecycle.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.google.android.gms.common.api.Api
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -37,6 +40,12 @@ class PostRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val auth: AppAuth,
 ) : PostRepository {
+
+    override val dataPaging: Flow<PagingData<Post>> = Pager(
+        config = PagingConfig(pageSize = 5, enablePlaceholders = false),
+        pagingSourceFactory = { PostPagingSource(apiService) },
+    ).flow
+
     override val data = postDao.getAll()
         .map(List<PostEntity>::toDto)
         .flowOn(Dispatchers.Default) /* контролирует какой контекст используется по паплайну выше (upstream)
