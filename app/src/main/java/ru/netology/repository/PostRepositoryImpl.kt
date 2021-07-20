@@ -3,10 +3,7 @@ package ru.netology.repository
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.lifecycle.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import com.google.android.gms.common.api.Api
+import androidx.paging.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -16,7 +13,9 @@ import okio.IOException
 import ru.netology.api.*
 import ru.netology.auth.AppAuth
 import ru.netology.dao.PostDao
+import ru.netology.dao.PostRemoteKeyDao
 import ru.netology.dao.PostWorkDao
+import ru.netology.db.AppDb
 import ru.netology.dto.Attachment
 import ru.netology.dto.Media
 import ru.netology.dto.MediaUpload
@@ -39,12 +38,18 @@ class PostRepositoryImpl @Inject constructor(
     private val postWorkDao: PostWorkDao,
     private val apiService: ApiService,
     private val auth: AppAuth,
-) : PostRepository {
+    appDb: AppDb,
+    postRemoteKeyDao: PostRemoteKeyDao,
+    ) : PostRepository {
 
+    @OptIn(ExperimentalPagingApi::class)
     override val dataPaging: Flow<PagingData<Post>> = Pager(
-        config = PagingConfig(pageSize = 5, enablePlaceholders = false),
-        pagingSourceFactory = { PostPagingSource(apiService) },
-    ).flow
+        config = PagingConfig(pageSize = 1),
+        remoteMediator = PostRemoteMediator(apiService, appDb, postDao, postRemoteKeyDao),
+        pagingSourceFactory = postDao::pagingSource,
+    ).flow.map { pagingData ->
+        pagingData.map(PostEntity::toDto)
+    }
 
     override val data = postDao.getAll()
         .map(List<PostEntity>::toDto)
