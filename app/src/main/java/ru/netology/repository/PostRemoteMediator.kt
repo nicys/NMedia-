@@ -92,4 +92,11 @@ class PostRemoteMediator(
             return MediatorResult.Error(e)
         }
     }
+
+    override suspend fun initialize(): InitializeAction =
+        if (postDao.isEmpty()) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
 }
