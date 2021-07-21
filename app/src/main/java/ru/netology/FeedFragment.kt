@@ -53,12 +53,6 @@ class FeedFragment : Fragment() {
     ): View {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
 
-//        val tabViewNews: TabLayout = binding.upTab //This is my tab layout
-//        tabViewNews.getTabAt(0)!!.text = "НОВОСТИ"
-//
-//        val tabViewInteresting: TabLayout = binding.upTab //This is my tab layout
-//        tabViewInteresting.getTabAt(1)!!.text = "ИНТЕРЕСНО"
-
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
