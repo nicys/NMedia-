@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.databinding.FragmentPhotoImageBinding
 import ru.netology.dto.Post
 import ru.netology.util.PostArg
@@ -13,6 +14,7 @@ import ru.netology.util.StringArg
 import ru.netology.view.load
 import ru.netology.viewmodel.PostViewModel
 
+@AndroidEntryPoint
 class PhotoImageFragment : Fragment() {
 
     companion object {

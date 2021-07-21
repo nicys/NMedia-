@@ -30,5 +30,20 @@
     <string name="news">НОВОСТИ</string>
     <string name="interesting">ИНТЕРЕСНОЕ</string>
     <string name="upTad">скроллинг наверх</string>
+    <string name="sign_in">Вход</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="sign_out">Выход</string>
+    <string name="google_play_unavailable">Google Api Недоступно</string>
+    <string name="login">Введите логин:</string>
+    <string name="userName">Введите свое имя:</string>
+    <string name="password">Введите пароль:</string>
+    <string name="enter">Войти</string>
+    <string name="annotationSignIn">Для входа в систему укажите свой логин и пароль или зарегистрируйтесь:</string>
+    <string name="annotationSignUp">Для входа в систему необходимо зарегистрироваться:</string>
+    <string name="hasSignIp">У меня уже есть логин и пароль...</string>
+    <string name="dontFilled">Не все поля заполнены.</string>
+    <string name="channel_remote_name">Уведомления с сервера</string>
+    <string name="channel_remote_description">Уведомления с удалённого сервера</string>
+    <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string>
 
 </resources>

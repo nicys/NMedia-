@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.databinding.FragmentNewPostBinding
 import ru.netology.util.AndroidUtils
 import ru.netology.util.StringArg
@@ -19,6 +20,7 @@ import ru.netology.viewmodel.PostViewModel
 
 // класс обработки входящего интента и возврата результата
 
+@AndroidEntryPoint
 class NewPostFragment : Fragment() {
 
     companion object {

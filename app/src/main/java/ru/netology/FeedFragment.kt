@@ -9,13 +9,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.observeOn
 import ru.netology.NewPostFragment.Companion.textData
 import ru.netology.PhotoImageFragment.Companion.postData
 import ru.netology.PhotoImageFragment.Companion.postPhoto
@@ -23,13 +31,20 @@ import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostsAdapter
 import ru.netology.databinding.FragmentFeedBinding
 import ru.netology.dto.Post
+import ru.netology.viewmodel.AuthViewModel
 import ru.netology.viewmodel.PostViewModel
 
 
+@AndroidEntryPoint
 class FeedFragment : Fragment() {
 
+    @ExperimentalCoroutinesApi
     val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
+    @ExperimentalCoroutinesApi
+    val authViewModel: AuthViewModel by viewModels(ownerProducer = ::requireParentFragment)
+
+    @ExperimentalCoroutinesApi
     @SuppressLint("UnsafeOptInUsageError")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +52,6 @@ class FeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
-
-//        val tabViewNews: TabLayout = binding.upTab //This is my tab layout
-//        tabViewNews.getTabAt(0)!!.text = "НОВОСТИ"
-//
-//        val tabViewInteresting: TabLayout = binding.upTab //This is my tab layout
-//        tabViewInteresting.getTabAt(1)!!.text = "ИНТЕРЕСНО"
 
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
@@ -102,14 +111,28 @@ class FeedFragment : Fragment() {
         })
 
         binding.list.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner, { state ->
-            adapter.submitList(state.posts)
-            { binding.list.onScrollStateChanged(state.posts.size) } // перемещение вниз (ожидается)
-//            smoothScrollToPosition(state.posts.size)
-            binding.emptyText.isVisible = state.empty
-        })
 
-        binding.list.adapter = adapter
+        lifecycleScope.launchWhenCreated {
+            viewModel.dataPaging.collectLatest {
+                adapter.submitData(it)
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            authViewModel.data.observe(viewLifecycleOwner, {
+                adapter.refresh()
+            })
+        }
+
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest { state ->
+                binding.swiperefresh.isRefreshing =
+                    state.refresh is LoadState.Loading ||
+//                            state.prepend is LoadState.Loading ||
+                            state.append is LoadState.Loading
+            }
+        }
+
         viewModel.dataState.observe(viewLifecycleOwner, { state ->
             binding.progress.isVisible = state.loading
             binding.swiperefresh.isRefreshing = state.refreshing
@@ -131,15 +154,26 @@ class FeedFragment : Fragment() {
         }
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+            adapter.refresh()
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            if (state > 0) {
-                binding.upTab.visibility = View.VISIBLE
-                val badge = context?.let { BadgeDrawable.create(it) }
-                badge?.isVisible = true
-                badge?.let { BadgeUtils.attachBadgeDrawable(it, binding.upTab) }
+        val badge = requireContext().let { BadgeDrawable.create(it) }
+            .apply {
+                isVisible = true
+                backgroundColor = resources.getColor(R.color.purple_700)
+            }
+// Устанавливаем значок, когда размеры вьюшки уже известны
+        binding.upTab.doOnPreDraw {
+            BadgeUtils.attachBadgeDrawable(badge, binding.upTab)
+        }
+// По умолчанию видимость View.INVISIBLE, а не View.GONE чтобы размер всегда был (Можно через xml задать)
+//        binding.upTab.isInvisible = true
+        viewModel.newerCount.observe(viewLifecycleOwner) { count ->
+            if (count > 0) {
+                binding.upTab.isVisible = true
+                badge.number = count
+            } else {
+                binding.upTab.isInvisible = true
             }
         }
 
