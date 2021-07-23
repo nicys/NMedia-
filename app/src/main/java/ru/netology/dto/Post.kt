@@ -11,7 +11,7 @@ data class Post(
     val author: String,
     val authorId: Long,
     val authorAvatar: String,
-    val published: String,
+    val published: Long,
     val content: String,
     val likedByMe: Boolean,
     val likes: Int = 0,
