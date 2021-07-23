@@ -1,5 +1,6 @@
 package ru.netology.dto
 
+import kotlinx.parcelize.RawValue
 import ru.netology.enumeration.AttachmentType
 
 sealed class FeedItem{
@@ -14,14 +15,17 @@ data class Ad(
 
 data class Post(
     override val id: Long,
-    val authorId: Long,
     val author: String,
+    val authorId: Long,
     val authorAvatar: String,
-    val content: String,
     val published: Long,
+    val content: String,
     val likedByMe: Boolean,
     val likes: Int = 0,
-    val attachment: Attachment? = null,
+    val shares: String? = "0",
+    val sharesCnt: Int = 0,
+    val video: String? = null,
+    val attachment: @RawValue Attachment? = null,
     val ownedByMe: Boolean = false,
 ) : FeedItem()
 
