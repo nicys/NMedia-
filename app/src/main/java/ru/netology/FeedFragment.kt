@@ -17,6 +17,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.snackbar.Snackbar
@@ -110,6 +112,10 @@ class FeedFragment : Fragment() {
 //            }
         })
 
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
+        dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
+        binding.list.addItemDecoration(dividerItemDecoration)
+
         binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
             header = PagingLoadStateAdapter(object : PagingLoadStateAdapter.OnInteractionListener {
                 override fun onRetry() {
@@ -138,7 +144,7 @@ class FeedFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest { state ->
                 binding.swiperefresh.isRefreshing =
-                    state.refresh is LoadState.Loading ||
+//                    state.refresh is LoadState.Loading ||
 //                            state.prepend is LoadState.Loading ||
                             state.append is LoadState.Loading
             }
