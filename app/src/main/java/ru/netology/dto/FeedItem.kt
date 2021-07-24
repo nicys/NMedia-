@@ -1,5 +1,7 @@
 package ru.netology.dto
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.netology.enumeration.AttachmentType
 
@@ -13,6 +15,7 @@ data class Ad(
     val image: String,
 ) : FeedItem()
 
+@Parcelize
 data class Post(
     override val id: Long,
     val author: String,
@@ -27,7 +30,7 @@ data class Post(
     val video: String? = null,
     val attachment: @RawValue Attachment? = null,
     val ownedByMe: Boolean = false,
-) : FeedItem()
+) : FeedItem(), Parcelable
 
 data class Attachment(
     val url: String,
