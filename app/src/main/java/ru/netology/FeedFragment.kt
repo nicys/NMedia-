@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
@@ -112,6 +114,10 @@ class FeedFragment : Fragment() {
 //            }
         })
 
+        val dividerTimeDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
+        dividerTimeDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
+        binding.list.addItemDecoration(dividerTimeDecoration)
+
         val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
         binding.list.addItemDecoration(dividerItemDecoration)
@@ -144,9 +150,9 @@ class FeedFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest { state ->
                 binding.swiperefresh.isRefreshing =
-//                    state.refresh is LoadState.Loading ||
+                    state.refresh is LoadState.Loading
 //                            state.prepend is LoadState.Loading ||
-                            state.append is LoadState.Loading
+//                            state.append is LoadState.Loading
             }
         }
 
@@ -202,6 +208,7 @@ class FeedFragment : Fragment() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addEditPostFragment)
         }
+
         return binding.root
     }
 }
