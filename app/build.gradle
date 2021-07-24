@@ -40,7 +40,7 @@ android {
         }
         debug {
             manifestPlaceholders.usesCleartextTraffic = true
-            buildConfigField "String", "BASE_URL", '"http://176.196.11.226:9999"'
+            buildConfigField "String", "BASE_URL", '"http://176.196.11.232:9999"'
         }
     }
 }
