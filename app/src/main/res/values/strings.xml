@@ -46,5 +46,6 @@
     <string name="channel_remote_description">Notifications from remote server</string>
     <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
     <string name="ad_description">ad</string>
+    <string name="item_post_time">Today</string>
 
 </resources>

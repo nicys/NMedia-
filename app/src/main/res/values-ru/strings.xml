@@ -46,5 +46,6 @@
     <string name="channel_remote_description">Уведомления с удалённого сервера</string>
     <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string>
     <string name="ad_description">Реклама</string>
+    <string name="item_post_time">Сегодня</string>
 
 </resources>
