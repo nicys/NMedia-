@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
@@ -16,6 +17,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -113,10 +115,6 @@ class FeedFragment : Fragment() {
 //                )
 //            }
         })
-
-        val dividerTimeDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
-        dividerTimeDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
-        binding.list.addItemDecoration(dividerTimeDecoration)
 
         val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
