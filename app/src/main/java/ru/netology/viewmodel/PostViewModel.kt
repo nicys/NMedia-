@@ -1,28 +1,43 @@
 package ru.netology.viewmodel
 
-import android.app.Application
 import android.net.Uri
+import androidx.core.net.toFile
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
+import androidx.paging.map
+import androidx.work.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import ru.netology.db.AppDb
+import ru.netology.auth.AppAuth
+import ru.netology.dto.Ad
+import ru.netology.dto.FeedItem
+import ru.netology.dto.MediaUpload
 import ru.netology.dto.Post
 import ru.netology.model.FeedModel
 import ru.netology.model.FeedModelState
-import ru.netology.nmedia.dto.MediaUpload
-import ru.netology.nmedia.model.PhotoModel
+import ru.netology.model.PhotoModel
 import ru.netology.repository.PostRepository
-import ru.netology.repository.PostRepositoryImpl
 import ru.netology.util.SingleLiveEvent
+import ru.netology.work.RemovePostWorker
+import ru.netology.work.SavePostWorker
 import java.io.File
+import javax.inject.Inject
+import kotlin.random.Random
 
 private val empty = Post(
     id = 0,
     author = "",
+    authorId = 0,
     authorAvatar = "",
-    published = "",
+    published = 0,
     content = "",
     likedByMe = false,
     likes = 0,
@@ -34,15 +49,49 @@ private val empty = Post(
 
 private val noPhoto = PhotoModel()
 
-class PostViewModel(application: Application) : AndroidViewModel(application) {
-    // упрощённый вариант
-    private val repository: PostRepository =
-        PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
+@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
+@HiltViewModel
+class PostViewModel @Inject constructor(
+    private val repository: PostRepository,
+    private val workManager: WorkManager,
+    auth: AppAuth,
+) : ViewModel() {
 
-    val data: LiveData<FeedModel> = repository.data
-        .map(::FeedModel)
-        .catch { e -> e.printStackTrace() } // Перехватчик exceptions. Работает по upstream принципу.
-        .asLiveData(Dispatchers.Default) /* т.к. это переменная, то используем оператор приведения типа asLiveData
+    private val cached = repository.dataPaging
+        .map { pagingData ->
+            pagingData.insertSeparators(
+                generator = { before, _ ->
+                    if (before?.id?.rem(5) != 0L) null else
+                        Ad(
+                            Random.nextLong(),
+                            "https://netology.ru",
+                            "figma.jpg"
+                        )
+                }
+            )
+        }
+        .cachedIn(viewModelScope)
+
+    val dataPaging: Flow<PagingData<FeedItem>> = auth.authStateFlow
+        .flatMapLatest { (myId, _) ->
+            cached.map { pagingData ->
+                pagingData.map { item ->
+                    if (item !is Post) item else item.copy(ownedByMe = item.authorId == myId)
+                }
+            }
+        }
+
+    val data: LiveData<FeedModel> = auth.authStateFlow
+        .flatMapLatest { (myId, _) ->
+            repository.data
+                .map { posts ->
+                    FeedModel(
+                        posts.map { it.copy(ownedByMe = it.authorId == myId) },
+                        posts.isEmpty()
+                    )
+                }
+        }.asLiveData(Dispatchers.Default) /* т.к. это переменная, то используем оператор приведения типа asLiveData
         На самом деле это библиотечный extension*/
 
     private val _dataState = MutableLiveData<FeedModelState>()
@@ -85,27 +134,24 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun refreshPosts() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(refreshing = true)
-            repository.getAll()
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
-
     fun save() {
         edited.value?.let {
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
-                    when (_photo.value) {
-                        noPhoto -> repository.save(it)
-                        else -> _photo.value?.file?.let { file ->
-                            repository.saveWithAttachment(it, MediaUpload(file))
-                        }
-                    }
+                    val id = repository.saveWork(
+                        it, _photo.value?.uri?.let { MediaUpload(it.toFile()) }
+                    )
+                    val data = workDataOf(SavePostWorker.postKey to id)
+                    val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                    val request = OneTimeWorkRequestBuilder<SavePostWorker>()
+                        .setInputData(data)
+                        .setConstraints(constraints)
+                        .build()
+                    workManager.enqueue(request)
+
                     _dataState.value = FeedModelState()
                     edited.value = empty
                     _photo.value = noPhoto
@@ -137,13 +183,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 repository.likeById(id)
                 data.map {
-                    FeedModel(posts = data.value?.posts
-                        .orEmpty().map {
-                            if (it.id != id) it else it.copy(
-                                likedByMe = !it.likedByMe,
-                                likes = it.likes + 1
-                            )
-                        })
+                    FeedModel(posts = data.value?.posts.orEmpty().map {
+                        if (it.id != id) it else it.copy(
+                            likedByMe = !it.likedByMe,
+                            likes = it.likes + 1
+                        )
+                    })
                 }
             } catch (e: Exception) {
                 _networkError.value = e.message
@@ -176,13 +221,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 repository.shareById(id)
                 data.map {
-                    FeedModel(posts = data.value?.posts
-                        .orEmpty().map {
-                            if (it.id != id) it else it.copy(
-                                sharesCnt = it.sharesCnt + 1,
-                                shares = totalizerSmartFeed(it.sharesCnt + 1)
-                            )
-                        })
+                    FeedModel(posts = data.value?.posts.orEmpty().map {
+                        if (it.id != id) it else it.copy(
+                            sharesCnt = it.sharesCnt + 1,
+                            shares = totalizerSmartFeed(it.sharesCnt + 1)
+                        )
+                    })
                 }
             } catch (e: Exception) {
                 _networkError.value = e.message
@@ -191,14 +235,24 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun removeById(id: Long) {
+        val posts = data.value?.posts.orEmpty()
+            .filter { it.id != id }
+        data.value?.copy(posts = posts, empty = posts.isEmpty())
+
         viewModelScope.launch {
             try {
-                repository.removeById(id)
-                val posts = data.value?.posts.orEmpty()
-                    .filter { it.id != id }
-                data.value?.copy(posts = posts, empty = posts.isEmpty())
+                val data = workDataOf(RemovePostWorker.removeKey to id)
+                val constraints = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+                val request = OneTimeWorkRequestBuilder<RemovePostWorker>()
+                    .setInputData(data)
+                    .setConstraints(constraints)
+                    .build()
+                workManager.enqueue(request)
+
             } catch (e: Exception) {
-                _networkError.value = e.message
+                _dataState.value = FeedModelState(error = true)
             }
         }
     }
@@ -218,9 +272,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getPostById(id: Long): LiveData<FeedModel> = data.map { FeedModel(posts = data.value?.posts
-        .orEmpty().map {
-            if (it.id == id) it else empty
-        })
+    fun getPostById(id: Long): LiveData<FeedModel> = data.map {
+        FeedModel(posts = data.value?.posts
+            .orEmpty().map {
+                if (it.id == id) it else empty
+            })
     }
 }

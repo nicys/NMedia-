@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'dagger.hilt.android.plugin'
 //apply plugin: 'kotlin-android-extensions' ОТКЛЮЧЕН - вызывает ошибку из-за устаревания KAE
 
 android {
@@ -21,13 +23,6 @@ android {
         viewBinding = true
     }
 
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,26 +40,31 @@ android {
         }
         debug {
             manifestPlaceholders.usesCleartextTraffic = true
-            buildConfigField "String", "BASE_URL", '"http://176.196.11.226:9999"'
+            buildConfigField "String", "BASE_URL", '"http://176.196.11.232:9999"'
         }
     }
 }
 
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    def core_version = "1.5.0"
+    def core_version = "1.6.0"
     def appcompat_version = "1.3.0"
     def constraintlayout_version = "2.0.4"
     def swiperefreshlayout_version = "1.1.0"
     def coordinatorlayout_version = "1.1.0"
     def recyclerview_version = "1.2.1"
     def junit_version = "4.13.2"
-    def ext_junit_version = "1.1.2"
-    def espresso_core_version = "3.3.0"
+    def ext_junit_version = "1.1.3"
+    def espresso_core_version = "3.4.0"
     def activity_version = "1.2.3"
     def lifecycle_version = "2.3.1"
-    def mdc_version = "1.3.0"
-    def fragment_version = "1.3.4"
+    def mdc_version = "1.4.0"
+    def fragment_version = "1.3.5"
     def gson_version = "2.8.7"
     def navigation_version = "2.3.5"
     def room_version = "2.3.0"
@@ -75,7 +75,15 @@ dependencies {
     def okhttploggin_version = "4.9.1"
     def coroutines_version = "1.5.0"
     def imagepicker_version = "2.1"
-
+    def play_services_base_version = "17.6.0"
+    def firebase_version = "28.0.1"
+    def firebase_messages_version = "22.0.0"
+    def legacy_support_v4 = "1.0.0"
+    def workmanager_version = "2.5.0"
+    def hilt_work_version = "1.0.0"
+    def hilt_navigation_version = "1.0.0"
+    def hilt_compiler_version = "1.0.0"
+    def paging_version = "3.0.0"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -102,10 +110,24 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitgson_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttploggin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
     implementation "com.github.dhaval2404:imagepicker:$imagepicker_version"
+    implementation "com.google.android.gms:play-services-base:$play_services_base_version"
+    implementation platform("com.google.firebase:firebase-bom:$firebase_version")
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-messaging:$firebase_messages_version"
+    implementation "androidx.legacy:legacy-support-v4:$legacy_support_v4"
+    implementation "androidx.work:work-runtime-ktx:$workmanager_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-work:$hilt_work_version"
+    implementation "androidx.hilt:hilt-navigation-fragment:$hilt_navigation_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
 
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     kapt "androidx.room:room-compiler:$room_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
 
     testImplementation "junit:junit:$junit_version"

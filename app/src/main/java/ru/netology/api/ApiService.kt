@@ -1,35 +1,38 @@
 package ru.netology.api
 
+import okhttp3.Interceptor
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.netology.BuildConfig
+import ru.netology.auth.AuthState
+import ru.netology.dto.Media
 import ru.netology.dto.Post
-import ru.netology.nmedia.dto.Media
+import ru.netology.dto.PushToken
 
 private const val BASE_URL = "${BuildConfig.BASE_URL}/api/slow/"
 
-private val logging = HttpLoggingInterceptor().apply {
-    if (BuildConfig.DEBUG) {
-        level = HttpLoggingInterceptor.Level.BODY
+fun okhttp(vararg interceptors: Interceptor): OkHttpClient = OkHttpClient.Builder()
+    .apply {
+        interceptors.forEach {
+            this.addInterceptor(it)
+        }
     }
-}
-
-private val okhttp = OkHttpClient.Builder()
-    .addInterceptor(logging)
     .build()
 
-private val retrofit = Retrofit.Builder()
+fun retrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(BASE_URL)
-    .client(okhttp)
+    .client(client)
     .build()
 
-interface PostsApiService {
+interface ApiService {
+    @POST("users/push-tokens")
+    suspend fun save(@Body pushToken: PushToken): Response<Unit>
+
     @GET("posts")
     suspend fun getAll(): Response<List<Post>>
 
@@ -57,10 +60,27 @@ interface PostsApiService {
     @Multipart
     @POST("media")
     suspend fun upload(@Part media: MultipartBody.Part): Response<Media>
-}
 
-object PostsApi {
-    val service: PostsApiService by lazy {
-        retrofit.create(PostsApiService::class.java)
-    }
+    @FormUrlEncoded
+    @POST("users/authentication")
+    suspend fun updateUser(@Field("login") login: String, @Field("pass") pass: String): Response<AuthState>
+
+    @FormUrlEncoded
+    @POST("users/registration")
+    suspend fun registrationUser(@Field("name") name: String, @Field("login") login: String, @Field("pass") pass: String): Response<AuthState>
+
+    @GET("posts/{id}/before")
+    suspend fun getBefore(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("posts/{id}/after")
+    suspend fun getAfter(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("posts/latest")
+    suspend fun getLatest(@Query("count") count: Int): Response<List<Post>>
 }

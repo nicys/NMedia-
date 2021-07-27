@@ -1,5 +1,6 @@
 package ru.netology.dao
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.entity.PostEntity
@@ -10,6 +11,9 @@ interface PostDao {
 /* Не указываем модификатор suspend, т.к. возвращаем LiveData */
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun getAll(): Flow<List<PostEntity>>
+
+    @Query("SELECT * FROM PostEntity ORDER BY id DESC")
+    fun pagingSource(): PagingSource<Int, PostEntity>
 
     @Query("SELECT COUNT(*) == 0 FROM PostEntity")
     suspend fun isEmpty(): Boolean
@@ -22,6 +26,9 @@ interface PostDao {
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
     suspend fun removeById(id: Long)
+
+    @Query("DELETE FROM PostEntity")
+    suspend fun removeAll()
 
     @Query(
         """
