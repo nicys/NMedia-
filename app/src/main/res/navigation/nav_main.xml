@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="ru.netology.FeedFragment"
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_addEditPostFragment"
+            app:destination="@id/addEditPostFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_feedFragment_to_showPostFragment"
+            app:destination="@id/showPostFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_feedFragment_to_photoImageFragment"
+            app:destination="@id/photoImageFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditPostFragment"
+        android:name="ru.netology.NewPostFragment"
+        android:label="fragment_add_edit_post"
+        tools:layout="@layout/fragment_new_post" />
+    <fragment
+        android:id="@+id/showPostFragment"
+        android:name="ru.netology.ShowPostFragment"
+        android:label="fragment_show_post"
+        tools:layout="@layout/fragment_show_post" >
+        <action
+            android:id="@+id/action_showPostFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_showPostFragment_to_addEditPostFragment"
+            app:destination="@id/addEditPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoImageFragment"
+        android:name="ru.netology.PhotoImageFragment"
+        android:label="fragment_photo_image"
+        tools:layout="@layout/fragment_photo_image" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="ru.netology.SignInFragment"
+        android:label="sing_in_fragment"
+        tools:layout="@layout/fragment_sing_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="ru.netology.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+</navigation>
